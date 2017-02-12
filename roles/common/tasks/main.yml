@@ -1,0 +1,60 @@
+---
+- name: Only allow incoming traffic from trusted networks
+  ufw: rule=allow src={{ item }} state=enabled
+  with_items: "{{ trusted_networks }}"
+- name: Set hostname to fqdn
+  hostname: name='{{ inventory_hostname }}'
+- name: Dont bind hostname to loopback
+  replace: dest=/etc/hosts regexp='^.*{{ inventory_hostname }}.*$' replace='' backup=yes
+- name: Set locale
+  blockinfile:
+    dest: /etc/environment
+    block: |
+      LC_ALL="en_US.utf-8"
+- name: Swap file
+  script: swap.sh creates=/swapfile
+- name: Remove puppet and chef
+  apt: name={{ item }} state=absent
+  with_items:
+    - puppet
+    - chef
+- name: Check if packages need to be autoremoved
+  command: apt-get --dry-run autoremove
+  register: check_autoremove
+  changed_when: False
+- name: Autoremove unused packages
+  command: apt-get -y autoremove
+  when: "'packages will be REMOVED' in check_autoremove.stdout"
+- name: Update apt cache
+  apt: update_cache=yes
+- name: Install reboot notifier
+  apt: name=update-notifier-common
+- name: Install aptitude
+  apt: name=aptitude
+- name: Upgrade APT to the lastest packages
+  apt: upgrade=full
+- name: Rebooting machine so new kernel is active
+  command: shutdown -r now removes=/var/run/reboot-required
+  async: 0
+  poll: 0
+  ignore_errors: true
+  register: restarted
+- name: Waiting for reboot...
+  local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex=OpenSSH port=22 delay=15 state=started
+  sudo: no
+  when: restarted.changed
+- name: Rebooting machine so new kernel is active
+  command: shutdown -r now removes=/var/run/reboot-required
+  async: 0
+  poll: 0
+  ignore_errors: true
+  register: restarted
+- name: Waiting for reboot...
+  local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex=OpenSSH port=22 delay=15 state=started
+  sudo: no
+  when: restarted.changed
+- name: NTP
+  apt: name=ntp
+- name: Posix users
+  user: user={{ item.name }} group=users shell=/bin/bash uid={{ item.uid }} password='{{ item.password }}'
+  with_items: "{{ users }}"

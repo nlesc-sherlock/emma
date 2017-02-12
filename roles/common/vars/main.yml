@@ -1,0 +1,12 @@
+trusted_networks:
+  - 145.100.58.0/24
+  - 145.100.59.0/24
+  - 145.100.116.0/24
+  - 10.100.107.0/24
+  - 192.168.1.1/24
+  - 172.17.0.1/24
+users:
+  - name: emma
+    uid: 1100
+    # Password created with `mkpasswd --method=SHA-512 pass1234`
+    password: $6$6/6NkDn01w$6ld/sdc/B42cVtSNFQTQLlNPYOqin8m4kluy.QbvtLraHLliTs5QaPIYJcKyYr7KKhsY2znFZLSC2YzdROKwZ.

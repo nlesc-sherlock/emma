@@ -1,0 +1,11 @@
+---
+- name: GlusterFS PPA
+  apt_repository: repo=ppa:gluster/glusterfs-3.9
+- name: Update apt cache
+  apt: update_cache=yes
+- name: GlusterFS server
+  apt: name=glusterfs-server
+- name: Started glusterd
+  service: name=glusterfs-server state=started
+- name: Volume mount point
+  file: name=/data/brick1/gv0 state=directory

@@ -1,0 +1,5 @@
+---
+# TODO add /mnt entry to /etc/fstab
+- name: Mount gv0 as /mnt
+  command: mount -t glusterfs {{ inventory_hostname }}:/gv0 /mnt
+  ignore_errors: yes

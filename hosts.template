@@ -1,0 +1,22 @@
+[docker-swarm-manager]
+emma0.<domain to use>
+[docker-swarm-worker]
+emma1.<domain to use>
+emma2.<domain to use>
+[docker:children]
+docker-swarm-manager
+docker-swarm-worker
+[docker:vars]
+docker_manager_ip=<public ip of docker-swarm-manager host>
+
+[spark-master]
+emma1.<domain to use>
+
+[glusterfs-primary]
+emma2.<domain to use>
+[glusterfs-second]
+emma0.<domain to use>
+emma1.<domain to use>
+[glusterfs:children]
+glusterfs-primary
+glusterfs-second

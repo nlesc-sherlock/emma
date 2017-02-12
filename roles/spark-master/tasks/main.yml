@@ -1,0 +1,26 @@
+---
+- name: Spark home
+  file:
+    name: '{{ spark_home }}'
+    state: directory
+- name: Spark distro
+  unarchive:
+    src: '{{ spark_tarball }}'
+    dest: '{{ spark_parent }}'
+    remote_src: True
+- name: Spark config slaves
+  template:
+    src: slaves.j2
+    dest: '{{ spark_home }}/conf/slaves'
+- name: Spark in PATH
+  blockinfile:
+    dest: /etc/profile.d/spark.sh
+    create: yes
+    block: |
+      export SPARK_HOME={{ spark_home }}
+      export PATH=$PATH:$SPARK_HOME/bin
+- name: Start Spark cluster
+  command: '{{ spark_home }}/sbin/start-all.sh'
+  args:
+    creates: '{{ spark_home }}/logs/spark-root-org.apache.spark.deploy.master.Master-1-{{ inventory_hostname }}.out'
+- include: jupyter.yml

@@ -1,0 +1,8 @@
+/*.vdi
+/hosts
+/*.retry
+/env
+/.vagrant
+/emma.key
+/emma.key.pub
+/*-cloudimg-console.log

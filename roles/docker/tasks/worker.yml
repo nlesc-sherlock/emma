@@ -1,0 +1,3 @@
+---
+- name: Join swarm
+  command: docker swarm join --token {{ docker_swarm_token }} {{ docker_manager_ip }}

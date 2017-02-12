@@ -1,0 +1,26 @@
+---
+# docker
+- name: Docker repo key
+  apt_key: keyserver=hkp://p80.pool.sks-keyservers.net:80 id=58118E89F3A912897C070ADBF76221572C52609D
+- name: Docker repo
+  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main'
+- name: Update apt cache
+  apt: update_cache=yes
+- name: Docker
+  apt: name=docker-engine
+- name: pip
+  apt: name=python-pip
+- name: docker-py
+  pip: name=docker-py
+- name: Posix users which can use docker
+  user: user={{ item.name }} groups=docker append=yes
+  with_items: "{{ users }}"
+- name: Docker
+  service: name=docker state=restarted
+- name: docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.10.0/docker-compose-Linux-x86_64
+    dest: /usr/bin/docker-compose
+    mode: u=rwx,g=xr,o=rx
+- name: CWL runner
+  pip: name=cwl-runner

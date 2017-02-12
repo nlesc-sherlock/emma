@@ -1,0 +1,15 @@
+---
+- name: Probe secondaries
+  command: gluster peer probe {{ item }}
+  with_items: "{{ groups['glusterfs-second'] }}"
+- name: Create volume gv0
+  gluster_volume:
+    state: present
+    name: gv0
+    bricks: /data/brick1/gv0
+    rebalance: yes
+    cluster: "{{ groups['glusterfs'] }}"
+- name: Started volume gv0
+  gluster_volume:
+    state: started
+    name: gv0

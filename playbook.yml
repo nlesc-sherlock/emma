@@ -1,0 +1,31 @@
+---
+- hosts: all
+  remote_user: root
+  roles:
+    - common
+    - glusterfs
+    - docker
+    - spark
+- hosts: glusterfs-primary
+  remote_user: root
+  tasks:
+  - include: roles/glusterfs/tasks/create-volume.yml
+- hosts: glusterfs
+  remote_user: root
+  tasks:
+  - include: roles/glusterfs/tasks/mount-volume.yml
+- hosts: spark-master
+  remote_user: root
+  roles:
+    - spark-master
+- hosts: docker-swarm-manager
+  remote_user: root
+  tasks:
+  - include: roles/docker/tasks/manager.yml
+- hosts: docker-swarm-worker
+  remote_user: root
+  vars_prompt:
+  - name: "docker_swarm_token"
+    prompt: "Docker swarm token"
+  tasks:
+  - include: roles/docker/tasks/worker.yml
