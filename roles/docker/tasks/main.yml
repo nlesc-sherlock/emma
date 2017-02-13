@@ -15,8 +15,6 @@
 - name: Posix users which can use docker
   user: user={{ item.name }} groups=docker append=yes
   with_items: "{{ users }}"
-- name: Docker
-  service: name=docker state=restarted
 - name: docker-compose
   get_url:
     url: https://github.com/docker/compose/releases/download/1.10.0/docker-compose-Linux-x86_64
@@ -24,3 +22,16 @@
     mode: u=rwx,g=xr,o=rx
 - name: CWL runner
   pip: name=cwl-runner
+- name: Create docker root directory
+  file: name=/data/docker state=directory
+- name: Config docker root directory
+  ini_file:
+    dest: /lib/systemd/system/docker.service
+    section: Service
+    option: ExecStart
+    value: /usr/bin/dockerd -H fd:// -g /data/docker
+- name: Restarted dockerd
+  systemd:
+    name: docker
+    daemon_reload: yes
+    state: restarted

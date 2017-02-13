@@ -12,9 +12,9 @@ Vagrant.configure(2) do |config|
       node.persistent_storage.enabled = true
       node.persistent_storage.location = "emma#{i}-data.vdi"
       node.persistent_storage.size = 20000
-      node.persistent_storage.mountname = 'brick1'
+      node.persistent_storage.mountname = 'data'
       node.persistent_storage.filesystem = 'xfs'
-      node.persistent_storage.mountpoint = '/data/brick1'
+      node.persistent_storage.mountpoint = '/data'
       node.persistent_storage.volgroupname = 'data'
       # Xenial wrong disk fix, see https://github.com/kusnier/vagrant-persistent-storage/issues/59
       node.persistent_storage.diskdevice = '/dev/sdc'

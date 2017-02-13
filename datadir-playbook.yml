@@ -1,0 +1,20 @@
+---
+- hosts: all
+  remote_user: root
+  tasks:
+  - name: Create data directory
+    file: path=/data state=directory
+  - name: Create partition on {{ datadisk }}
+    shell: echo ';' | sfdisk {{ datadisk }}
+    args:
+      creates: '{{ datadisk }}1'
+  - name: Format Partition
+    filesystem:
+      fstype: xfs
+      dev: '{{ datadisk }}1'
+  - name: Mount /data
+    mount:
+      name: /data
+      src: '{{ datadisk }}1'
+      fstype: xfs
+      state: mounted

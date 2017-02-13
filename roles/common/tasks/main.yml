@@ -12,7 +12,7 @@
     block: |
       LC_ALL="en_US.utf-8"
 - name: Swap file
-  script: swap.sh creates=/swapfile
+  script: swap.sh creates=/data/swapfile
 - name: Remove puppet and chef
   apt: name={{ item }} state=absent
   with_items:
@@ -55,6 +55,10 @@
   when: restarted.changed
 - name: NTP
   apt: name=ntp
+- name: Home dir on /data
+  file: path=/data/home state=directory
 - name: Posix users
-  user: user={{ item.name }} group=users shell=/bin/bash uid={{ item.uid }} password='{{ item.password }}'
+  user: user={{ item.name }} group=users shell=/bin/bash uid={{ item.uid }} password='{{ item.password }}' home=/data/home/{{ item.name }} move_home=yes
   with_items: "{{ users }}"
+- name: Tmp dir on /data
+  file: path=/data/tmp state=directory mode=1777

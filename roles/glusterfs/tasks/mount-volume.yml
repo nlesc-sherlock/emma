@@ -3,3 +3,5 @@
 - name: Mount gv0 as /mnt
   command: mount -t glusterfs {{ inventory_hostname }}:/gv0 /mnt
   ignore_errors: yes
+- name: Create scratch directory
+  file: name=/mnt/scratch state=directory group=users mode=g+rw

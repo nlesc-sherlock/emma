@@ -19,9 +19,15 @@ Use cloud machines to make services available for others.
 When using cloud machines they are/have:
 * Ubuntu 16.04 OS
 * Passwordless login as root with `emma.key` private key.
-* XFS Partition mounted at /data/brick1
+* OS disk, 200Mb for software + enough room in /tmp
+* XFS Partition mounted at /data (used for swapfile, GlusterFS brick, Docker root)
 * Python2 to run Ansible tasks
 * Public network interface
+
+The disk (in example /dev/vdb) for /data can be partitioned/formatted/mounted with:
+```
+ansible-playbook --private-key=emma.key -i hosts -e datadisk=/dev/vdb datadir-playbook.yml
+```
 
 # Ansible
 
