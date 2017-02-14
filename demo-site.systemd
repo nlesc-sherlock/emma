@@ -1,0 +1,12 @@
+[Unit]
+Description=Demo site
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker deploy --compose-file /data/shared/site/docker-compose.yml
+ExecStop=/usr/bin/docker service stop demo-site
+
+[Install]
+WantedBy=default.target
