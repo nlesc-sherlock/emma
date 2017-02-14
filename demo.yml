@@ -1,0 +1,14 @@
+---
+- hosts: docker-swarm-manager
+  remote_user: root
+  tasks:
+  - name: Swarmviz systemd file
+    copy:
+      src: swarmviz.systemd
+      dest: /etc/systemd/system/swarmviz.service
+  - name: Swarmviz started
+    systemd:
+      state: started
+      enabled: yes
+      name: swarmviz
+      daemon_reload: yes

@@ -103,3 +103,9 @@ ansible-playbook --private-key=emma.key -i hosts playbook.yml
 ```
 
 Ansible will ask for a Docker swarm token, which should be printed by the previous task.
+
+### Start demo
+
+```
+ansible-playbook --private-key=emma.key -i hosts demo.yml
+```
