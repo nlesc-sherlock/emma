@@ -11,6 +11,12 @@ docker_manager_ip=<public ip of docker-swarm-manager host>
 
 [spark-master]
 emma1.<domain to use>
+[spark-worker]
+emma0.<domain to use>
+emma2.<domain to use>
+[spark:children]
+spark-master
+spark-worker
 
 [glusterfs-primary]
 emma2.<domain to use>
