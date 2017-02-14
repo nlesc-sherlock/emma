@@ -20,13 +20,13 @@ When using cloud machines they are/have:
 * Ubuntu 16.04 OS
 * Passwordless login as root with `emma.key` private key.
 * OS disk, 200Mb for software + enough room in /tmp
-* XFS Partition mounted at /data (used for swapfile, GlusterFS brick, Docker root)
+* XFS Partition mounted at /data/local (used for swapfile, GlusterFS brick, Docker root)
 * Python2 to run Ansible tasks
 * Public network interface
 
-The disk (in example /dev/vdb) for /data can be partitioned/formatted/mounted with:
+The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with:
 ```
-ansible-playbook --private-key=emma.key -i hosts -e datadisk=/dev/vdb datadir-playbook.yml
+ansible-playbook --private-key=emma.key -i hosts -e datadisk=/dev/vdb prepcloud-playbook.yml
 ```
 
 # Ansible
@@ -42,12 +42,12 @@ The trusted networks can be changed in `roles/common/vars/main.yml` file.
 ## GlusterFS
 
 See http://gluster.readthedocs.io
-All nodes have a xfs partition which is available as `gv0` volume and mounted as /mnt on all nodes.
+All nodes have a xfs partition which is available as `gv0` volume and mounted as /data/shared on all nodes.
 The volume is configured (replicas/stripes/transport/etc) in `roles/glusterfs/tasks/create-volume.yml` file.
 
 ## Spark
 
-Spark is installed in `/mnt/spark` directory as Spark Standalone mode.
+Spark is installed in `/data/shared/spark` directory as Spark Standalone mode.
 * For master use `spark://<spark-master>:7077`
 * The UI on http://<spark-master>:8080
 * The JupyterHub on http://<spark-master>:8000
@@ -73,7 +73,10 @@ To use Swarm login on `docker-swarm-manager` host as configured in `hosts` file.
 Setup environment:
 ```
 export EMMA_DOMAIN=<domain to use>
+# Key used by root
 ssh-keygen -f emma.key
+# Key used by emma user
+ssh-keygen -f roles/common/files/emma.key
 sudo pip install ansible
 ```
 

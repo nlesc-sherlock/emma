@@ -8,4 +8,4 @@
 - name: Started glusterd
   service: name=glusterfs-server state=started
 - name: Volume mount point
-  file: name=/data/brick1/gv0 state=directory
+  file: name=/data/local/brick1/gv0 state=directory

@@ -1,0 +1,45 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  become: true
+  tasks:
+  - name: Mkdir /root/.ssh
+    file: name=/root/.ssh owner=root state=directory
+  - name: Copy private ssh key for root
+    copy: src=emma.key dest=/root/.ssh/id_rsa owner=root mode=go-rw
+  - name: Copy public ssh key for root
+    copy: src=emma.key.pub dest=/root/.ssh/id_rsa.pub owner=root
+  - name: Copy authorized keys for root
+    copy: src=emma.key.pub dest=/root/.ssh/authorized_keys owner=root
+  - name: Create data directory
+    file: path=/data/local state=directory
+  - name: Create partition on {{ datadisk }}
+    shell: echo ';' | sfdisk {{ datadisk }}
+    args:
+      creates: '{{ datadisk }}1'
+  - name: Format Partition
+    filesystem:
+      fstype: xfs
+      dev: '{{ datadisk }}1'
+  - name: Mount /data/local
+    mount:
+      name: /data/local
+      src: '{{ datadisk }}1'
+      fstype: xfs
+      state: mounted
+  - name: Update apt cache
+    apt: update_cache=yes
+  - name: Install dbus
+    apt: name=dbus
+  - name: Apt https
+    apt: name=apt-transport-https
+  - name: python-dev
+    apt: name=python-dev
+  - name: Reinstall python-pkg-resources
+    apt: name=python-pkg-resources force=yes
+  - name: python setuptools
+    apt: name=python-setuptools
+  - name: python3 setuptools
+    apt: name=python3-setuptools
+  - name: build-essential
+    apt: name=build-essential

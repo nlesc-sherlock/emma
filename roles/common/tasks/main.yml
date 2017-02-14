@@ -11,8 +11,10 @@
     dest: /etc/environment
     block: |
       LC_ALL="en_US.utf-8"
+- name: /data directory
+  file: name=/data state=directory
 - name: Swap file
-  script: swap.sh creates=/data/swapfile
+  script: swap.sh creates=/data/local/swapfile
 - name: Remove puppet and chef
   apt: name={{ item }} state=absent
   with_items:
@@ -55,10 +57,35 @@
   when: restarted.changed
 - name: NTP
   apt: name=ntp
-- name: Home dir on /data
-  file: path=/data/home state=directory
+- name: Home dir on /data/local/home
+  file: path=/data/local/home state=directory
 - name: Posix users
-  user: user={{ item.name }} group=users shell=/bin/bash uid={{ item.uid }} password='{{ item.password }}' home=/data/home/{{ item.name }} move_home=yes
+  user: user={{ item.name }} group=users shell=/bin/bash uid={{ item.uid }} password='{{ item.password }}' home=/data/local/home/{{ item.name }} move_home=yes
   with_items: "{{ users }}"
-- name: Tmp dir on /data
-  file: path=/data/tmp state=directory mode=1777
+- name: ~/*.ssh
+  file: path=/data/local/home/{{ item.name }}/.ssh owner='{{ item.uid }}' group=users state=directory
+  with_items: "{{ users }}"
+- name: SSH private key
+  copy:
+    src: '{{ item.name }}.key'
+    dest: '/data/local/home/{{ item.name }}/.ssh/id_rsa'
+    owner: '{{ item.name }}'
+    group: users
+    mode: "u=rw"
+  with_items: "{{ users }}"
+- name: SSH public key
+  copy:
+    src: '{{ item.name }}.key.pub'
+    dest: '/data/local/home/{{ item.name }}/.ssh/id_rsa.pub'
+    owner: '{{ item.name }}'
+    group: users
+    mode: "u=rw"
+  with_items: "{{ users }}"
+- name: SSH authorized keys
+  authorized_key:
+    user: '{{ item.name }}'
+    state: present
+    key: "{{ lookup('file', item.name + '.key.pub') }}"
+  with_items: "{{ users }}"
+- name: Tmp dir on /data/local
+  file: path=/data/local/tmp state=directory mode=1777

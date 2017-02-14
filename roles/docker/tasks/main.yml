@@ -23,13 +23,13 @@
 - name: CWL runner
   pip: name=cwl-runner
 - name: Create docker root directory
-  file: name=/data/docker state=directory
+  file: name=/data/local/docker state=directory
 - name: Config docker root directory
   ini_file:
     dest: /lib/systemd/system/docker.service
     section: Service
     option: ExecStart
-    value: /usr/bin/dockerd -H fd:// -g /data/docker
+    value: /usr/bin/dockerd -H fd:// -g /data/local/docker
 - name: Restarted dockerd
   systemd:
     name: docker

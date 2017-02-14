@@ -1,7 +1,9 @@
 ---
-# TODO add /mnt entry to /etc/fstab
-- name: Mount gv0 as /mnt
-  command: mount -t glusterfs {{ inventory_hostname }}:/gv0 /mnt
+# TODO add /data/shared entry to /etc/fstab
+- name: Create /data/shared directory
+  file: name=/data/shared state=directory
+- name: Mount gv0 as /data/shared
+  command: mount -t glusterfs {{ inventory_hostname }}:/gv0 /data/shared
   ignore_errors: yes
 - name: Create scratch directory
-  file: name=/mnt/scratch state=directory group=users mode=g+rw
+  file: name=/data/shared/scratch state=directory group=users mode=g+rw

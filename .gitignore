@@ -3,6 +3,6 @@
 /*.retry
 /env
 /.vagrant
-/emma.key
-/emma.key.pub
+emma.key
+emma.key.pub
 /*-cloudimg-console.log
