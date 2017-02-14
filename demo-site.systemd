@@ -5,8 +5,8 @@ After=docker.service
 
 [Service]
 Restart=always
-ExecStart=/usr/bin/docker deploy --compose-file /data/shared/site/docker-compose.yml
-ExecStop=/usr/bin/docker service stop demo-site
+ExecStart=/usr/bin/docker stack deploy --compose-file /data/shared/site/docker-compose.yml
+ExecStop=/usr/bin/docker stack stop demo-site
 
 [Install]
 WantedBy=default.target

@@ -109,3 +109,5 @@ Ansible will ask for a Docker swarm token, which should be printed by the previo
 ```
 ansible-playbook --private-key=emma.key -i hosts demo.yml
 ```
+
+Afterwards there will be a website available on http://<docker-swarm-manager>.

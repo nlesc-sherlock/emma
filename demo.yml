@@ -12,3 +12,18 @@
       enabled: yes
       name: swarmviz
       daemon_reload: yes
+  - name: Demo docker service
+    git:
+      repo: https://github.com/nlesc-sherlock/demo-site.git
+      dest: /data/shared/site
+  - name: Demo site systemd file
+    copy:
+      src: demo-site.systemd
+      dest:  /etc/systemd/system/demo-site.service
+  # TODO uncomment when https://github.com/nlesc-sherlock/demo-site has a docker-compose.yml file
+  # - name: demo-site service started
+  #   systemd:
+  #     state: started
+  #     enabled: yes
+  #     name: demo-site
+  #     daemon_reload: yes
