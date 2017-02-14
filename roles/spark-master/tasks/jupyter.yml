@@ -1,5 +1,4 @@
 ---
-# TODO get notebook working, see https://issues.apache.org/jira/browse/TOREE-354
 - name: Deps 4 JupyterHub notebook
   apt: name={{ item }}
   with_items:
@@ -18,9 +17,7 @@
 - name: Python 2 to Jupyter
   shell: /usr/bin/python2 -m ipykernel install creates=/usr/local/share/jupyter/kernels/python2
 - name: Toree (Spark Jupyter)
-  pip: name=toree executable=pip extra_args='--pre'
-- name: Toree to Jupyter
-  command: jupyter toree install --spark_home='{{ spark_home }}' --spark_opts='--master=spark://{{ inventory_hostname }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
+  include: toree.yml
 - name: JupyterHub
   pip: name=jupyterhub executable=pip3
 - name: /etc/jupyterhub

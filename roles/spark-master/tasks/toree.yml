@@ -1,0 +1,28 @@
+---
+# TODO get notebook working, see https://issues.apache.org/jira/browse/TOREE-354
+- name: git
+  apt: name=git
+- apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+- apt_repository:
+    repo: deb https://dl.bintray.com/sbt/debian /
+    state: present
+    update_cache: yes
+- name: sbt
+  apt: name=sbt
+- name: Clone toree
+  git:
+    repo: https://github.com/apache/incubator-toree.git
+    dest: /opt/toree
+- name: Make toree
+  shell: |
+    export SPARK_HOME={{ spark_home }}
+    make clean release APACHE_SPARK_VERSION=2.1.0
+  args:
+    chdir: /opt/toree
+    creates: /opt/toree/dist/toree-pip/toree-0.2.0.dev1.tar.gz
+- name: Toree (Spark Jupyter)
+  pip: name=/opt/toree/dist/toree-pip/toree-0.2.0.dev1.tar.gz executable=pip state=latest
+- name: Toree to Jupyter
+  command: jupyter toree install --spark_home='{{ spark_home }}' --spark_opts='--master=spark://{{ inventory_hostname }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
