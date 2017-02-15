@@ -1,0 +1,10 @@
+[Unit]
+Description=docker-glusterfs
+After=syslog.target network.target docker.service
+
+[Service]
+User=root
+ExecStart=/usr/bin/docker-volume-glusterfs -servers {{ ansible_nodename }}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,34 @@
+---
+#  - name: Mkdir docker-volume-glusterfs
+#    file: name=/data/local/docker-volume-glusterfs state=directory
+#  - name: download docker-volume-glusterfs
+#    get_url:
+#      url: https://github.com/watson81/docker-volume-glusterfs/releases/download/v0.1.1-alpha/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
+#      dest: /data/local/docker-volume-glusterfs/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
+
+#  - name: Mkdir docker-volume-glusterfs
+#    file: name=/data/shared/docker-volume-glusterfs state=directory
+#    run_once: true
+#  - name: download docker-volume-glusterfs
+#    get_url:
+#      url: https://github.com/watson81/docker-volume-glusterfs/releases/download/v0.1.1-alpha/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
+#      dest: /data/shared/docker-volume-glusterfs/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
+#    run_once: true
+
+- name: download and untar docker-volume-glusterfs
+  unarchive:
+    src: https://github.com/watson81/docker-volume-glusterfs/releases/download/v0.1.1-alpha/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
+    dest: /usr/bin
+    remote_src: True
+    group: root
+    owner: root
+- name: add systemd file for docker-glusterfs
+  template:
+    src: ../templates/docker-glusterfs.systemd.j2
+    dest: /etc/systemd/system/docker-glusterfs.service
+- name: enable docker-glusterfs service    
+  systemd:
+    state: started
+    daemon_reload: yes
+    name: docker-glusterfs
+    enabled: yes
