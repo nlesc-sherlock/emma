@@ -5,6 +5,7 @@ After=docker.service
 
 [Service]
 Restart=always
+Type=forking
 ExecStart=/usr/bin/docker service create --name=viz --publish=5000:8080/tcp --constraint=node.role==manager --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock manomarks/visualizer
 ExecStop=/usr/bin/docker service stop viz
 
