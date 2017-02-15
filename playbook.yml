@@ -14,6 +14,7 @@
   remote_user: root
   tasks:
   - include: roles/glusterfs/tasks/mount-volume.yml
+  - include: roles/glusterfs/tasks/docker-glusterfs.yml
 - hosts: spark-master
   remote_user: root
   roles:
