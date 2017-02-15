@@ -1,20 +1,8 @@
 ---
-#  - name: Mkdir docker-volume-glusterfs
-#    file: name=/data/local/docker-volume-glusterfs state=directory
-#  - name: download docker-volume-glusterfs
-#    get_url:
-#      url: https://github.com/watson81/docker-volume-glusterfs/releases/download/v0.1.1-alpha/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
-#      dest: /data/local/docker-volume-glusterfs/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
-
-#  - name: Mkdir docker-volume-glusterfs
-#    file: name=/data/shared/docker-volume-glusterfs state=directory
-#    run_once: true
-#  - name: download docker-volume-glusterfs
-#    get_url:
-#      url: https://github.com/watson81/docker-volume-glusterfs/releases/download/v0.1.1-alpha/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
-#      dest: /data/shared/docker-volume-glusterfs/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
-#    run_once: true
-
+#Inspired in the following how-to
+#https://www.1and1.com/cloud-community/learn/containers/docker/using-gluster-for-a-distributed-docker-storage-volume/
+#Instead of installing from source we used the binaries from:
+#https://github.com/watson81/docker-volume-glusterfs/
 - name: download and untar docker-volume-glusterfs
   unarchive:
     src: https://github.com/watson81/docker-volume-glusterfs/releases/download/v0.1.1-alpha/docker-volume-glusterfs-0.1.1-alpha-linux_386.tar.gz
