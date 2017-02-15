@@ -1,4 +1,10 @@
 ---
+# - hosts: all
+#   remote_user: ubuntu
+#   become: true
+#   tasks:
+#   - include: prepcloud-playbook.yml
+#   when: datadisk
 - hosts: all
   remote_user: root
   roles:
@@ -6,6 +12,7 @@
     - glusterfs
     - docker
     - spark
+  any_errors_fatal: true
 - hosts: glusterfs-primary
   remote_user: root
   tasks:

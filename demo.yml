@@ -27,3 +27,5 @@
       enabled: yes
       name: demo-site
       daemon_reload: yes
+  - name: Update demo-site
+    command: docker service update demo-site nginx
