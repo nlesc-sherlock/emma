@@ -17,17 +17,14 @@ Install in develop setup with Vagrant.
 
 Use cloud machines to make services available for others.
 When using cloud machines they are/have:
-* Ubuntu 16.04 OS
-* Passwordless login as root with `emma.key` private key.
-* OS disk, 200Mb for software + enough room in /tmp
-* XFS Partition mounted at /data/local (used for swapfile, GlusterFS brick, Docker root)
-* Python2 to run Ansible tasks
-* Public network interface
+1. Ubuntu 16.04 OS
+2. Public network interface
+3. OS disk, 200Mb for software + enough room in /tmp
+4. Passwordless login as root with `emma.key` private key.
+5. XFS Partition mounted at /data/local (used for swapfile, GlusterFS brick, Docker root)
+6. Python2 to run Ansible tasks
 
-The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with:
-```
-ansible-playbook --private-key=emma.key -i hosts -e datadisk=/dev/vdb prepcloud-playbook.yml
-```
+See Build/Cloud chapter to automate step 4, 5 and 6.
 
 # Ansible
 
@@ -80,11 +77,29 @@ ssh-keygen -f roles/common/files/emma.key
 sudo pip install ansible
 ```
 
+## Vagrant
+
 For vagrant based setup, skip this when deploying to cloud:
 ```
 vagrant plugin install vagrant-persistent-storage
 vagrant up
 ```
+
+## Cloud
+
+For cloud based setup, skip this when deploying to vagrant.
+The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with:
+```
+ansible-playbook --private-key=emma.key -i hosts -e datadisk=/dev/vdb prepcloud-playbook.yml
+```
+
+If a apt is auto updating the playbook will fail. Use following commands to clean on the host:
+```
+kill <apt process id>
+dpkg --configure -a
+```
+
+## Check
 
 Create the `hosts` file see `hosts.template` for template.
 

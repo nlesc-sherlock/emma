@@ -27,6 +27,11 @@
       src: '{{ datadisk }}1'
       fstype: xfs
       state: mounted
+  - name: kill automatic updating script, if any
+    command: pkill --full /usr/bin/unattended-upgrade
+    register: kill_result
+    failed_when: kill_result.rc > 1 # rc == 1 if the script is inactive
+    changed_when: kill_result.rc == 0
   - name: Update apt cache
     apt: update_cache=yes
   - name: Install dbus
