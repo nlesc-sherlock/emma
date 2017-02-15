@@ -1,0 +1,9 @@
+---
+- name: Copy start-slave.systemd
+  template: src=spark-slave.systemd.j2 dest=/etc/systemd/system/spark-slave.service
+- name: Spark-slave started
+  systemd: name=spark-slave state=started daemon_reload=yes
+- name: Copy start-shuffle.systemd
+  template: src=spark-shuffle.systemd.j2 dest=/etc/systemd/system/spark-shuffle.service
+- name: Spark-shuffle started
+  systemd: name=spark-shuffle state=started daemon_reload=yes
