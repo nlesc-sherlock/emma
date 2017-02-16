@@ -2,3 +2,4 @@
 corporadb_home: /data/shared/corporadb
 cluster_analysis_home: /data/shared/cluster-analysis
 text_cleaning_home: /data/shared/text-cleaning-demo
+nlppln_home: /data/shared/nlppln

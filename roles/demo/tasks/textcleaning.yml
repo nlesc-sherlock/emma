@@ -5,15 +5,38 @@
     dest: '{{ text_cleaning_home }}'
     update: yes
   run_once: true
+- name: Emma owns text cleaning repo
+  file:
+    name: '{{ text_cleaning_home }}'
+    state: directory
+    owner: emma
+    group: users
+    recurse: yes
+  run_once: true
 - name: text cleaning pip
   pip: name={{ item }}
   with_items:
   - scikit-learn
   - pandas
   - scriptcwl
-- name: nlppln
-  pip: name=git+https://github.com/WhatWorksWhenForWhom/nlppln.git#egg=nlppln editable=False
-  ignore_errors: true
+- name: pip upgrade
+  command: pip install -U pip
+- name: nlppln repo
+  git:
+    repo: https://github.com/WhatWorksWhenForWhom/nlppln.git
+    dest: '{{ nlppln_home}}'
+    update: true
+    version: develop
+  run_once: true
+- name: nlppln deps installed
+  pip:
+    requirements: requirements.txt
+    chdir: '{{ nlppln_home}}'
+    state: latest
+- name: nlppln installed
+  command: python setup.py develop
+  args:
+    chdir: '{{ nlppln_home}}'
 - name: Text cleaning notebooks in emmas homedir
   file:
     src: '{{ text_cleaning_home }}/notebooks'
