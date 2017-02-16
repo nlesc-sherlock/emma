@@ -1,11 +1,5 @@
 ---
 - hosts: all
-   remote_user: ubuntu
-   become: true
-   tasks:
-   - include: prepcloud-playbook.yml
-   when: datadisk
-- hosts: all
   remote_user: root
   roles:
     - common
