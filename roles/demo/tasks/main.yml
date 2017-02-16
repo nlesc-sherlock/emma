@@ -1,0 +1,27 @@
+- name: git
+  apt: name=git
+- name: Swarmviz systemd file
+  copy:
+    src: swarmviz.systemd
+    dest: /etc/systemd/system/swarmviz.service
+- name: Swarmviz started
+  systemd:
+    state: started
+    enabled: yes
+    name: swarmviz
+    daemon_reload: yes
+- name: Demo docker service
+  git:
+    repo: https://github.com/nlesc-sherlock/demo-site.git
+    dest: /data/shared/site
+    update: yes
+- name: Demo site systemd file
+  copy:
+    src: demo-site.systemd
+    dest:  /etc/systemd/system/demo-site.service
+# - name: demo-site service started
+#   systemd:
+#     state: restarted
+#     enabled: yes
+#     name: demo-site
+#     daemon_reload: yes
