@@ -15,13 +15,6 @@
     repo: https://github.com/nlesc-sherlock/demo-site.git
     dest: /data/shared/site
     update: yes
-- name: Demo site systemd file
-  copy:
-    src: demo-site.systemd
-    dest:  /etc/systemd/system/demo-site.service
-# - name: demo-site service started
-#   systemd:
-#     state: restarted
-#     enabled: yes
-#     name: demo-site
-#     daemon_reload: yes
+- name: Demo site deployed
+  command: /usr/bin/docker stack deploy --compose-file /data/shared/site/docker-compose.yml demo-site
+- include: corporadb.yml

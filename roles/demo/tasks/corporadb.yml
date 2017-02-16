@@ -1,0 +1,14 @@
+---
+- name: corporadb repo
+  git:
+    repo: https://github.com/nlesc-sherlock/corporadb.git
+    dest: '{{ corporadb_home }}'
+    update: yes
+- name: corporadb pip
+  pip:
+    requirements: /data/shared/corporadb/requirements.txt
+- name: NLTK stopwords
+  command: python -m nltk.downloader stopwords
+  args:
+    chdir: '{{ corporadb_home }}'
+    creates: /usr/local/share/nltk_data/stopwords.zip
