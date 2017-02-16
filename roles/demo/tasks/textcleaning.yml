@@ -4,6 +4,7 @@
     repo: https://github.com/nlesc-sherlock/text-cleaning-demo.git
     dest: '{{ text_cleaning_home }}'
     update: yes
+    force: yes
   run_once: true
 - name: Emma owns text cleaning repo
   file:
@@ -18,9 +19,24 @@
   with_items:
   - scikit-learn
   - pandas
-  - scriptcwl
 - name: pip upgrade
   command: pip install -U pip
+- name: scriptcwl repo
+  git:
+    repo: https://github.com/nlesc/scriptcwl.git
+    dest: '{{ scriptcwl_home}}'
+    update: true
+    version: develop
+  run_once: true
+- name: scriptcwl deps installed
+  pip:
+    requirements: requirements.txt
+    chdir: '{{ scriptcwl_home}}'
+    state: latest
+- name: scriptcwl installed
+  command: python setup.py develop
+  args:
+    chdir: '{{ scriptcwl_home}}'
 - name: nlppln repo
   git:
     repo: https://github.com/WhatWorksWhenForWhom/nlppln.git

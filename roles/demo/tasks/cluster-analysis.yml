@@ -4,6 +4,15 @@
     repo: https://github.com/nlesc-sherlock/cluster-analysis.git
     dest: '{{ cluster_analysis_home }}'
     update: yes
+    force: yes
+  run_once: true
+- name: Emma owns text cluster_analysis_home
+  file:
+    name: '{{ cluster_analysis_home }}'
+    state: directory
+    owner: emma
+    group: users
+    recurse: yes
   run_once: true
 - name: cluster-analysis pip
   pip:
