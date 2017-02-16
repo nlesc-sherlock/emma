@@ -7,7 +7,7 @@ Features:
 * GlusterFS
 * Docker Swarm
 * Spark Standalone cluster
-(TODO: * JupyterHub with Spark support (http://toree.apache.org/))
+* JupyterHub with Spark support (http://toree.apache.org)
 
 # Features
 

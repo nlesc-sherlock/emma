@@ -1,0 +1,16 @@
+---
+- name: cluster-analysis repo
+  git:
+    repo: https://github.com/nlesc-sherlock/cluster-analysis.git
+    dest: '{{ cluster_analysis_home }}'
+    update: yes
+  run_once: true
+- name: cluster-analysis pip
+  pip:
+    requirements: clustit/requirements.txt
+    chdir: '{{ cluster_analysis_home }}'
+- name: Notebooks in emmas homedir
+  file:
+    src: '{{ cluster_analysis_home }}/clustit'
+    dest: /data/local/home/emma/clustit
+  when: "'docker-swarm-manager' in group_names"

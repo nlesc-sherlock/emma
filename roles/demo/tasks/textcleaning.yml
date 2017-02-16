@@ -1,0 +1,6 @@
+---
+- name: text cleaning repo
+  git:
+    repo: https://github.com/nlesc-sherlock/demo-site.git
+    dest: /data/shared/text
+    update: yes

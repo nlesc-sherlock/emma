@@ -1,20 +1,6 @@
 - name: git
   apt: name=git
-- name: Swarmviz systemd file
-  copy:
-    src: swarmviz.systemd
-    dest: /etc/systemd/system/swarmviz.service
-- name: Swarmviz started
-  systemd:
-    state: started
-    enabled: yes
-    name: swarmviz
-    daemon_reload: yes
-- name: Demo docker service
-  git:
-    repo: https://github.com/nlesc-sherlock/demo-site.git
-    dest: /data/shared/site
-    update: yes
-- name: Demo site deployed
-  command: /usr/bin/docker stack deploy --compose-file /data/shared/site/docker-compose.yml demo-site
+- include: site.yml
+  when: "'docker-swarm-manager' in group_names"
 - include: corporadb.yml
+- include: cluster-analysis.yml

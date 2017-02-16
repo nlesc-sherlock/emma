@@ -4,9 +4,11 @@
     repo: https://github.com/nlesc-sherlock/corporadb.git
     dest: '{{ corporadb_home }}'
     update: yes
+  run_once: true
 - name: corporadb pip
   pip:
-    requirements: /data/shared/corporadb/requirements.txt
+    requirements: requirements.txt
+    chdir: '{{ corporadb_home }}'
 - name: NLTK stopwords
   command: python -m nltk.downloader stopwords
   args:
