@@ -2,6 +2,8 @@
 - hosts: docker-swarm-manager
   remote_user: root
   tasks:
+  - name: git
+    apt: name=git
   - name: Swarmviz systemd file
     copy:
       src: swarmviz.systemd
@@ -23,9 +25,7 @@
       dest:  /etc/systemd/system/demo-site.service
   - name: demo-site service started
     systemd:
-      state: started
+      state: restarted
       enabled: yes
       name: demo-site
       daemon_reload: yes
-  - name: Update demo-site
-    command: docker service update demo-site nginx

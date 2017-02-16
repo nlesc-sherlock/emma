@@ -4,7 +4,6 @@ After=syslog.target network.target docker.service
 
 [Service]
 User=root
-Type=forking
 ExecStart=/usr/bin/docker-volume-glusterfs -servers {{ ansible_nodename }}
 
 [Install]
