@@ -19,8 +19,10 @@
   pip:
     requirements: requirements.txt
     chdir: '{{ corporadb_home }}'
+- name: NLTK data dir
+  file: name=/usr/local/share/nltk_data state=directory
 - name: NLTK stopwords
   command: python -m nltk.downloader stopwords
   args:
     chdir: '{{ corporadb_home }}'
-    creates: /usr/local/share/nltk_data/stopwords.zip
+    creates: /usr/local/share/nltk_data/corpora/stopwords.zip
