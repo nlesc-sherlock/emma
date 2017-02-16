@@ -26,3 +26,10 @@
   command: R CMD javareconf
 - name: RJava
   apt: name=r-cran-rjava
+- name: Spark in PATH
+  blockinfile:
+    dest: /etc/profile.d/spark.sh
+    create: yes
+    block: |
+      export SPARK_HOME={{ spark_home }}
+      export PATH=$PATH:$SPARK_HOME/bin

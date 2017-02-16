@@ -1,6 +1,8 @@
+---
 - name: git
   apt: name=git
 - include: site.yml
   when: "'docker-swarm-manager' in group_names"
 - include: corporadb.yml
 - include: cluster-analysis.yml
+- include: textcleaning.yml

@@ -9,8 +9,9 @@
   pip:
     requirements: clustit/requirements.txt
     chdir: '{{ cluster_analysis_home }}'
-- name: Notebooks in emmas homedir
+- name: cluster-analysis Notebooks in emmas homedir
   file:
     src: '{{ cluster_analysis_home }}/clustit'
     dest: /data/local/home/emma/clustit
+    state: link
   when: "'docker-swarm-manager' in group_names"

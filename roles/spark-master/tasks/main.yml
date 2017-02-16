@@ -12,14 +12,7 @@
   template:
     src: slaves.j2
     dest: '{{ spark_home }}/conf/slaves'
-- name: Spark in PATH
-  blockinfile:
-    dest: /etc/profile.d/spark.sh
-    create: yes
-    block: |
-      export SPARK_HOME={{ spark_home }}
-      export PATH=$PATH:$SPARK_HOME/bin
-- name: Spark in PATH
+- name: Spark defaults
   blockinfile:
     dest: '{{ spark_home }}/conf/spark-defaults.conf'
     create: yes

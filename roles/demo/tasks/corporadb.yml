@@ -1,4 +1,14 @@
 ---
+- name: wheel
+  pip: name=wheel
+- name: libffi
+  apt: name=libffi-dev
+- name: libssl-dev
+  apt: name=libssl-dev
+- name: libyaml-dev
+  apt: name=libyaml-dev
+- name: htop
+  apt: name=htop
 - name: corporadb repo
   git:
     repo: https://github.com/nlesc-sherlock/corporadb.git
