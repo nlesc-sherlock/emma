@@ -8,7 +8,7 @@
     name: gv0
     bricks: /data/local/brick1/gv0
     rebalance: yes
-    replicas: 2
+    replicas: 3
     cluster: "{{ groups['glusterfs'] }}"
 - name: Started volume gv0
   gluster_volume:
