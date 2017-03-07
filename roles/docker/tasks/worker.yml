@@ -1,3 +1,7 @@
 ---
+#It will leave the previous swarm in case it was already part of it
+- name: Leave swarm
+  command: docker swarm leave -f
+  ignore_errors: yes
 - name: Join swarm
   command: docker swarm join --token {{ docker_swarm_token }} {{ docker_manager_ip }}
