@@ -149,7 +149,7 @@ dpkg --configure -a
 
 ## Check
 
-Obtain hosts IPs. Such information is useful to then update */etc/hosts* on the [Ubuntu environment](https://github.com/nlesc-sherlock/emma/tree/vagrant-windows#windows) when running on Windows.
+Obtain hosts IPs. Such information is useful to then update */etc/hosts* on the [Ubuntu environment](https://github.com/nlesc-sherlock/emma/vagrant-windows#windows) when running on Windows.
 ```
 vagrant ssh 'cat /etc/hosts'
 ```
