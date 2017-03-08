@@ -118,18 +118,39 @@ vagrant plugin install vagrant-hostmanager
 ```
 
 ###VMs management
-Initialize, halt and destroy VMs created by vagrant.
+
+Make sure you always have the VAGRANT_HOME set. Following the example above:
 ```
-#Make sure you always have the VAGRANT_HOME set. Following the example above:
 set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
+```
 
-#Initialized all VMs, for a specific VM just add the name, for example emma1
+Since host-manager is used to update /etc/hosts on each guest node, read 
+the steps described in https://github.com/nlesc-sherlock/emma/issues/14.
+When running on Linux, and if DNS server is not used, it is required to tell vagrant to update the host's */etc/hosts* to contain all guest's IPs.
+In Vagrantfile do the following update:
+```
+-  config.hostmanager.manage_host = false
++  config.hostmanager.manage_host = true
+```
+
+On Windows such option does not have effect because the [Ubuntu environment](#windows) has its own */etc/hosts*.
+At the bash console edit */etc/hosts* with IPs obtains through.
+```
+vagrant ssh 'cat /etc/hosts'
+```
+ 
+Once the Vagrantfile is properly update, the following command will create and start the VMs. 
+```
 vagrant up
+```
 
-#Halt all VMs, for a specific VM just add the name, for example emma1
+To halt all VMs
+```
 vagrant halt
+```
 
-#Destroy all VMs, for a specific VM just add the name, for example emma1
+To destroy all VMs
+```
 vagrant destroy
 ```
 
@@ -149,10 +170,6 @@ dpkg --configure -a
 
 ## Check
 
-Obtain hosts IPs. Such information is useful to then update */etc/hosts* on the [Ubuntu environment](#windows) when running on Windows.
-```
-vagrant ssh 'cat /etc/hosts'
-```
 
 Verify login.
 ```
