@@ -36,11 +36,13 @@ To add more users edit `roles/common/vars/main.yml` file.
 Firewall only allows connections from trusted networks.
 The trusted networks can be changed in `roles/common/vars/main.yml` file.
 
+## Windows
 When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 After the installation the Ubuntu environment is accessible through the bash command of Windows.
 
 Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*. Ansible does run with such file permissions. Hence, you need to clone the repository
-into the home directory of the embedded Ubuntu environment. 
+into the home directory of the embedded Ubuntu environment.
+
 ## GlusterFS
 
 See http://gluster.readthedocs.io
@@ -94,7 +96,7 @@ For Linux systems a simple package installation is enough.
 sudo apt-get install vagrant
 ```
 
-For Windows, despite the [Ubuntu environment]() was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console.
+For Windows, despite the [Ubuntu environment](tree/vagrant-windows#Windows) was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console.
 To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation.
 To solve it is required to click in properties and claim ownership of the directory so the installation can proceed.
 
@@ -147,7 +149,7 @@ dpkg --configure -a
 
 ## Check
 
-Obtain hosts IPs. Such information is useful to then update */etc/hosts* on the [Ubuntu environment]() when running on Windows.
+Obtain hosts IPs. Such information is useful to then update */etc/hosts* on the [Ubuntu environment](tree/vagrant-windows) when running on Windows.
 ```
 vagrant ssh 'cat /etc/hosts'
 ```
