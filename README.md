@@ -40,8 +40,7 @@ The trusted networks can be changed in `roles/common/vars/main.yml` file.
 When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 After the installation the Ubuntu environment is accessible through the bash command of Windows.
 
-Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*. Ansible does run with such file permissions. Hence, you need to clone the repository
-into the home directory of the embedded Ubuntu environment.
+Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*. Ansible does run with such file permissions. Hence, you need to clone the repository into the home directory of the embedded Ubuntu environment.
 
 ## GlusterFS
 
@@ -96,19 +95,17 @@ For Linux systems a simple package installation is enough.
 sudo apt-get install vagrant
 ```
 
-For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console.
-To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation.
-To solve it is required to click in properties and claim ownership of the directory so the installation can proceed.
+For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console. To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation. To solve it is required to click in properties and claim ownership of the directory so the installation can proceed.
 
-The path to vagrant home should not have spaces.
-Assuming the installation path was the default one, to set it do the following (create dir before setting it):
+The path to vagrant home should not have spaces. Assuming the installation path was the default one, to set it do the following (create dir before setting it):
 ```
 set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
 ```
-On Windows run Vagrant's commands on the CMD console.
+
+On Windows to run Vagrant's commands use the CMD console.
 
 ###Plugins
-Vagrant needs two plugins and they will installed in *VAGRANT\_HOME*.
+Vagrant needs two plugins and they will be installed in *VAGRANT\_HOME*.
 ```
 #Plugin for persistent storage
 vagrant plugin install vagrant-persistent-storage
@@ -119,30 +116,25 @@ vagrant plugin install vagrant-hostmanager
 
 ###VMs management
 
-Make sure you always have the VAGRANT_HOME set. Following the example above:
+On Windows make sure VAGRANT_HOME is alwasy set.
 ```
 set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
 ```
 
-Since host-manager is used to update /etc/hosts on each guest node, read 
-the steps described in https://github.com/nlesc-sherlock/emma/issues/14.
-When running on Linux, and if DNS server is not used, it is required to tell vagrant to update the host's */etc/hosts* to contain all guest's IPs.
-In Vagrantfile do the following update:
+Since host-manager is used to update */etc/hosts* on each guest node and host node, the Vagrantfile should be updated.
+
+When running on Linux, and if a DNS server is not used, it is required to tell vagrant to update the host's */etc/hosts* to contain all guest's IPs. In Vagrantfile do the following update:
 ```
 -  config.hostmanager.manage_host = false
 +  config.hostmanager.manage_host = true
 ```
-
 On Windows such option does not have effect because the [Ubuntu environment](#windows) has its own */etc/hosts*.
 At the bash console edit */etc/hosts* with IPs obtains through.
 ```
 vagrant ssh 'cat /etc/hosts'
 ```
- 
-Once the Vagrantfile is properly update, the following command will create and start the VMs. 
-```
-vagrant up
-```
+
+To update the guest nodes */etc/hosts*, create and start the VMs, read the steps described in [#14](../../issues/14#issuecomment-285029919).
 
 To halt all VMs
 ```
