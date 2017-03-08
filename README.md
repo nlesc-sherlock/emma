@@ -96,7 +96,7 @@ For Linux systems a simple package installation is enough.
 sudo apt-get install vagrant
 ```
 
-For Windows, despite the [Ubuntu environment](tree/vagrant-windows#Windows) was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console.
+For Windows, despite the [Ubuntu environment](https://github.com/nlesc-sherlock/emma/tree/vagrant-windows#windows) was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console.
 To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation.
 To solve it is required to click in properties and claim ownership of the directory so the installation can proceed.
 
@@ -149,7 +149,7 @@ dpkg --configure -a
 
 ## Check
 
-Obtain hosts IPs. Such information is useful to then update */etc/hosts* on the [Ubuntu environment](tree/vagrant-windows) when running on Windows.
+Obtain hosts IPs. Such information is useful to then update */etc/hosts* on the [Ubuntu environment](https://github.com/nlesc-sherlock/emma/tree/vagrant-windows#windows) when running on Windows.
 ```
 vagrant ssh 'cat /etc/hosts'
 ```
