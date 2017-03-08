@@ -12,6 +12,8 @@
   npm: name=configurable-http-proxy global=yes
 - name: Jupyter for Python 3
   pip: name=jupyter executable=pip3
+- name: Jupyter-client downgrade for Python 3
+  pip: name=jupyter-client executable=pip3 version==4.4.0
 - name: ipykernel for Python 2
   pip: name=ipykernel executable=pip
 - name: Python 2 to Jupyter

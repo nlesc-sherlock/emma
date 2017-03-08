@@ -39,4 +39,17 @@ Vagrant.configure(2) do |config|
     apt-get update
     apt-get install -y python-dev
   SHELL
+
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_guest = false
+  config.hostmanager.manage_host = false
+  config.hostmanager.include_offline = false
+  config.hostmanager.ignore_private_ip = true
+  config.hostmanager.ip_resolver = proc do |machine|
+    result = ""
+    machine.communicate.execute("ifconfig enp0s8") do |type, data|
+        result << data if type == :stdout
+    end
+    (ip = /inet addr:(\d+\.\d+\.\d+\.\d+)/.match(result)) && ip[1]
+  end
 end
