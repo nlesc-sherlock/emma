@@ -36,6 +36,11 @@ To add more users edit `roles/common/vars/main.yml` file.
 Firewall only allows connections from trusted networks.
 The trusted networks can be changed in `roles/common/vars/main.yml` file.
 
+When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
+After the installation the Ubuntu environment is accessible through the bash command of Windows.
+
+Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*. Ansible does run with such file permissions. Hence, you need to clone the repository
+into the home directory of the embedded Ubuntu environment. 
 ## GlusterFS
 
 See http://gluster.readthedocs.io
@@ -56,7 +61,7 @@ spark-shell --master spark://<spark-master>:7077
 
 ## Docker swarm
 
-All nodes have a Docker deamon running.
+All nodes have a Docker daemon running.
 
 The Docker swarm endpoint is at `<docker_manager_ip>` IP address (Set in `hosts` file).
 Howto see https://docs.docker.com/engine/swarm/swarm-tutorial/deploy-service/
@@ -79,10 +84,51 @@ sudo pip install ansible
 
 ## Vagrant
 
-For vagrant based setup, skip this when deploying to cloud:
+For vagrant based setup, skip this when deploying to cloud.
+
+###Installation
+
+For Linux systems a simple package installation is enough.
 ```
+#Ubuntu
+sudo apt-get install vagrant
+```
+
+For Windows, despite the [Ubuntu environment]() was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console.
+To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation.
+To solve it is required to click in properties and claim ownership of the directory so the installation can proceed.
+
+The path to vagrant home should not have spaces.
+Assuming the installation path was the default one, to set it do the following (create dir before setting it):
+```
+set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
+```
+On Windows run Vagrant's commands on the CMD console.
+
+###Plugins
+Vagrant needs two plugins and they will installed in *VAGRANT\_HOME*.
+```
+#Plugin for persistent storage
 vagrant plugin install vagrant-persistent-storage
+
+#Plugin to manage hosts
+vagrant plugin install vagrant-hostmanager
+```
+
+###VMs management
+Initialize, halt and destroy VMs created by vagrant.
+```
+#Make sure you always have the VAGRANT_HOME set. Following the example above:
+set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
+
+#Initialized all VMs, for a specific VM just add the name, for example emma1
 vagrant up
+
+#Halt all VMs, for a specific VM just add the name, for example emma1
+vagrant halt
+
+#Destroy all VMs, for a specific VM just add the name, for example emma1
+vagrant destroy
 ```
 
 ## Cloud
@@ -101,13 +147,21 @@ dpkg --configure -a
 
 ## Check
 
-Create the `hosts` file see `hosts.template` for template.
+Obtain hosts IPs. Such information is useful to then update */etc/hosts* on the [Ubuntu environment]() when running on Windows.
+```
+vagrant ssh 'cat /etc/hosts'
+```
 
-Setup and verify login
+Verify login.
 ```
 ssh -i emma.key root@emma0.$EMMA_DOMAIN uptime
 ssh -i emma.key root@emma1.$EMMA_DOMAIN uptime
 ssh -i emma.key root@emma2.$EMMA_DOMAIN uptime
+```
+
+Create the `hosts` file see `hosts.template` for template.
+Now use ansible to verify login.
+```
 ansible all --private-key=emma.key -u root -i hosts -m ping
 ```
 
@@ -125,4 +179,4 @@ Ansible will ask for a Docker swarm token, which should be printed by the previo
 ansible-playbook --private-key=emma.key -i hosts demo.yml
 ```
 
-Afterwards there will be a website available on http://<docker-swarm-manager>.
+Afterwards there will be a website available on http://\<docker-swarm-manager\>.
