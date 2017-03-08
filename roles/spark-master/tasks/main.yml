@@ -25,8 +25,4 @@
   template: src=spark-master.systemd.j2 dest=/etc/systemd/system/spark-master.service
 - name: Spark-master started
   systemd: name=spark-master state=started daemon_reload=yes
-#- name: Start Spark master
-#  command: '{{ spark_home }}/sbin/start-master.sh'
-#  args:
-#    creates: '{{ spark_home }}/logs/spark-root-org.apache.spark.deploy.master.Master-1-{{ inventory_hostname }}.out'
 - include: jupyter.yml
