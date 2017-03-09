@@ -116,6 +116,9 @@ vagrant plugin install vagrant-persistent-storage
 
 #Plugin to manage hosts
 vagrant plugin install vagrant-hostmanager
+
+#It is recommended to install vbguest plugin
+vagrant plugin install vagrant-vbguest
 ```
 
 ###VMs management
