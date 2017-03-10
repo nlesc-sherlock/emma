@@ -190,7 +190,7 @@ ansible all --private-key=emma.key -u root -i hosts -m ping
 ## Provision
 
 ```
-ansible-playbook --private-key=emma.key -i hosts playbook.yml
+ansible-playbook --private-key=emma.key --ssh-extra-args="-o StrictHostKeyChecking=no" -i hosts playbook.yml
 ```
 
 Ansible will ask for a Docker swarm token, which should be printed by the previous task.
@@ -198,7 +198,7 @@ Ansible will ask for a Docker swarm token, which should be printed by the previo
 ### Start demo
 
 ```
-ansible-playbook --private-key=emma.key -i hosts demo.yml
+ansible-playbook --private-key=emma.key --ssh-extra-args="-o StrictHostKeyChecking=no" -i hosts demo.yml
 ```
 
 Afterwards there will be a website available on http://\<docker-swarm-manager\>.
