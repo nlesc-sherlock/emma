@@ -184,7 +184,7 @@ ssh -i emma.key root@emma2.$EMMA_DOMAIN uptime
 Create the `hosts` file see `hosts.template` for template.
 Now use ansible to verify login.
 ```
-ansible all --private-key=emma.key -u root -i hosts -m ping
+ansible all --private-key=emma.key -u root --ssh-extra-args="-o StrictHostKeyChecking=no" -i hosts -m ping
 ```
 
 ## Provision
