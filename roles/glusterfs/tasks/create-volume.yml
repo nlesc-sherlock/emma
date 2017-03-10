@@ -10,6 +10,8 @@
     rebalance: yes
     replicas: 3
     cluster: "{{ groups['glusterfs'] }}"
+    force: yes
+    rebalance: no
 - name: Started volume gv0
   gluster_volume:
     state: started
