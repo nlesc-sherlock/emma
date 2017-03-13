@@ -5,7 +5,7 @@
 - name: Set hostname to fqdn
   hostname: name='{{ inventory_hostname }}'
 - name: Dont bind hostname to loopback
-  replace: dest=/etc/hosts regexp='^(127.0.0.1).*{{ inventory_hostname }}.*$' replace='' backup=yes
+  replace: dest=/etc/hosts regexp='^127.0.[01].1.*(?:{{ inventory_hostname }}|xenial).*$' replace='' backup=yes
 - name: Set locale
   blockinfile:
     dest: /etc/environment
