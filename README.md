@@ -182,15 +182,16 @@ ssh -i emma.key root@emma2.$EMMA_DOMAIN uptime
 ```
 
 Create the `hosts` file see `hosts.template` for template.
+To change ansible configurations the user should edit ansible.cfg at the root directory of this repository. A diff between it and the file under /etc/ansible/ansible.cfg shows the additions to the default version. 
 Now use ansible to verify login.
 ```
-ansible all --private-key=emma.key -u root --ssh-extra-args="-o StrictHostKeyChecking=no" -i hosts -m ping
+ansible all -u root -m ping
 ```
 
 ## Provision
 
 ```
-ansible-playbook --private-key=emma.key --ssh-extra-args="-o StrictHostKeyChecking=no" -i hosts playbook.yml
+ansible-playbook hosts playbook.yml
 ```
 
 Ansible will ask for a Docker swarm token, which should be printed by the previous task.
@@ -198,7 +199,7 @@ Ansible will ask for a Docker swarm token, which should be printed by the previo
 ### Start demo
 
 ```
-ansible-playbook --private-key=emma.key --ssh-extra-args="-o StrictHostKeyChecking=no" -i hosts demo.yml
+ansible-playbook demo.yml
 ```
 
 Afterwards there will be a website available on http://\<docker-swarm-manager\>.
