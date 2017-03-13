@@ -7,9 +7,10 @@
     state: present
     name: gv0
     bricks: /data/local/brick1/gv0
-    rebalance: yes
+    rebalance: no
     replicas: 3
     cluster: "{{ groups['glusterfs'] }}"
+    force: yes
 - name: Started volume gv0
   gluster_volume:
     state: started
