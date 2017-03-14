@@ -51,10 +51,10 @@ Vagrant.configure(2) do |config|
   config.hostmanager.ignore_private_ip = true
   config.hostmanager.ip_resolver = proc do |machine|
     result = ""
-    machine.communicate.execute("ifconfig enp0s8") do |type, data|
+    machine.communicate.execute("hostname -I") do |type, data|
         result << data if type == :stdout
     end
-    (ip = /inet addr:(\d+\.\d+\.\d+\.\d+)/.match(result)) && ip[1]
+    ip = result.split.last
   end
   config.vm.provision :hostmanager
 
