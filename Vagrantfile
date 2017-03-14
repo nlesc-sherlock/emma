@@ -43,8 +43,9 @@ Vagrant.configure(2) do |config|
     apt-get install -y python-dev
   SHELL
 
-  config.hostmanager.enabled = true
-  config.hostmanager.manage_guest = false
+  #Hostmanager should be set to false so it runs after provisioning
+  config.hostmanager.enabled = false
+  config.hostmanager.manage_guest = true
   config.hostmanager.manage_host = false
   config.hostmanager.include_offline = false
   config.hostmanager.ignore_private_ip = true
@@ -55,4 +56,6 @@ Vagrant.configure(2) do |config|
     end
     (ip = /inet addr:(\d+\.\d+\.\d+\.\d+)/.match(result)) && ip[1]
   end
+  config.vm.provision :hostmanager
+
 end
