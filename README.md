@@ -128,13 +128,12 @@ On Windows make sure VAGRANT_HOME is alwasy set.
 set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
 ```
 
-Since host-manager is used to update */etc/hosts* on each guest node and host node, the Vagrantfile should be updated.
-
 When running on Linux, and if a DNS server is not used, it is required to tell vagrant to update the host's */etc/hosts* to contain all guest's IPs. In Vagrantfile do the following update:
 ```
 -  config.hostmanager.manage_host = false
 +  config.hostmanager.manage_host = true
 ```
+
 On Windows such option does not have effect because the [Ubuntu environment](#windows) has its own */etc/hosts*.
 At the bash console edit */etc/hosts* with IPs obtains through.
 ```
@@ -144,8 +143,10 @@ vagrant ssh-config emma0
 ssh -i .vagrant/machines/emma0/virtualbox/private_key ubuntu@127.0.0.1 -p <emma0_port> "cat /etc/hosts"
 ```
 
-
-To update the guest nodes */etc/hosts*, create and start the VMs, read the steps described in [#14](../../issues/14#issuecomment-285029919).
+On the first *vagrant up* guest machines */etc/hosts* will be updated. It is possible to request a new update by simply do:
+```
+vagrant hostmanager
+```
 
 To halt all VMs
 ```
