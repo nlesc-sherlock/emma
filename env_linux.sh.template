@@ -1,0 +1,3 @@
+#!/bin/bash
+export HOST_NAME=<name>
+export HOST_DOMAIN=<domain>

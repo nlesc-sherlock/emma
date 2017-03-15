@@ -20,7 +20,7 @@ When using cloud machines they are/have:
 1. Ubuntu 16.04 OS
 2. Public network interface
 3. OS disk, 200Mb for software + enough room in /tmp
-4. Passwordless login as root with `emma.key` private key.
+4. Passwordless login as root with `${HOST_NAME}.key` private key.
 5. XFS Partition mounted at /data/local (used for swapfile, GlusterFS brick, Docker root)
 6. Python2 to run Ansible tasks
 
@@ -30,11 +30,13 @@ See Build/Cloud chapter to automate step 4, 5 and 6.
 
 Uses ansible to provision servers.
 
-POSIX user `emma` created with password `pass1234`.
+POSIX user `${HOST_NAME}` created with password `pass1234`.
 To add more users edit `roles/common/vars/main.yml` file.
 
 Firewall only allows connections from trusted networks.
 The trusted networks can be changed in `roles/common/vars/main.yml` file.
+
+Create the `hosts` file see `hosts.template` for template. To change ansible configurations the user should edit ansible.cfg at the root directory of this repository. A diff between it and the file under /etc/ansible/ansible.cfg shows the additions to the default version. 
 
 ## Ansible on Windows
 When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
@@ -76,14 +78,21 @@ To use Swarm login on `docker-swarm-manager` host as configured in `hosts` file.
 
 Setup environment:
 ```
+#create and edit env_linux.sh
+cp env_linux.sh.template env_linux.sh
+
 #Linux environments (also in the embedded Ubuntu environment in Windows).
-export EMMA_DOMAIN=<domain to use>
+#On each bash
+. env_linux.sh
+
 # Key used by root
-ssh-keygen -f emma.key
-# Key used by emma user
-ssh-keygen -f roles/common/files/emma.key
+ssh-keygen -f ${HOST_NAME}.key
+# Key used by ${HOST_NAME} user
+ssh-keygen -f roles/common/files/${HOST_NAME}.key
 sudo pip install ansible
 ```
+
+For easy understanding of the examples below it is assumed HOST_NAME=emma
 
 ## Vagrant
 
@@ -99,11 +108,13 @@ sudo apt-get install vagrant
 
 For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console. To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation. To solve it is required to click in properties and claim ownership of the directory so the installation can proceed.
 
-The path to vagrant home should not have spaces. Assuming the installation path was the default one, to set it do the following (create dir before setting it):
+The path to vagrant home should not have spaces. Assuming the installation path was the default one, set home to *VAGRANT_HOME=C:\HashiCorp\Vagrant\home*:
 ```
-set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
-#set also the EMMA_DOMAIN
-set EMMA_DOMAIN=<domain to use>
+#create and edit env_windows.cmd
+cp env_windows.cmd.template env_windows.cmd
+
+#On windows command console run
+env_windows.cmd
 ```
 
 On Windows to run Vagrant's commands use the CMD console.
@@ -123,24 +134,19 @@ vagrant plugin install vagrant-vbguest
 
 ###VMs management
 
-On Windows make sure VAGRANT_HOME is alwasy set.
+Always make sure the environment for the Windows console is always set, always do:
 ```
-set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
-```
-
-When running on Linux, and if a DNS server is not used, it is required to tell vagrant to update the host's */etc/hosts* to contain all guest's IPs. In Vagrantfile do the following update:
-```
--  config.hostmanager.manage_host = false
-+  config.hostmanager.manage_host = true
+#On windows command console run
+env_windows.cmd
 ```
 
-On Windows such option does not have effect because the [Ubuntu environment](#windows) has its own */etc/hosts*.
-At the bash console edit */etc/hosts* with IPs obtains through.
+On Windows because the [Ubuntu environment](#windows) has its own */etc/hosts* the IPs of the guest nodes needs to be retrieved by hand..
+At the bash console edit */etc/hosts* with IPs obtained through.
 ```
-vagrant ssh-config emma0
+vagrant ssh-config %HOST_NAME%0
 
 # With output given by the above command connect to emma0 (only the port will differ)
-ssh -i .vagrant/machines/emma0/virtualbox/private_key ubuntu@127.0.0.1 -p <emma0_port> "cat /etc/hosts"
+ssh -i .vagrant/machines/${HOST_NAME}0/virtualbox/private_key ubuntu@127.0.0.1 -p <emma0_port> "cat /etc/hosts"
 ```
 
 On the first *vagrant up* guest machines */etc/hosts* will be updated. It is possible to request a new update by simply do:
@@ -163,7 +169,7 @@ vagrant destroy
 For cloud based setup, skip this when deploying to vagrant.
 The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with:
 ```
-ansible-playbook --private-key=emma.key -i hosts -e datadisk=/dev/vdb prepcloud-playbook.yml
+ansible-playbook -e datadisk=/dev/vdb prepcloud-playbook.yml
 ```
 
 If a apt is auto updating the playbook will fail. Use following commands to clean on the host:
@@ -177,13 +183,11 @@ dpkg --configure -a
 
 Verify login.
 ```
-ssh -i emma.key root@emma0.$EMMA_DOMAIN uptime
-ssh -i emma.key root@emma1.$EMMA_DOMAIN uptime
-ssh -i emma.key root@emma2.$EMMA_DOMAIN uptime
+ssh -i ${HOST_NAME}.key root@${HOST_NAME}0.$HOST_DOMAIN uptime
+ssh -i ${HOST_NAME}.key root@${HOST_NAME}1.$HOST_DOMAIN uptime
+ssh -i ${HOST_NAME}.key root@${HOST_NAME}2.$HOST_DOMAIN uptime
 ```
 
-Create the `hosts` file see `hosts.template` for template.
-To change ansible configurations the user should edit ansible.cfg at the root directory of this repository. A diff between it and the file under /etc/ansible/ansible.cfg shows the additions to the default version. 
 Now use ansible to verify login.
 ```
 ansible all -u root -m ping
@@ -192,7 +196,7 @@ ansible all -u root -m ping
 ## Provision
 
 ```
-ansible-playbook hosts playbook.yml
+ansible-playbook playbook.yml
 ```
 
 Ansible will ask for a Docker swarm token, which should be printed by the previous task.

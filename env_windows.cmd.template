@@ -1,0 +1,6 @@
+@ECHO OFF
+
+set HOST_NAME=<name>
+set HOST_DOMAIN=<domains>
+#By default Vagrant is installed at C:\HashiCorp\Vagrant
+set VAGRANT_HOME=<vagrant_home>
