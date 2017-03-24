@@ -2,7 +2,7 @@
 - name: Start manager
   command: docker swarm init --force-new-cluster --advertise-addr {{ docker_manager_ip }}
   register: swarm_init_out
-- name: Print command to join workers
-  debug:
-    var: swarm_init_out.stdout
-    verbosity: 0
+
+- name: retrieve swarm manager token
+  shell: docker swarm join-token -q manager
+  register: swarm_manager_token
