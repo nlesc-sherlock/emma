@@ -113,7 +113,7 @@ Vagrant.configure(2) do |config|
     machine.communicate.execute("hostname -I") do |type, data|
         result << data if type == :stdout
     end
-    ip = result.split.last
+    ip = result.split[1]
   end
   config.vm.provision :hostmanager
 
