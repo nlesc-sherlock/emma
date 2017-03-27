@@ -4,4 +4,6 @@
   command: docker swarm leave -f
   ignore_errors: yes
 - name: Join swarm
+  vars:
+    docker_swarm_token: "{{ hostvars[groups['docker-swarm-manager'][0]]['swarm_manager_token']['stdout'] }}"
   command: docker swarm join --token {{ docker_swarm_token }} {{ docker_manager_ip }}
