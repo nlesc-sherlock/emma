@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  remote_user: root
+  roles:
+    - { role: minio,
+        minio_server_datadirs: [ "/data/local/minio" ] }
+  any_errors_fatal: true
