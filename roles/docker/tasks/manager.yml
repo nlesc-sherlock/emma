@@ -6,3 +6,8 @@
 - name: retrieve swarm manager token
   shell: docker swarm join-token -q manager
   register: swarm_manager_token
+
+- name: Print command to join workers
+  debug:
+    var: swarm_init_out.stdout
+    verbosity: 0
