@@ -58,6 +58,8 @@ To use minio, it is necessary to have a cluster with at least 4 nodes and at mos
 Before you set a minio cluster, make sure you set minio global variables using the template under *vars/*.
 Once initialized a web GUI will be available at *http://${HOST_NAME}0.${HOST_DOMAIN}:9091*, or any other host part of the *minio* group.
 
+For unit tests please read the README under *roles/minio/tests/*.
+
 ## Spark
 
 Spark is installed in `/data/shared/spark` directory as Spark Standalone mode.
