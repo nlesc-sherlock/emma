@@ -26,3 +26,9 @@ emma1.<domain to use>
 [glusterfs:children]
 glusterfs-primary
 glusterfs-second
+
+[minio]
+emma0.<domain to use>
+emma1.<domain to use>
+emma2.<domain to use>
+emma3.<domain to use>
