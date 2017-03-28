@@ -1,5 +1,4 @@
 galaxy_info:
-  author: Romulo Goncalves
   description: Install and configure the Minio S3 compatible object storage server on Debian/Ubuntu
   min_ansible_version: 0.1
   license: Apache 2.0
