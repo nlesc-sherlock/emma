@@ -10,3 +10,4 @@ vars/minio_vars.yml
 v
 env_linux.sh
 env_windows.cmd
+roles/minio/tests/ssh-config
