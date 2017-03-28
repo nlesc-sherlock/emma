@@ -6,3 +6,7 @@
 emma.key
 emma.key.pub
 /*-cloudimg-console.log
+vars/minio_vars.yml
+v
+env_linux.sh
+env_windows.cmd
