@@ -1,0 +1,7 @@
+---
+
+#Define the access key for minio
+minio_access_key: "A24H1RIGV4RKFGXJTEMS"
+
+#Define the secret key for minio
+minio_secret_key: "5jd7ARCOi/XVjLzXqT5wA1NSgjmUo9mYJBgyGyIh"
