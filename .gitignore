@@ -6,3 +6,8 @@
 emma.key
 emma.key.pub
 /*-cloudimg-console.log
+vars/minio_vars.yml
+env_linux.sh
+env_windows.cmd
+roles/minio/tests/ssh-config
+roles/minio/tests/__pycache__
