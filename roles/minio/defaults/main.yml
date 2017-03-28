@@ -20,9 +20,8 @@ minio_server_datadirs: [ ]
 # Additional minio server CLI options
 minio_server_opts: ""
 
-# Minio access and secret keys
-minio_access_key: ""
-minio_secret_key: ""
+#Disable web browser
+minio_browser: "on"
 
 # Switches to disable minio server and/or minio client installation
 skip_server: False
