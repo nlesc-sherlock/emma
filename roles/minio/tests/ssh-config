@@ -22,3 +22,10 @@ Host emma2.emma.nlesc.nl
   PasswordAuthentication no
   IdentityFile /home/romulo/emma/.vagrant/machines/emma2/virtualbox/private_key
 
+Host emma3.emma.nlesc.nl
+  HostName 127.0.0.1
+  User ubuntu
+  Port 2202
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /home/romulo/emma/.vagrant/machines/emma3/virtualbox/private_key

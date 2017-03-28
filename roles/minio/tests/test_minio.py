@@ -3,7 +3,7 @@ import pytest
 import testinfra.utils.ansible_runner
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    '/home/romulo/emma/hosts').get_hosts('all')
+    './hosts').get_hosts('minio')
 
 
 @pytest.fixture()
