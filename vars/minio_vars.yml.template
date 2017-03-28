@@ -1,7 +1,4 @@
 ---
-#Define the local or remote server data dirs
-minio_server_datadirs: [ "http://<node_ip_1><local_dir_path>", ..., "http://<node_ip_N><local_dir_path>"]
-
 #Define the access key for minio
 minio_access_key: "<Custom username or access key of 5 to 20 characters in length>"
 
