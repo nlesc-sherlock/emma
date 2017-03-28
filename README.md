@@ -42,7 +42,7 @@ Create the `hosts` file see `hosts.template` for template. To change ansible con
 When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 After the installation the Ubuntu environment is accessible through the bash command of Windows.
 
-Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*. Ansible does run with such file permissions. Hence, you need to clone the repository into the home directory of the embedded Ubuntu environment. The environment set on Windows CMD consolge session, for example to run Vagrant, is not shared with embedded Ubuntu bash.
+Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*. Ansible does run with such file permissions. Hence, you need to clone the repository into the home directory of the embedded Ubuntu environment. The environment set on Windows CMD console session, for example to run Vagrant, is not shared with embedded Ubuntu bash.
 
 
 ## GlusterFS
@@ -54,6 +54,9 @@ The volume is configured (replicas/stripes/transport/etc) in `roles/glusterfs/ta
 ## Minio
 
 [Minio](https://www.minio.io/) is a distributed object storage server built for cloud applications and devops.
+To use minio, it is necessary to have a cluster with at least 4 nodes and at most 16.
+Before you set a minio cluster, make sure you set minio global variables using the template under *vars/*.
+Once initialized a web GUI will be available at *http://${HOST_NAME}0.${HOST_DOMAIN}:9091*, or any other host part of the *minio* group.
 
 ## Spark
 
