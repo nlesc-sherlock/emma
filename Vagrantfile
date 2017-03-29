@@ -103,11 +103,7 @@ Vagrant.configure(2) do |config|
   #Hostmanager should be set to false so it runs after provisioning
   config.hostmanager.enabled = false
   config.hostmanager.manage_guest = true
-  if OS.windows?
-    config.hostmanager.manage_host = false
-  else
-    config.hostmanager.manage_host = true
-  end
+  config.hostmanager.manage_host = true
   config.hostmanager.include_offline = false
   config.hostmanager.ignore_private_ip = true
   config.hostmanager.ip_resolver = proc do |machine|
