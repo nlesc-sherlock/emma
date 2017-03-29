@@ -1,23 +1,14 @@
 ---
-- name: Spark home
-  file:
-    name: '{{ spark_home }}'
-    state: directory
-- name: Spark distro
-  unarchive:
-    src: '{{ spark_tarball }}'
-    dest: '{{ spark_parent }}'
-    remote_src: True
 - name: Spark config slaves
   template:
     src: slaves.j2
-    dest: '{{ spark_home }}/conf/slaves'
-- name: Spark defaults
+    dest: '{{ spark_conf }}/slaves'
+- name: Update spark defaults
   blockinfile:
-    dest: '{{ spark_home }}/conf/spark-defaults.conf'
+    dest: '{{ spark_conf }}/spark-defaults.conf'
     create: yes
     block: |
-      spark.master    spark://{{ inventory_hostname }}:7077
+      spark.master    spark://{{ groups['spark-master'][0] }}:7077
       spark.shuffle.service.enabled true
       spark.dynamicAllocation.enabled   true
       spark.dynamicAllocation.initialExecutors  4
