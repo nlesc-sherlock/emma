@@ -28,6 +28,9 @@
   apt: name=r-cran-rjava
 
 #Setting up Spark
+- name: Ensure Spark directory exists
+  file: path="{{ spark_dir }}" state=directory owner=ubuntu group=users mode=g+rw
+
 - name: Create service account for Spark
   user: name={{ spark_user }}
         system=yes
@@ -90,5 +93,10 @@
 - name: Configure Spark defaults config file
   template: src=spark-defaults.conf.j2
             dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/spark-defaults.conf"
+  tags: ["config"]
+
+- name: Configure Hive defaults site file
+  template: src=hive-site.xml.j2
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/hive-site.xml"
   tags: ["config"]
 
