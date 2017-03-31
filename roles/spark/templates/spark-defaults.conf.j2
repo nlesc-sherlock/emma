@@ -9,6 +9,20 @@
 # spark.driver.memory              5g
 # spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers="one two three"
 
+spark.master    spark://{{ groups['spark-master'][0] }}:7077
+spark.shuffle.service.enabled true
+spark.dynamicAllocation.enabled   true
+spark.dynamicAllocation.initialExecutors  4
+spark.executor.cores=1
+spark.eventLog.enabled true
+spark.executor.memory 1g
+spark.eventLog.enabled true
+spark.serializer org.apache.spark.serializer.KryoSerializer
+
+spark.hadoop.fs.s3a.impl org.apache.hadoop.fs.s3a.S3AFileSystem
+spark.hadoop.fs.s3a.endpoint http://{{ inventory_hostname }}{{ minio_server_addr }}
+spark.hadoop.fs.s3a.access.key {{ minio_access_key }}
+spark.hadoop.fs.s3a.secret.key {{ minio_secret_key }}
 {% for key, value in spark_defaults_extras.items() | sort %}
 {{ key }} {{ value }}
 {% endfor %}
