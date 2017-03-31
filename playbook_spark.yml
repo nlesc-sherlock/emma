@@ -5,18 +5,28 @@
   roles:
     - common
   any_errors_fatal: true
+
+#- hosts: spark
+#  remote_user: root
+#  vars_files:
+#   - vars/spark_vars.yml
+#   - vars/minio_vars.yml
+#  roles:
+#    - spark
+#  any_errors_fatal: true
+
+- hosts: spark-master
+  remote_user: root
+  vars_files:
+   - vars/spark_vars.yml
+   - vars/minio_vars.yml
+  roles:
+    - spark-master
+
 - hosts: spark
   remote_user: root
   vars_files:
    - vars/spark_vars.yml
-  roles:
-    - spark
-  any_errors_fatal: true
-- hosts: spark-master
-  remote_user: root
-  roles:
-    - spark-master
-- hosts: spark
-  remote_user: root
+   - vars/minio_vars.yml
   roles:
     - spark-slave
