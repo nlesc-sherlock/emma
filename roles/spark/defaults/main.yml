@@ -1,6 +1,7 @@
 ---
 spark_version: "2.1.0-bin-hadoop2.7"
 spark_mirror: "http://d3kbcqa49mib13.cloudfront.net"
+spark_dir: "/data/local/spark"
 spark_src_dir: "/usr/local/src"
 spark_conf_dir: "/etc/spark"
 spark_usr_parent_dir: "/usr/lib"  #this is the folder where the spark archive will be extracted
