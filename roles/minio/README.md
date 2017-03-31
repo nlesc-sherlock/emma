@@ -20,3 +20,24 @@ For example, to mirror /data/shared/scratch
 mc mirror -w /data/shared/scratch s3/superbucket &
 mc mirror -w s3/superbucket /data/shared/scratch/ &
 ```
+
+Configuration file for s3cmd .s3cfg
+```
+host_base = 145.100.116.153:9091
+host_bucket = 145.100.116.153:9091
+access_key = A24H1RIGV4RKFGXJTEMS
+secret_key = 5jd7ARCOi/XVjLzXqT5wA1NSgjmUo9mYJBgyGyIh
+use_https = False
+list_md5 = False
+use_mime_magic = False
+#Make sure the region is the same as the one used by minio
+bucket_location = us-east-1
+
+```
+
+Example of commands:
+```
+s3cmd  ls s3://files
+
+s3cmd get s3://files/sonnets.txt romulo.txt
+```
