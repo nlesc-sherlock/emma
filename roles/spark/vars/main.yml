@@ -2,4 +2,4 @@
 cran_url: http://cran-mirror.cs.uu.nl
 cran_ppa_key: E084DAB9
 spark_conf: "{{ spark_conf_dir }}/conf"
-spark_home: {{ spark_usr_dir }}
+spark_home: "{{ spark_usr_dir }}"
