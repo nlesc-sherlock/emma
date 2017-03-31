@@ -3,15 +3,6 @@
   template:
     src: slaves.j2
     dest: '{{ spark_conf }}/slaves'
-- name: Update spark defaults
-  blockinfile:
-    dest: '{{ spark_conf }}/spark-defaults.conf'
-    create: yes
-    block: |
-      spark.master    spark://{{ groups['spark-master'][0] }}:7077
-      spark.shuffle.service.enabled true
-      spark.dynamicAllocation.enabled   true
-      spark.dynamicAllocation.initialExecutors  4
 - name: Copy start-master.systemd
   template: src=spark-master.systemd.j2 dest=/etc/systemd/system/spark-master.service
 - name: Spark-master started
