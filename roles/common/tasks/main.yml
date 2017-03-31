@@ -94,3 +94,5 @@
   with_items: "{{ users }}"
 - name: Tmp dir on /data/local
   file: path=/data/local/tmp state=directory mode=1777
+- name: Install python-lxml
+  apt: name=python-lxml
