@@ -31,6 +31,9 @@
 - name: Ensure Spark directory exists
   file: path="{{ spark_dir }}" state=directory owner=ubuntu group=users mode=g+rw
 
+- name: Ensure Spark events directory exists
+  file: path=/tmp/spark-events state=directory owner=ubuntu group=users mode=g+rw
+
 - name: Create service account for Spark
   user: name={{ spark_user }}
         system=yes
@@ -84,6 +87,23 @@
     - spark-sql
     - spark-submit
   tags: ["shims"]
+
+#Downland necessary jars using maven
+- name: Maven hadoop-aws
+  maven_artifact:
+    group_id: org.apache.hadoop
+    artifact_id: hadoop-aws
+    version: 3.0.0-alpha2
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/hadoop-aws-3.0.0-alpha2.jar"
+
+- name: Maven aws-java-sdk
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: aws-java-sdk
+    version: 1.11.45
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-1.11.45.jar"
 
 - name: Configure Spark environment
   template: src=spark-env.sh.j2
