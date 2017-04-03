@@ -24,8 +24,7 @@ spark.serializer org.apache.spark.serializer.KryoSerializer
 
 #Configuration for S3
 spark.hadoop.fs.s3a.impl org.apache.hadoop.fs.s3a.S3AFileSystem
-#TODO: spark.hadoop.fs.s3a.endpoint http://{{ inventory_hostname }}{{ minio_server_addr }}
-spark.hadoop.fs.s3a.endpoint http://145.100.116.153{{ minio_server_addr }}
+spark.hadoop.fs.s3a.endpoint http://{{ lookup('pipe', 'getent ' 'hosts {{ inventory_hostname }} | awk \'{ print $1 }\'')}}{{ minio_server_addr }}
 spark.hadoop.fs.s3a.access.key {{ minio_access_key }}
 spark.hadoop.fs.s3a.secret.key {{ minio_secret_key }}
 spark.hadoop.fs.s3a.connection.ssl.enabled false
