@@ -38,6 +38,12 @@ The trusted networks can be changed in `roles/common/vars/main.yml` file.
 
 Create the `hosts` file see `hosts.template` for template. To change ansible configurations the user should edit ansible.cfg at the root directory of this repository. A diff between it and the file under /etc/ansible/ansible.cfg shows the additions to the default version. 
 
+## Dependencies
+To lookup for hosts IPs ansible will use *lookup('dig', '\<host_name\>)'*, *dig* needs dnspython. It should be installed on the host machine where ansible is running.
+```
+pip install dnspython
+```
+
 ## Ansible on Windows
 When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 After the installation the Ubuntu environment is accessible through the bash command of Windows.
