@@ -8,6 +8,7 @@ emma.key.pub
 /*-cloudimg-console.log
 vars/minio_vars.yml
 vars/spark_vars.yml
+vars/docker_vars.yml
 env_linux.sh
 env_windows.cmd
 roles/minio/tests/ssh-config

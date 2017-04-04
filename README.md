@@ -76,7 +76,7 @@ spark-shell --master spark://<spark-master>:7077
 
 All nodes have a Docker daemon running.
 
-The Docker swarm endpoint is at `<docker_manager_ip>` IP address (Set in `hosts` file).
+The Docker swarm endpoint is at `<docker_manager_ip>` IP address.
 Howto see https://docs.docker.com/engine/swarm/swarm-tutorial/deploy-service/
 
 To use Swarm login on `docker-swarm-manager` host as configured in `hosts` file.
