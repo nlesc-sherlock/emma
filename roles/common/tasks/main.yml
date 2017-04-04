@@ -50,16 +50,6 @@
   local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex=OpenSSH port=22 delay=15 state=started
   sudo: no
   when: restarted.changed
-- name: Rebooting machine so new kernel is active
-  command: shutdown -r now removes=/var/run/reboot-required
-  async: 0
-  poll: 0
-  ignore_errors: true
-  register: restarted
-- name: Waiting for reboot...
-  local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex=OpenSSH port=22 delay=15 state=started
-  sudo: no
-  when: restarted.changed
 - name: NTP
   apt: name=ntp
 - name: Home dir on /data/local/home
