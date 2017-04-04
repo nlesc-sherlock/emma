@@ -3,4 +3,4 @@
 - name: Toree (Spark Jupyter)
   pip: name=toree executable=pip state=latest extra_args='-i https://pypi.anaconda.org/hyoon/simple'
 - name: Toree to Jupyter
-  command: jupyter toree install --spark_home='{{ spark_home }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
+  command: jupyter toree install --spark_home='{{ spark_usr_dir }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala

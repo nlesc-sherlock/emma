@@ -2,7 +2,7 @@
 - name: Spark config slaves
   template:
     src: slaves.j2
-    dest: '{{ spark_conf }}/slaves'
+    dest: '{{ spark_conf_dir }}/conf/slaves'
 - name: Copy start-master.systemd
   template: src=spark-master.systemd.j2 dest=/etc/systemd/system/spark-master.service
 - name: Spark-master started
