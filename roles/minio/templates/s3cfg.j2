@@ -1,0 +1,10 @@
+host_base = {{ lookup('pipe', 'getent ' 'hosts {{ inventory_hostname }} | awk \'{ print $1 }\'')}}{{ minio_server_addr }}
+host_bucket = {{ lookup('pipe', 'getent ' 'hosts {{ inventory_hostname }} | awk \'{ print $1 }\'')}}{{ minio_server_addr }}
+access_key = {{ minio_access_key }}
+secret_key = {{ minio_secret_key }}
+use_https = False
+list_md5 = False
+use_mime_magic = False
+
+#Make sure the region is the same as the one used by minio
+bucket_location = us-east-1
