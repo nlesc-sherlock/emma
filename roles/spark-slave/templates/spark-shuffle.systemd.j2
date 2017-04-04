@@ -5,8 +5,8 @@ After=syslog.target network.target
 [Service]
 User=root
 Type=forking
-ExecStart={{ spark_home }}/sbin/start-shuffle-service.sh
-ExecStop={{ spark_home }}/sbin/stop-shuffle-service.sh
+ExecStart={{ spark_usr_dir }}/sbin/start-shuffle-service.sh
+ExecStop={{ spark_usr_dir }}/sbin/stop-shuffle-service.sh
 
 [Install]
 WantedBy=multi-user.target

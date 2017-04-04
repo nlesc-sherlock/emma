@@ -5,8 +5,8 @@ After=syslog.target network.target
 [Service]
 User=root
 Type=forking
-ExecStart={{ spark_home }}/sbin/start-slave.sh spark://{{ groups['spark-master'][0] }}:7077
-ExecStop={{ spark_home }}/sbin/stop-slave.sh
+ExecStart={{ spark_usr_dir }}/sbin/start-slave.sh spark://{{ groups['spark-master'][0] }}:7077
+ExecStop={{ spark_usr_dir }}/sbin/stop-slave.sh
 
 [Install]
 WantedBy=multi-user.target
