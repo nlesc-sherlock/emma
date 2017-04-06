@@ -13,6 +13,21 @@
     group: "{{ minio_group }}"
     shell: /bin/bash
 
+- name: create minio config dir
+  file: path=/home/ubuntu/.minio state=directory owner=minio group=users mode=g+rw
+
+- name: generate the minio config
+  template:
+    src: minio_config.json.j2
+    dest: /home/ubuntu/.minio/config.json
+
+- stat: path={{ minio_server_datadir }}/minio.log
+  register: p
+
+- name: create minio.log
+  file: path={{ minio_server_datadir }}/minio.log state=touch owner=minio group=sys
+  when: p.stat.exists is defined and not p.stat.exists
+
 - include: server.yml
   when: not skip_server
 
