@@ -5,8 +5,8 @@ minio_server_bin: /usr/local/bin/minio
 minio_client_bin: /usr/local/bin/mc
 
 # Runtime user and group for the minio server service
-minio_user: root
-minio_group: root
+minio_user: minio
+minio_group: users
 
 # Path to the file containing the ENV variables for the minio server
 minio_server_envfile: /etc/default/minio
