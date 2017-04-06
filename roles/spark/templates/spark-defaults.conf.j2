@@ -12,7 +12,7 @@
 spark.master    spark://{{ groups['spark-master'][0] }}:7077
 spark.shuffle.service.enabled true
 spark.dynamicAllocation.enabled   true
-spark.dynamicAllocation.initialExecutors  4
+spark.dynamicAllocation.initialExecutors  1
 spark.executor.cores=1
 spark.eventLog.enabled true
 spark.executor.memory 1g
@@ -28,6 +28,8 @@ spark.hadoop.fs.s3a.endpoint http://{{ lookup('pipe', 'getent ' 'hosts {{ invent
 spark.hadoop.fs.s3a.access.key {{ minio_access_key }}
 spark.hadoop.fs.s3a.secret.key {{ minio_secret_key }}
 spark.hadoop.fs.s3a.connection.ssl.enabled false
+spark.hadoop.fs.s3a.fs.s3a.fast.upload true
+spark.hadoop.fs.s3a.buffer.dir /root/spark/work,/tmp
 
 #Jars
 spark.jars
