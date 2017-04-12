@@ -2,3 +2,7 @@
 export HOST_NAME=<name>
 export HOST_DOMAIN=<domain>
 export NUM_HOSTS=<num_hosts>
+
+#The default location is the root directory of the repository.
+#If running on Ubuntu bash Windows we recommend /tmp/$HOST_NAME
+export KEYS_LOCATION="."
