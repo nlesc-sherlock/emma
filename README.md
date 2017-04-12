@@ -157,11 +157,14 @@ The path to vagrant home should not have spaces. Assuming the installation path 
 #create and edit env_windows.cmd
 cp env_windows.cmd.template env_windows.cmd
 
-#On windows command console run
-env_windows.cmd
+#On Ubuntu bash for Windows run, it is required to restart all consoles to have the environment variables set.
+./env_windows.cmd
 ```
 
-On Windows to run Vagrant's commands use the CMD console.
+On Windows to run Vagrant's commands simply use Ubuntu bash console.
+```
+vagrant.exe <up | halt | destroy>
+```
 
 ###Plugins
 Vagrant needs two plugins and they will be installed in *VAGRANT\_HOME*.
@@ -178,24 +181,15 @@ vagrant plugin install vagrant-vbguest
 
 ###VMs management
 
-Always make sure the environment for the Windows console is always set, always do:
-```
-#On windows command console run
-env_windows.cmd
-```
-
-On Windows because the [Ubuntu environment](#windows) has its own */etc/hosts* the IPs of the guest nodes needs to be retrieved by hand..
-At the bash console edit */etc/hosts* with IPs obtained through.
-```
-vagrant ssh-config %HOST_NAME%0
-
-# With output given by the above command connect to emma0 (only the port will differ)
-ssh -i .vagrant/machines/${HOST_NAME}0/virtualbox/private_key ubuntu@127.0.0.1 -p <emma0_port> "cat /etc/hosts"
-```
-
-On the first *vagrant up* guest machines */etc/hosts* will be updated. It is possible to request a new update by simply do:
+To update guest machines */etc/hosts* the user after a *vagrant up* should always run:
 ```
 vagrant hostmanager
+```
+
+On Linux the host machine */etc/hosts* will automatically be updated. On Windows because the [Ubuntu environment](#windows) has its own */etc/hosts* the IPs of the guest nodes needs to be retrieved by hand.
+After *vagrant hostmanager* run:
+```
+sh getHosts.sh
 ```
 
 To halt all VMs
