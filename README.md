@@ -28,7 +28,22 @@ See Build/Cloud chapter to automate step 4, 5 and 6.
 
 # Ansible
 
-Uses ansible to provision servers.
+The project uses ansible to provision servers. The recommended version is Ansible 2.2.
+
+##Install ansible
+Ansible should be installed using pip. To install pip and ansible dependencies do the following:
+
+```
+#Install pip:
+sudo apt-get install python-pip
+
+#Install dependencies:
+sudo apt install libffi-dev python-dev libssl-dev
+
+#Install ansible (Note that sudo is not used here because you are installing Ansible into your own virtual environment.):
+pip install ansible
+
+```
 
 POSIX user `${HOST_NAME}` created with password `pass1234`.
 To add more users edit `roles/common/vars/main.yml` file.
@@ -40,10 +55,30 @@ Create the `hosts` file see `hosts.template` for template. To change ansible con
 
 ## Ansible on Windows
 When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
+Once installed it recommended to verify if the version 16.04 is installed.
+```
+lsb_release -a
+```
+
+If not 16.04, then do the following:
+```
+#Powershell as administrator, and enter the command
+lxrun /uninstall /full .
+
+lxrun /install /y
+
+#Verify again the version:
+lsb_release -a
+```
+
 After the installation the Ubuntu environment is accessible through the bash command of Windows.
+To add Windows executables to your Ubuntu *$PATH*, do the following:
+```
+export PATH=$PATH:/mnt/c/Windows/System32/
+```
 
-Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*. Ansible does run with such file permissions. Hence, you need to clone the repository into the home directory of the embedded Ubuntu environment. The environment set on Windows CMD console session, for example to run Vagrant, is not shared with embedded Ubuntu bash.
-
+Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*.
+This means ssh keys will to open for Ansible. Hence, before you run ansible you need to call getHosts.sh.
 
 ## GlusterFS
 
