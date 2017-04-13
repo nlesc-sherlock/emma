@@ -34,8 +34,8 @@ In a nutshell tese are the platform's features:
 * [GlusterFS](gluster.md)
 * [Minio](minio.md)
 * [Spark](spark.md) Standalone cluster
-* [Docker Swarm](docker.md)
-* [JupyterHub](jupyterhub)
+* [Docker Swarm](dockerswarm.md)
+* [JupyterHub](jupyterhub.md)
 
 
 ## Deployment
@@ -44,4 +44,4 @@ An deployment is done using the demos for the Sherlock project.
 ```
 ansible-playbook demo.yml
 ```
-Once deployed, a website is available on http://\<docker-swarm-manager\> (\<docker-swarm-manager\> is defined in the hosts file as described in [ansible.md](ansbile.md).
+Once deployed, a website is available on http://\<docker-swarm-manager\> (\<docker-swarm-manager\> is defined in the hosts file as described in [ansible.md](ansible.md).
