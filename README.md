@@ -1,6 +1,7 @@
-Ansible playbook to create a cluster with GlusterFS, Docker, Spark and JupyterHub services.
+# Emma: platform for development of application Spark and DockerSwarm
+The platform runs on an infra-structure composed by virtual machines and Ansible playbooks are used to create a storage layer, processing layer and [JupyterHub](https://jupyter-notebook.readthedocs.io/en/latest/index.html) services. The storage layer offers two flavors of storage, file-base by [GlusterFS](https://www.gluster.org/) and object-based using [Minio](https://www.minio.io). The processing layer has a [Apache Spark cluster](http://spark.apache.org/) and a [Docker Swarm](https://docs.docker.com/engine/swarm/) sharing the storage instances.
 
-Features:
+In a nutshell tese are the platform's features:
 
 * Vagrant/Cloud
 * Ansible
@@ -9,14 +10,9 @@ Features:
 * Spark Standalone cluster
 * JupyterHub with Spark support (http://toree.apache.org)
 
-# Features
+## Infra-structure
 
-# Vagrant/Cloud
-
-Install in develop setup with Vagrant.
-
-Use cloud machines to make services available for others.
-When using cloud machines they are/have:
+The infra-structure, physical place where the platform runs, is composed by a set of virtual machines with the following characteristics:
 1. Ubuntu 16.04 OS
 2. Public network interface
 3. OS disk, 200Mb for software + enough room in /tmp
@@ -24,156 +20,7 @@ When using cloud machines they are/have:
 5. XFS Partition mounted at /data/local (used for swapfile, GlusterFS brick, Docker root)
 6. Python2 to run Ansible tasks
 
-See Build/Cloud chapter to automate step 4, 5 and 6.
-
-# Ansible
-
-Uses ansible to provision servers.
-
-POSIX user `${HOST_NAME}` created with password `pass1234`.
-To add more users edit `roles/common/vars/main.yml` file.
-
-Firewall only allows connections from trusted networks.
-The trusted networks can be changed in `roles/common/vars/main.yml` file.
-
-Create the `hosts` file see `hosts.template` for template. To change ansible configurations the user should edit ansible.cfg at the root directory of this repository. A diff between it and the file under /etc/ansible/ansible.cfg shows the additions to the default version. 
-
-## Ansible on Windows
-When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
-After the installation the Ubuntu environment is accessible through the bash command of Windows.
-
-Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*. Ansible does run with such file permissions. Hence, you need to clone the repository into the home directory of the embedded Ubuntu environment. The environment set on Windows CMD console session, for example to run Vagrant, is not shared with embedded Ubuntu bash.
-
-
-## GlusterFS
-
-See http://gluster.readthedocs.io
-All nodes have a xfs partition which is available as `gv0` volume and mounted as /data/shared on all nodes.
-The volume is configured (replicas/stripes/transport/etc) in `roles/glusterfs/tasks/create-volume.yml` file.
-
-## Minio
-
-[Minio](https://www.minio.io/) is a distributed object storage server built for cloud applications and devops.
-To use minio in distributed mode and have redundancy there are some pre-requisites. To understand them you should read the [distributed minio quickstart guide](https://docs.minio.io/docs/distributed-minio-quickstart-guide).
-Before you set a minio cluster, make sure you set minio global variables using the template under *vars/*.
-Once initialized a web GUI will be available at *http://${HOST_NAME}0.${HOST_DOMAIN}:9091*, or any other host part of the *minio* group.
-
-For unit tests please read the README under *roles/minio/tests/*.
-
-## Spark
-
-Spark is installed in `/data/shared/spark` directory as Spark Standalone mode.
-* For master use `spark://<spark-master>:7077`
-* The UI on http://<spark-master>:8080
-* The JupyterHub on http://<spark-master>:8000
-
-To get shell of Spark cluster run:
-```
-spark-shell --master spark://<spark-master>:7077
-```
-
-## Docker swarm
-
-All nodes have a Docker daemon running.
-
-The Docker swarm endpoint is at `<docker_manager_ip>` IP address (Set in `hosts` file).
-Howto see https://docs.docker.com/engine/swarm/swarm-tutorial/deploy-service/
-
-To use Swarm login on `docker-swarm-manager` host as configured in `hosts` file.
-
-# Build
-
-## Requirements
-
-Setup environment:
-```
-#create and edit env_linux.sh
-cp env_linux.sh.template env_linux.sh
-
-#Linux environments (also in the embedded Ubuntu environment in Windows).
-#On each bash
-. env_linux.sh
-
-# Key used by root
-ssh-keygen -f ${HOST_NAME}.key
-# Key used by ${HOST_NAME} user
-ssh-keygen -f roles/common/files/${HOST_NAME}.key
-sudo pip install ansible
-```
-
-For easy understanding of the examples below it is assumed HOST_NAME=emma
-
-## Vagrant
-
-For vagrant based setup, skip this when deploying to cloud.
-
-###Installation
-
-For Linux systems a simple package installation is enough.
-```
-#Ubuntu
-sudo apt-get install vagrant
-```
-
-For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console. To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation. To solve it is required to click in properties and claim ownership of the directory so the installation can proceed.
-
-The path to vagrant home should not have spaces. Assuming the installation path was the default one, set home to *VAGRANT_HOME=C:\HashiCorp\Vagrant\home*:
-```
-#create and edit env_windows.cmd
-cp env_windows.cmd.template env_windows.cmd
-
-#On windows command console run
-env_windows.cmd
-```
-
-On Windows to run Vagrant's commands use the CMD console.
-
-###Plugins
-Vagrant needs two plugins and they will be installed in *VAGRANT\_HOME*.
-```
-#Plugin for persistent storage
-vagrant plugin install vagrant-persistent-storage
-
-#Plugin to manage hosts
-vagrant plugin install vagrant-hostmanager
-
-#It is recommended to install vbguest plugin
-vagrant plugin install vagrant-vbguest
-```
-
-###VMs management
-
-Always make sure the environment for the Windows console is always set, always do:
-```
-#On windows command console run
-env_windows.cmd
-```
-
-On Windows because the [Ubuntu environment](#windows) has its own */etc/hosts* the IPs of the guest nodes needs to be retrieved by hand..
-At the bash console edit */etc/hosts* with IPs obtained through.
-```
-vagrant ssh-config %HOST_NAME%0
-
-# With output given by the above command connect to emma0 (only the port will differ)
-ssh -i .vagrant/machines/${HOST_NAME}0/virtualbox/private_key ubuntu@127.0.0.1 -p <emma0_port> "cat /etc/hosts"
-```
-
-On the first *vagrant up* guest machines */etc/hosts* will be updated. It is possible to request a new update by simply do:
-```
-vagrant hostmanager
-```
-
-To halt all VMs
-```
-vagrant halt
-```
-
-To destroy all VMs
-```
-vagrant destroy
-```
-
-## Cloud
+The virtual machines are requested from a SURFsara or a cloud provider or simply emulated using [Vagrant](https://www.vagrantup.com/) and details on how to do it are described in [vagrant.md]().
 
 For cloud based setup, skip this when deploying to vagrant.
 The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with:
@@ -187,30 +34,12 @@ kill <apt process id>
 dpkg --configure -a
 ```
 
-## Check
+## Infra-structure provision
+
+Servers are provisioned using [Ansible](https://www.ansible.com/), an automation tool for IT infra-structure. The details on how to do it are described in [ansible.md]().
 
 
-Verify login.
-```
-ssh -i ${HOST_NAME}.key root@${HOST_NAME}0.$HOST_DOMAIN uptime
-ssh -i ${HOST_NAME}.key root@${HOST_NAME}1.$HOST_DOMAIN uptime
-ssh -i ${HOST_NAME}.key root@${HOST_NAME}2.$HOST_DOMAIN uptime
-```
-
-Now use ansible to verify login.
-```
-ansible all -u root -m ping
-```
-
-## Provision
-
-```
-ansible-playbook playbook.yml
-```
-
-Ansible will ask for a Docker swarm token, which should be printed by the previous task.
-
-### Start demo
+## Deploy demo
 
 ```
 ansible-playbook demo.yml
