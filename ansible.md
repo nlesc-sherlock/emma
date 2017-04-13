@@ -82,68 +82,18 @@ export PATH=$PATH:/mnt/c/Windows/System32/
 Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*.
 This means ssh keys will to open for Ansible. Hence, before you run ansible you need to call getHosts.sh.
 
-## HDFS
-
-## GlusterFS
-
-See http://gluster.readthedocs.io
-All nodes have a xfs partition which is available as `gv0` volume and mounted as /data/shared on all nodes.
-The volume is configured (replicas/stripes/transport/etc) in `roles/glusterfs/tasks/create-volume.yml` file.
-
-## Minio
-
-[Minio](https://www.minio.io/) is a distributed object storage server built for cloud applications and devops.
-To use minio in distributed mode and have redundancy there are some pre-requisites. To understand them you should read the [distributed minio quickstart guide](https://docs.minio.io/docs/distributed-minio-quickstart-guide).
-Before you set a minio cluster, make sure you set minio global variables using the template under *vars/*.
-Once initialized a web GUI will be available at *http://${HOST_NAME}0.${HOST_DOMAIN}:9091*, or any other host part of the *minio* group.
-
-For unit tests please read the README under *roles/minio/tests/*.
-
-## Spark
-
-Spark is installed in `/data/shared/spark` directory as Spark Standalone mode.
-* For master use `spark://<spark-master>:7077`
-* The UI on http://<spark-master>:8080
-* The JupyterHub on http://<spark-master>:8000
-
-To get shell of Spark cluster run:
-```
-spark-shell --master spark://<spark-master>:7077
-```
-
-## Docker swarm
-
-All nodes have a Docker daemon running.
-
-The Docker swarm endpoint is at `<docker_manager_ip>` IP address (Set in `hosts` file).
-Howto see https://docs.docker.com/engine/swarm/swarm-tutorial/deploy-service/
-
-To use Swarm login on `docker-swarm-manager` host as configured in `hosts` file.
-
-
-## Spark
-Spark is installed in `/data/shared/spark` directory as Spark Standalone mode.
-* For master use `spark://<spark-master>:7077`
-* The UI on http://<spark-master>:8080
-* The JupyterHub on http://<spark-master>:8000
-
-To get shell of Spark cluster run:
-```
-spark-shell --master spark://<spark-master>:7077
-```
-
 ## Provision
 
 Create the `hosts` file see `hosts.template` for template. To change ansible configurations the user should edit ansible.cfg at the root directory of this repository. A diff between it and the file under /etc/ansible/ansible.cfg shows the additions to the default version. 
 
 Now use ansible to verify login.
 ```
-ansible all --private-key=../pheno.key -u root -i hosts -m ping
+ansible all -u root -i hosts -m ping
 ```
 
 For cloud based setup, skip this when deploying to vagrant. The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with:
 ```
-ansible-playbook --private-key=../pheno.key --ssh-extra-args="-o StrictHostKeyChecking=no" -i hosts -e datadisk=/dev/vdb prepcloud-playbook.yml
+ansible-playbook -e datadisk=/dev/vdb prepcloud-playbook.yml
 ```
 
 If a apt is auto updating the playbook will fail. Use following commands to clean on the host:
@@ -154,14 +104,5 @@ dpkg --configure -a
 
 Time to setup the cluster.
 ```
-ansible-playbook --private-key=../pheno.key --ssh-extra-args="-o StrictHostKeyChecking=no" -i hosts playbook.yml
-```
-
-## Provision
-
-```
 ansible-playbook playbook.yml
 ```
-
-Ansible will ask for a Docker swarm token, which should be printed by the previous task.
-
