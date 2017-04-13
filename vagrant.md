@@ -10,14 +10,19 @@ sudo apt-get install vagrant
 
 For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed for Windows and be executed using the CMD console. To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation. To solve it is required to click in properties and claim ownership of the directory so the installation can proceed.
 
-The path to vagrant home should not have spaces. Assuming the installation path was the default one, to set it do the following (create dir before setting it):
+The path to vagrant home should not have spaces. Assuming the installation path was the default one, set home to *VAGRANT_HOME=C:\HashiCorp\Vagrant\home*:
 ```
-set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
-#set also the PHENO_DOMAIN
-set PHENO_DOMAIN=<domain to use>
+#create and edit env_windows.cmd
+cp env_windows.cmd.template env_windows.cmd
+
+#On Ubuntu bash for Windows run, it is required to restart all consoles to have the environment variables set.
+./env_windows.cmd
 ```
 
-On Windows to run Vagrant's commands use the CMD console.
+On Windows to run Vagrant's commands simply use Ubuntu bash console.
+```
+vagrant.exe <up | halt | destroy>
+```
 
 ## Plugins
 Vagrant needs two plugins and they will be installed in *VAGRANT\_HOME*.
@@ -34,29 +39,16 @@ vagrant plugin install vagrant-vbguest
 
 ## VMs management
 
-On Windows make sure VAGRANT_HOME is alwasy set.
+To update guest machines */etc/hosts* the user after a *vagrant up* should always run:
 ```
-set VAGRANT_HOME=C:\HashiCorp\Vagrant\home
-```
-
-Since host-manager is used to update */etc/hosts* on each guest node and host node, the Vagrantfile should be updated.
-
-When running on Linux, and if a DNS server is not used, it is required to tell vagrant to update the host's */etc/hosts* to contain all guest's IPs. In Vagrantfile do the following update:
-```
--  config.hostmanager.manage_host = false
-+  config.hostmanager.manage_host = true
-```
-On Windows such option does not have effect because the [Ubuntu environment](#windows) has its own */etc/hosts*.
-At the bash console edit */etc/hosts* with IPs obtains through.
-```
-vagrant ssh-config pheno0
-
-# With output given by the above command connect to pheno0 (only the port will differ)
-ssh -i .vagrant/machines/pheno0/virtualbox/private_key ubuntu@127.0.0.1 -p <pheno0_port> "cat /etc/hosts"
+vagrant hostmanager
 ```
 
-
-To update the guest nodes */etc/hosts*, create and start the VMs, read the steps described in [#14](../../issues/14#issuecomment-285029919).
+On Linux the host machine */etc/hosts* will automatically be updated. On Windows because the [Ubuntu environment](#windows) has its own */etc/hosts* the IPs of the guest nodes needs to be retrieved by hand.
+After *vagrant hostmanager* run:
+```
+sh getHosts.sh
+```
 
 To halt all VMs
 ```
@@ -76,3 +68,4 @@ ssh -i pheno.key root@pheno0.$PHENO_DOMAIN uptime
 ssh -i pheno.key root@pheno1.$PHENO_DOMAIN uptime
 ssh -i pheno.key root@pheno2.$PHENO_DOMAIN uptime
 ```
+
