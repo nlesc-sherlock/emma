@@ -2,3 +2,7 @@
 export HOST_NAME=<name>
 export HOST_DOMAIN=<domain>
 export NUM_HOSTS=<num_hosts>
+export KEYS_LOCATION=/tmp/$HOST_NAME
+#Use double back slash to express window path
+#Default value in Windows is C:\\HashiCorp\\Vagrant\\home
+export VAGRANT_HOME=<vagrant_home>
