@@ -23,8 +23,13 @@ The recommended version is Ansible 2.2. Ansible should be installed using pip. T
 #Install pip:
 sudo apt-get install python-pip
 
+sudo apt-get install python-pip 
+
 #Install dependencies:
-sudo apt install libffi-dev python-dev libssl-dev
+sudo apt install libffi-dev python-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
+
+# For Unit tests, testinfra: https://github.com/philpep/testinfra
+sudo pip install testinfra
 
 #Install ansible (Note that sudo is not used here because you are installing Ansible into your own virtual environment.):
 pip install ansible
