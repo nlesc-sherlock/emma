@@ -1,5 +1,5 @@
-# Ansible to setup environment in a set of machines
-Ansible playbook to create a cluster with HDFS, Spark, SciSpark, and JupyterHub services.
+# Ansible
+Ansible is used to setup environment in a set of machines.
 
 ## Setup environment:
 ```
