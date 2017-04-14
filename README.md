@@ -13,17 +13,32 @@ The infra-structure, physical place where the platform runs, is composed by a se
 
 The virtual machines are requested from a [cloud](cloud.md) provider or simply emulated using [Vagrant](https://www.vagrantup.com/) and details on how to do it are described in [vagrant.md](vagrant.md).
 
-For cloud based setup, skip this when deploying to vagrant.
-The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with:
+### Windows environment
+When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
+Once installed it recommended to verify if the version 16.04 is installed.
 ```
-ansible-playbook -e datadisk=/dev/vdb prepcloud-playbook.yml
+lsb_release -a
 ```
 
-If a apt is auto updating the playbook will fail. Use following commands to clean on the host:
+If not 16.04, then do the following:
 ```
-kill <apt process id>
-dpkg --configure -a
+#Powershell as administrator, and enter the command
+lxrun /uninstall /full .
+
+lxrun /install /y
+
+#Verify again the version:
+lsb_release -a
 ```
+
+After the installation the Ubuntu environment is accessible through the bash command of Windows.
+To add Windows executables to your Ubuntu *$PATH*, do the following:
+```
+export PATH=$PATH:/mnt/c/Windows/System32/
+```
+
+Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*.
+This means ssh keys will to open for Ansible. Hence, before you run ansible you need to call getHosts.sh.
 
 ## Infra-structure provision
 
@@ -36,7 +51,6 @@ In a nutshell tese are the platform's features:
 * [Spark](spark.md) Standalone cluster
 * [Docker Swarm](dockerswarm.md)
 * [JupyterHub](jupyterhub.md)
-
 
 ## Deployment
 
