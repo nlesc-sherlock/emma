@@ -1,4 +1,6 @@
-# Vagrant to emulate a cluster of machines
+# Vagrant
+
+Vagrant is a tool to emulate a cluster of machines.
 
 ## Installation
 
