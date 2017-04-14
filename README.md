@@ -42,9 +42,9 @@ This means ssh keys will to open for Ansible. Hence, before you run ansible you 
 
 ## Infra-structure provision
 
-Servers are provisioned using [Ansible](https://www.ansible.com/), an automation tool for IT infra-structure. The details on how to do it are described in [ansible.md](ansible.md).
+Servers are provisioned using [Ansible](https://www.ansible.com/), an automation tool for IT infra-structure. To install it and configure it please read [ansible.md](ansible.md).
 
-In a nutshell tese are the platform's features:
+The roles defined for Ansbile will create a platform with the following features:
 
 * [GlusterFS](gluster.md)
 * [Minio](minio.md)
@@ -54,7 +54,7 @@ In a nutshell tese are the platform's features:
 
 ## Deployment
 
-An deployment is done using the demos for the Sherlock project.
+A deployment is done using the demos for the Sherlock project.
 ```
 ansible-playbook demo.yml
 ```
