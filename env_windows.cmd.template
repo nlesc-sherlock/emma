@@ -1,6 +1,0 @@
-setx.exe HOST_NAME <name>
-setx.exe HOST_DOMAIN <domain>
-setx.exe NUM_HOSTS <num_hosts>
-
-#By default Vagrant is installed at C:\\HashiCorp\\Vagrant
-setx.exe VAGRANT_HOME <vagrant_home>
