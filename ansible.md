@@ -1,27 +1,11 @@
 # Ansible to setup environment in a set of machines
 Ansible playbook to create a cluster with HDFS, Spark, SciSpark, and JupyterHub services.
 
-## Features:
-* HDFS
-* Spark Standalone cluster
-* SciSpark
-* JupyterHub with Spark support (http://toree.apache.org)
-
-## Requirements
-
-Use cloud machines to make services available for others.
-When using cloud machines or vagrant machines they are/have:
-1. Ubuntu 16.04 OS
-2. Public network interface
-3. OS disk, 200Mb for software + enough room in /tmp
-4. Passwordless login as root with `pheno.key` private key.
-5. XFS Partition mounted at /data/local (used for swapfile)
-6. Python2 to run Ansible tasks
-
-Setup environment:
+## Setup environment:
 ```
 #create and edit env_linux.sh
 cp env_linux.sh.template env_linux.sh
+vim env_linux.sh
 
 #Linux environments (also in the embedded Ubuntu environment in Windows).
 #On each bash
@@ -34,9 +18,7 @@ ssh-keygen -f roles/common/files/${HOST_NAME}.key
 ```
 
 ## Install ansible
-The project uses ansible to provision servers. The recommended version is Ansible 2.2.
-Ansible should be installed using pip. To install pip and ansible dependencies do the following:
-
+The recommended version is Ansible 2.2. Ansible should be installed using pip. To install pip and ansible dependencies do the following:
 ```
 #Install pip:
 sudo apt-get install python-pip
@@ -54,33 +36,6 @@ To add more users edit `roles/common/vars/main.yml` file.
 
 Firewall only allows connections from trusted networks.
 The trusted networks can be changed in `roles/common/vars/main.yml` file.
-
-## Ansible on Windows
-When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
-Once installed it recommended to verify if the version 16.04 is installed.
-```
-lsb_release -a
-```
-
-If not 16.04, then do the following:
-```
-#Powershell as administrator, and enter the command
-lxrun /uninstall /full .
-
-lxrun /install /y
-
-#Verify again the version:
-lsb_release -a
-```
-
-After the installation the Ubuntu environment is accessible through the bash command of Windows.
-To add Windows executables to your Ubuntu *$PATH*, do the following:
-```
-export PATH=$PATH:/mnt/c/Windows/System32/
-```
-
-Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*.
-This means ssh keys will to open for Ansible. Hence, before you run ansible you need to call getHosts.sh.
 
 ## Provision
 
