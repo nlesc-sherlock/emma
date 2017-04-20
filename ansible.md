@@ -62,7 +62,19 @@ kill <apt process id>
 dpkg --configure -a
 ```
 
-Time to setup the cluster.
+The roles defined for Ansbile will create a platform with the following features:
+
+* [GlusterFS](gluster.md)
+* [Minio](minio.md)
+* [Spark](spark.md) Standalone cluster
+* [Docker Swarm](dockerswarm.md)
+* [JupyterHub](jupyterhub.md)
+
+Each role will deploy the respective service or system on the node's group specified in **playbook.yml**. Each node's group is defined in the inventory file **hosts**. The **playbook.yml** defines on which order the roles are executed. 
+
+The global variables for each role are defined under *vars/* in a file with the same name as the role. Their values should be set before running **playbook.yml**. Note: each variable defined as global will over-write the ones defined under each role in the **defaults/** dir.
+
+Once all variables are defined the platform is deployed with the following command:
 ```
 ansible-playbook playbook.yml
 ```
