@@ -23,8 +23,13 @@ The recommended version is Ansible 2.2. Ansible should be installed using pip. T
 #Install pip:
 sudo apt-get install python-pip
 
+sudo apt-get install python-pip 
+
 #Install dependencies:
-sudo apt install libffi-dev python-dev libssl-dev
+sudo apt install libffi-dev python-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
+
+# For Unit tests, testinfra: https://github.com/philpep/testinfra
+sudo pip install testinfra
 
 #Install ansible (Note that sudo is not used here because you are installing Ansible into your own virtual environment.):
 pip install ansible
@@ -57,7 +62,19 @@ kill <apt process id>
 dpkg --configure -a
 ```
 
-Time to setup the cluster.
+The roles defined for Ansbile will create a platform with the following features:
+
+* [GlusterFS](gluster.md)
+* [Minio](minio.md)
+* [Spark](spark.md) Standalone cluster
+* [Docker Swarm](dockerswarm.md)
+* [JupyterHub](jupyterhub.md)
+
+Each role will deploy the respective service or system on the node's group specified in **playbook.yml**. Each node's group is defined in the inventory file **hosts**. The **playbook.yml** defines on which order the roles are executed. 
+
+The global variables for each role are defined under *vars/* in a file with the same name as the role. Their values should be set before running **playbook.yml**. Note: each variable defined as global will over-write the ones defined under each role in the **defaults/** dir.
+
+Once all variables are defined the platform is deployed with the following command:
 ```
 ansible-playbook playbook.yml
 ```
