@@ -12,7 +12,8 @@ The infra-structure, physical place where the platform runs, is composed by a se
 5. XFS Partition mounted at /data/local (used for swapfile, GlusterFS brick, Docker root)
 6. Python2 to run Ansible tasks
 
-The virtual machines are requested from a [cloud](cloud.md) provider or simply emulated using [Vagrant](https://www.vagrantup.com/) and details on how to do it are described in [vagrant.md](vagrant.md).
+
+The infrastructure is a collection of machines which must be reachable by ssh. The machines must be prepared/constructed by either [preparing cloud virtual machine](cloud.md) or [constructing using Vagrant boxes](vagrant.md)
 
 ### Windows environment
 When running on a Windows environment it is recommended to use the embedded Ubuntu environment, [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
