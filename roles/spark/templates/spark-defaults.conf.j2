@@ -15,11 +15,11 @@ spark.dynamicAllocation.enabled   true
 spark.dynamicAllocation.initialExecutors  1
 spark.executor.cores=1
 spark.eventLog.enabled true
+spark.eventLog.dir {{ spark_dir }}/spark-events
 spark.executor.memory 1g
 spark.worker.memory 1g
 spark.driver.memory 1g
 spark.daemon.memory 1g
-spark.eventLog.enabled true
 spark.serializer org.apache.spark.serializer.KryoSerializer
 
 #Configuration for S3
@@ -41,6 +41,7 @@ spark.jars.ivy
 {% for jar in spark_classpath_extras | sort %}
 {%- if loop.first %}spark.executor.extraClassPath {% endif -%}{{ spark_usr_dir  }}/jars/{{ jar }}{%- if not loop.last %}:{% endif -%}
 {%- endfor %}
+
 
 {% for jar in spark_classpath_extras | sort %}
 {%- if loop.first %}spark.driver.extraClassPath {% endif -%}{{ spark_usr_dir  }}/jars/{{ jar }}{%- if not loop.last %}:{% endif -%}
