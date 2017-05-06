@@ -32,6 +32,13 @@
 - name: Autoremove unused packages
   command: apt-get -y autoremove
   when: "'packages will be REMOVED' in check_autoremove.stdout"
+- name: Check if network is up
+  command: ping -c 1 www.google.com
+  ignore_errors: True
+  register: ping_result
+- name: Restart network service
+  service: name=networking state=restarted
+  when: ping_result.rc != 0
 - name: Update apt cache
   apt: update_cache=yes
 - name: Install reboot notifier
@@ -41,7 +48,7 @@
 - name: Upgrade APT to the lastest packages
   apt: upgrade=full
 - name: Rebooting machine so new kernel is active
-  command: shutdown -r now removes=/var/run/reboot-required
+  command: sleep5 && shutdown -r now removes=/var/run/reboot-required
   async: 1
   poll: 0
   ignore_errors: true
