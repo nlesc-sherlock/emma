@@ -28,12 +28,6 @@
   apt: name=r-cran-rjava
 
 #Setting up Spark
-- name: Ensure Spark directory exists
-  file: path="{{ spark_dir }}" state=directory owner=ubuntu group=users mode=g+rw
-
-- name: Ensure Spark events directory exists
-  file: path=/tmp/spark-events state=directory owner=ubuntu group=users mode=g+rw
-
 - name: Create service account for Spark
   user: name={{ spark_user }}
         system=yes
@@ -43,6 +37,14 @@
         groups="{{ spark_user_groups | join(',') }}"
   tags: ["spark-user"]
 
+- name: Ensure Spark directory exists
+  #file: path="{{ spark_dir }}" state=directory owner={{ spark_user }} group={{ spark_user_groups[0] }} mode=g+rw
+  file: path="{{ spark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
+
+- name: Ensure Spark events directory exists
+  file: path={{ spark_dir }}/spark-events state=directory owner=ubuntu group=root mode=g+rw
+#file: path={{ spark_dir }}/spark-events state=directory owner={{ spark_user }} group={{ spark_user_groups[0] }} mode=g+rw
+
 - name: Ensure Spark configuration directory exists
   file: path="{{ spark_conf_dir }}"
         state=directory
@@ -51,7 +53,7 @@
 - name: Ensure Spark log and run directories exist
   file: path="{{ item }}"
         owner={{ spark_user }}
-        group={{ spark_user }}
+        group={{ spark_user_groups[0] }}
         mode=0755
         state=directory
   with_items:
@@ -92,21 +94,54 @@
   apt: name=maven
 
 #Downland necessary jars using maven
+- name: Maven joda-time
+  maven_artifact:
+    group_id: joda-time
+    artifact_id: joda-time
+    version: "{{ joda_time_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/joda-time-{{ joda_time_version }}.jar"
+
 - name: Maven hadoop-aws
   maven_artifact:
     group_id: org.apache.hadoop
     artifact_id: hadoop-aws
-    version: 2.7.3
+    version: "{{ hadoop_aws_version }}"
     repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/hadoop-aws-2.7.3.jar"
+    dest: "{{ spark_usr_dir }}/jars/hadoop-aws-{{ hadoop_aws_version }}.jar"
 
-- name: Maven aws-java-sdk
+- name: Maven aws-java-sdk-s3
   maven_artifact:
     group_id: com.amazonaws
-    artifact_id: aws-java-sdk
-    version: 1.7.4
+    artifact_id: aws-java-sdk-s3
+    version: "{{ aws_java_sdk_s3_version }}"
     repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-1.7.4.jar"
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar"
+
+- name: Maven aws-java-sdk-core
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: aws-java-sdk-core
+    version: "{{ aws_java_sdk_s3_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-core-{{ aws_java_sdk_s3_version }}.jar"
+
+- name: Maven aws-java-sdk-kms
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: aws-java-sdk-kms
+    version: "{{ aws_java_sdk_s3_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-kms-{{ aws_java_sdk_s3_version }}.jar"
+
+- name: Maven jmespath-java
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: jmespath-java
+    version: 1.0
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/jmespath-java-1.0.jar"
+  when: ( aws_java_sdk_s3_version == "3.0.0-apha1") or (aws_java_sdk_s3_version == "3.0.0-apha2")
 
 - name: Configure Spark environment
   template: src=spark-env.sh.j2
