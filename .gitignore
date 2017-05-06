@@ -14,3 +14,5 @@ env_windows.cmd
 roles/minio/tests/ssh-config
 roles/minio/tests/__pycache__
 /.cache
+vars/common_vars.yml
+vars/hadoop_vars.yml

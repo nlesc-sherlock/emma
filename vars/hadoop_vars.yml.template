@@ -1,0 +1,7 @@
+---
+hadoop_conf_dir: <path_hadoop_conf>
+hadoop_usr_dir: <path_hadoop_usr_dir>         #this is the symlink to the extracted/installed hadoop
+hadoop_lib_dir: <path_hadoop_lib_dir>
+hadoop_log_dir: <path_hadoop_log_dir>
+hadoop_run_dir: <path_hadoop_run_dir>
+hadoop_user_groups: [ <group1>, <group2> ]    # Optional list of (OS)groups the new hadoop user should belong to
