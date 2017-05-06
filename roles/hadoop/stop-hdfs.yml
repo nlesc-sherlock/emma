@@ -1,0 +1,30 @@
+---
+- hosts: hadoop-namenode
+  remote_user: root
+  vars_files: 
+  - defaults/main.yml
+  - ../../vars/common_vars.yml
+  environment: 
+    JAVA_HOME: "{{ java_home }}"
+
+  tasks:
+  - name: Stop HDFS
+    systemd: name=hadoop-hdfs state=stopped
+
+  - name: Stop namenode
+    shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs stop namenode"
+    register: hadoop_namenode
+
+
+- hosts: hadoop-datanodes
+  remote_user: root
+  vars_files: 
+  - defaults/main.yml
+  - ../../vars/common_vars.yml
+  environment: 
+    JAVA_HOME: "{{ java_home }}"
+
+  tasks:
+  - name: Stop datanodes
+    shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs stop datanode"
+    register: hadoop_datanodes

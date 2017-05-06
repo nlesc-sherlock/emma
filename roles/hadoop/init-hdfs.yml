@@ -1,0 +1,84 @@
+---
+- hosts: hadoop-namenode
+  remote_user: root
+  vars_files: 
+  - defaults/main.yml
+
+  tasks:
+  - name: Ensure Hadoop namenode directory exists
+    file: path="{{ hadoop_dir }}/namenode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
+
+- hosts: hadoop-datanodes
+  remote_user: root
+  vars_files: 
+  - defaults/main.yml
+
+  tasks:
+  - name: Ensure Hadoop datanode directory exists
+    file: path="{{ hadoop_dir }}/datanode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
+
+
+- hosts: hadoop-namenode
+  remote_user: root
+  vars_files: 
+  - defaults/main.yml
+  - ../../vars/common_vars.yml
+  environment: 
+    JAVA_HOME: "{{ java_home }}"
+
+  tasks:
+    #- name: Format namenode
+    #script: namenode_format.sh
+    #register: namenode_format
+
+  - name: Start namenode
+    shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs start namenode"
+    register: hadoop_namenode
+
+
+- hosts: hadoop-datanodes
+  remote_user: root
+  vars_files: 
+  - defaults/main.yml
+  - ../../vars/common_vars.yml
+  environment: 
+    JAVA_HOME: "{{ java_home }}"
+
+  tasks:
+  - name: Start datanodes
+    shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs start datanode"
+    register: hadoop_datanodes
+
+
+- hosts: hadoop-namenode
+  remote_user: root
+  vars_files: 
+  - defaults/main.yml
+  - ../../vars/common_vars.yml
+  environment: 
+    JAVA_HOME: "{{ java_home }}"
+
+  tasks:
+  - name: Start HDFS
+    systemd: name=hadoop-hdfs state=started daemon_reload=yes
+
+  - name: Create HDFS /tmp
+    shell: hadoop fs -mkdir -p /tmp
+
+  - name: Create HDFS /var
+    shell: hadoop fs -mkdir -p /var/log
+
+  - name: Create HDFS /user dirs
+    shell: hadoop fs -mkdir -p /user/history
+    
+  - name: Set HDFS permissions
+    shell: hadoop fs -chmod -R 1777 /tmp
+  - name: Set HDFS permissions
+    shell: hadoop fs -chmod -R 1777 /var
+  - name: Set HDFS permissions
+    shell: hadoop fs -chmod -R 1777 /user
+
+  - name: Create HDFS home dirs for users
+    tags: noinit
+    shell: "hadoop fs -mkdir -p /user/{{ item }} ; hadoop fs -chown {{ item }}:{{ item }} /user/{{ item }} ; hadoop fs -chmod -R 755 /user/{{ item }}"
+    with_items: "{{ hadoop_users }}"

@@ -1,0 +1,13 @@
+[Unit]
+Description=hadoop-hdfs
+After=syslog.target network.target
+
+[Service]
+User=ubuntu
+Type=forking
+Environment="JAVA_HOME=/usr/lib/jvm/java-8-oracle"
+ExecStart={{ hadoop_usr_dir }}/sbin/start-dfs.sh
+ExecStop={{ hadoop_usr_dir }}/sbin/stop-dfs.sh
+
+[Install]
+WantedBy=multi-user.target

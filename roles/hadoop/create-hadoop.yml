@@ -1,0 +1,27 @@
+---
+- hosts: hadoop
+  remote_user: root
+  vars_files: 
+  - defaults/main.yml
+
+  tasks:
+    #  - name: Create a .ssh Directory.
+    #    file: path={{ hadoop_lib_dir }}/.ssh state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups }} mode=0700
+    #    sudo: yes
+    #    sudo_user: "{{ hadoop_user }}"
+
+  - name: Lets copy the template id_rsa to auth_keys location.
+    copy: src=id_rsa.pub dest=~/.ssh/authorized_keys mode=644
+    sudo: yes
+    sudo_user: "{{ hadoop_user }}"
+
+  - name: Lets copy id_rsa to location .ssh.
+    copy: src=id_rsa dest=~/.ssh/id_rsa mode=600
+    sudo: yes
+    sudo_user: "{{ hadoop_user }}"
+
+  - name: Lets copy id_rsa.pub to location .ssh.
+    copy: src=id_rsa.pub dest=~/.ssh/id_rsa.pub mode=644
+    sudo: yes
+    sudo_user: "{{ hadoop_user }}"
+
