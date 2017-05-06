@@ -1,0 +1,12 @@
+---
+- hosts: spark-master
+  remote_user: root
+  vars_files:
+   - ../../vars/spark_vars.yml
+   - ../../vars/minio_vars.yml
+   - ../../vars/common_vars.yml
+
+  tasks:
+  - name: Spark-master stopped
+    systemd: name=spark-master state=stopped daemon_reload=yes
+
