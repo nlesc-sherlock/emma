@@ -14,12 +14,12 @@
   pip: name=jupyter executable=pip3
 - name: Jupyter-client downgrade for Python 3
   pip: name=jupyter-client executable=pip3 version==4.4.0
-- name: Jupyter-client downgrade for Python 2.7
-  pip: name=jupyter-client executable=pip version==4.4.0
-- name: ipykernel for Python 2
-  pip: name=ipykernel executable=pip
-- name: Python 2 to Jupyter
-  shell: /usr/bin/python2 -m ipykernel install creates=/usr/local/share/jupyter/kernels/python2
+#- name: Jupyter-client downgrade for Python 2.7
+#  pip: name=jupyter-client executable=pip version==4.4.0
+- name: ipykernel for Python 3
+  pip: name=ipykernel executable=pip3
+- name: Python 3 to Jupyter
+  shell: /usr/bin/python3 -m ipykernel install creates=/usr/local/share/jupyter/kernels/python3
 - name: Toree (Spark Jupyter)
   include: toree.yml
 - name: JupyterHub
@@ -41,5 +41,3 @@
       c.JupyterHub.hub_port = 8011
 - name: Start/stop script JupyterHub
   copy: src=jupyterhub.systemd dest=/etc/systemd/system/jupyterhub.service
-- name: JupyterHub started
-  systemd: name=jupyterhub state=started daemon_reload=yes
