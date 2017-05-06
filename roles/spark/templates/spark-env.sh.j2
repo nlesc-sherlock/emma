@@ -51,10 +51,13 @@
 
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib/hadoop/lib/native
 
+export CLASSPATH=${CLASSPATH:-$(hadoop classpath)}
 export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-/etc/hadoop/conf}
+export HADOOP_INSTALL_DIR=${HADOOP_INSTALL_DIR:-/usr/lib/hadoop}
 
 export SPARK_LOG_DIR=${SPARK_LOG_DIR:-{{ spark_log_dir }}}
 export SPARK_PID_DIR=${SPARK_PID_DIR:-{{ spark_run_dir }}}
+export SPARK_DIST_CLASSPATH=$(hadoop classpath)
 
 {% for key, value in spark_env_extras.items() | sort %}
 export {{ key }}="{{ value }}"
