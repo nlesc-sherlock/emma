@@ -16,6 +16,9 @@
 - name: create minio config dir
   file: path=/home/ubuntu/.minio state=directory owner=minio group=users mode=g+rw
 
+- name: create minio server data dir
+  file: path={{ minio_server_datadir }} state=directory owner=minio group=users mode=g+rw
+
 - name: generate the minio config
   template:
     src: minio_config.json.j2
@@ -25,7 +28,7 @@
   register: p
 
 - name: create minio.log
-  file: path={{ minio_server_datadir }}/minio.log state=touch owner=minio group=sys
+  file: path={{ minio_server_datadir }}/minio.log state=touch owner=minio group=users
   when: p.stat.exists is defined and not p.stat.exists
 
 - include: server.yml
