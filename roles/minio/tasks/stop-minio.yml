@@ -1,0 +1,6 @@
+---
+- name: stop the minio service
+  service:
+    name: minio
+    state: stopped
+    enabled: yes

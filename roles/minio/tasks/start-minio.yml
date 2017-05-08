@@ -1,0 +1,6 @@
+---
+- name: enable and start the minio service
+  service:
+    name: minio
+    state: started
+    enabled: yes
