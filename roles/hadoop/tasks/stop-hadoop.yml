@@ -1,15 +1,14 @@
 ---
-- name: Stop namenode
-  shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs stop namenode"
-  register: hadoop_namenode
-  when: inventory_hostname in groups['hadoop_namenode']
+- name: Stop HDFS
+  systemd: name=hadoop-hdfs state=stopped
+  when: inventory_hostname in groups['hadoop-namenode']
 
 - name: Stop datanodes
   shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs stop datanode"
   register: hadoop_datanodes
-  when: inventory_hostname in groups['hadoop_datanode']
+  when: inventory_hostname in groups['hadoop-datanode']
 
-- name: Stop HDFS
-  systemd: name=hadoop-hdfs state=stopped
-  when: inventory_hostname in groups['hadoop_namenode']
-
+- name: Stop namenode
+  shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs stop namenode"
+  register: hadoop_namenode
+  when: inventory_hostname in groups['hadoop-namenode']
