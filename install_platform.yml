@@ -6,33 +6,40 @@
     - glusterfs
     - docker
   any_errors_fatal: true
+
 - hosts: glusterfs-primary
   remote_user: root
   tasks:
   - include: roles/glusterfs/tasks/create-volume.yml
+
 - hosts: glusterfs
   remote_user: root
   tasks:
   - include: roles/glusterfs/tasks/mount-volume.yml
   - include: roles/glusterfs/tasks/docker-glusterfs.yml
-- hosts: spark-master
-  remote_user: root
-  vars_files:
-   - vars/spark_vars.yml
-  roles:
-    - spark-master
+
 - hosts: spark
   remote_user: root
   vars_files:
    - vars/spark_vars.yml
   roles:
-    - spark-slave
+    - spark
+
+- hosts: spark-master
+  remote_user: root
+  vars_files:
+   - vars/spark_vars.yml
+   - vars/common_vars.yml
+  roles:
+    - jupyterhub
+
 - hosts: docker-swarm-manager
   remote_user: root
   vars_files:
    - vars/docker_vars.yml
   tasks:
   - include: roles/docker/tasks/manager.yml
+
 - hosts: docker-swarm-worker
   remote_user: root
   vars_files:
