@@ -11,7 +11,7 @@
   </property>
   <property>
     <name>hive.metastore.warehouse.dir</name>
-    <value>{{ spark_dir }}/</value>
+    <value>file://{{ spark_dir }}/</value>
     <description>location of default database for the warehouse</description>
   </property>
 </configuration>
