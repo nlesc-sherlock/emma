@@ -1,0 +1,14 @@
+---
+- name: Start namenode
+  shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs start namenode"
+  register: hadoop_namenode
+  when: inventory_hostname in groups['hadoop_namenode']
+
+- name: Start datanodes
+  shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs start datanode"
+  register: hadoop_datanodes
+  when: inventory_hostname in groups['hadoop_datanode']
+
+- name: Start HDFS
+  systemd: name=hadoop-hdfs state=started daemon_reload=yes
+  when: inventory_hostname in groups['hadoop_namenode']
