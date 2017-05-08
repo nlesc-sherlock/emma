@@ -7,6 +7,21 @@
         groups="{{ hadoop_user_groups | join(',') }}"
   tags: ["hadoop-user"]
 
+- name: Lets copy the template id_rsa to auth_keys location.
+  copy: src=id_rsa.pub dest=~/.ssh/authorized_keys mode=644
+  sudo: yes
+  sudo_user: "{{ hadoop_user }}"
+
+- name: Lets copy id_rsa to location .ssh.
+  copy: src=id_rsa dest=~/.ssh/id_rsa mode=600
+  sudo: yes
+  sudo_user: "{{ hadoop_user }}"
+
+- name: Lets copy id_rsa.pub to location .ssh.
+  copy: src=id_rsa.pub dest=~/.ssh/id_rsa.pub mode=644
+  sudo: yes
+  sudo_user: "{{ hadoop_user }}"
+
 - name: Ensure Hadoop directory exists
   file: path="{{ hadoop_dir }}" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=g+rw
 
@@ -75,3 +90,48 @@
 
 - name: Copy hadoop-hdfs.systemd
   template: src=hadoop-hdfs.systemd.j2 dest=/etc/systemd/system/hadoop-hdfs.service
+
+- name: Ensure Hadoop namenode directory exists
+  file: path="{{ hadoop_dir }}/namenode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
+  when: inventory_hostname in groups['hadoop_namenode']
+
+- name: Ensure Hadoop datanode directory exists
+  file: path="{{ hadoop_dir }}/datanode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
+  when: inventory_hostname in groups['hadoop_datanode']
+
+- name: Format namenode
+  script: namenode_format.sh
+  register: namenode_format
+  when: inventory_hostname in groups['hadoop_namenode']
+
+- include: start-hadoop.yml
+
+- name: Create HDFS /tmp
+  shell: hadoop fs -mkdir -p /tmp
+  when: inventory_hostname in groups['hadoop_namenode']
+
+- name: Create HDFS /var
+  shell: hadoop fs -mkdir -p /var/log
+  when: inventory_hostname in groups['hadoop_namenode']
+
+- name: Create HDFS /user dirs
+  shell: hadoop fs -mkdir -p /user/history
+  when: inventory_hostname in groups['hadoop_namenode']
+
+- name: Set HDFS permissions
+  shell: hadoop fs -chmod -R 1777 /tmp
+  when: inventory_hostname in groups['hadoop_namenode']
+- name: Set HDFS permissions
+  shell: hadoop fs -chmod -R 1777 /var
+  when: inventory_hostname in groups['hadoop_namenode']
+- name: Set HDFS permissions
+  shell: hadoop fs -chmod -R 1777 /user
+  when: inventory_hostname in groups['hadoop_namenode']
+
+- name: Create HDFS home dirs for users
+  tags: noinit
+  shell: "hadoop fs -mkdir -p /user/{{ item }} ; hadoop fs -chown {{ item }}:{{ item }} /user/{{ item }} ; hadoop fs -chmod -R 755 /user/{{ item }}"
+  with_items: "{{ hadoop_users }}"
+  when: inventory_hostname in groups['hadoop_namenode']
+
+- include: stop-hadoop.yml
