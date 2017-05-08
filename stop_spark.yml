@@ -6,4 +6,5 @@
    - vars/minio_vars.yml
 
   tasks:
+    - include: roles/jupyterhub/tasks/stop-jupyterhub.yml
     - include: roles/spark/tasks/stop-spark.yml

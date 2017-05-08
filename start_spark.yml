@@ -7,3 +7,4 @@
 
   tasks:
     - include: roles/spark/tasks/start-spark.yml
+    - include: roles/jupyterhub/tasks/start-jupyterhub.yml
