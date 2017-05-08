@@ -18,3 +18,4 @@ vars/common_vars.yml
 vars/hadoop_vars.yml
 roles/hadoop/files/id_rsa
 roles/hadoop/files/id_rsa.pub
+playbooks/*.retry
