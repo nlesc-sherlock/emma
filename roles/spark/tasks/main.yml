@@ -1,21 +1,11 @@
 ---
 #Create environment for Spark
-- name: Add ppa:webupd8team/java
-  apt_repository: repo=ppa:webupd8team/java
 - name: R ppa key
   apt_key: id="{{ cran_ppa_key }}" state=present keyserver=keyserver.ubuntu.com
 - name: R ppa
   apt_repository: repo='deb {{ cran_url }}/bin/linux/ubuntu xenial/' state=present
 - name: Update apt cache
   apt: update_cache=yes
-- name: accept Oracle license
-  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' vtype='select' value='true'
-- name: Oracle JDK8
-  apt: name={{ item }}
-  with_items:
-    - oracle-java8-installer
-    - oracle-java8-set-default
-    - oracle-java8-unlimited-jce-policy
 - name: numpy
   apt: name=python-numpy
 - name: libnet

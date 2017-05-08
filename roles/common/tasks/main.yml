@@ -93,3 +93,16 @@
   file: path=/data/local/tmp state=directory mode=1777
 - name: Install python-lxml
   apt: name=python-lxml
+- name: accept Oracle license
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' vtype='select' value='true'
+
+- name: Add ppa:webupd8team/java
+  apt_repository: repo=ppa:webupd8team/java
+- name: Update apt cache
+  apt: update_cache=yes
+- name: Oracle JDK8
+  apt: name={{ item }}
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+    - oracle-java8-unlimited-jce-policy
