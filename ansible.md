@@ -74,7 +74,17 @@ Each role will deploy the respective service or system on the node's group speci
 
 The global variables for each role are defined under *vars/* in a file with the same name as the role. Their values should be set before running **playbook.yml**. Note: each variable defined as global will over-write the ones defined under each role in the **defaults/** dir.
 
-Once all variables are defined the platform is deployed with the following command:
+Once all variables are defined the platform is installed with the following command:
 ```
-ansible-playbook playbook.yml
+ansible-playbook install_platform.yml
+```
+
+The platform only needs to be installed once. Once it is installed the services, e.g., Hadoop and Spark, are started using the following command:
+```
+ansible-playbook start_platform.yml
+```
+
+To shutdown the platform just run the following command:
+```
+ansible-playbook shutdown_platform.yml
 ```
