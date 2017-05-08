@@ -1,0 +1,54 @@
+# Default system properties included when running spark-submit.
+# This is useful for setting default environmental settings.
+
+# Example:
+# spark.master                     spark://master:7077
+# spark.eventLog.enabled           true
+# spark.eventLog.dir               hdfs://namenode:8021/directory
+# spark.serializer                 org.apache.spark.serializer.KryoSerializer
+# spark.driver.memory              5g
+# spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers="one two three"
+
+spark.master    spark://{{ groups['spark-master'][0] }}:7077
+spark.shuffle.service.enabled true
+spark.dynamicAllocation.enabled   true
+spark.dynamicAllocation.initialExecutors  1
+spark.executor.cores=1
+spark.eventLog.enabled true
+spark.eventLog.dir {{ spark_dir }}/spark-events
+spark.executor.memory 1g
+spark.worker.memory 1g
+spark.driver.memory 1g
+spark.daemon.memory 1g
+spark.serializer org.apache.spark.serializer.KryoSerializer
+
+#Configuration for S3
+spark.hadoop.fs.s3a.impl org.apache.hadoop.fs.s3a.S3AFileSystem
+spark.hadoop.fs.s3a.endpoint http://{{ lookup('pipe', 'getent ' 'hosts {{ inventory_hostname }} | awk \'{ print $1 }\'')}}{{ minio_server_addr }}
+spark.hadoop.fs.s3a.access.key {{ minio_access_key }}
+spark.hadoop.fs.s3a.secret.key {{ minio_secret_key }}
+spark.hadoop.fs.s3a.connection.ssl.enabled false
+spark.hadoop.fs.s3a.fs.s3a.fast.upload true
+spark.hadoop.fs.s3a.buffer.dir /root/spark/work,/tmp
+
+#Jars
+spark.jars
+spark.jars.packages
+spark.jars.ivy
+
+
+#ExtraClass
+{% for jar in spark_classpath_extras | sort %}
+{%- if loop.first %}spark.executor.extraClassPath {% endif -%}{{ spark_usr_dir  }}/jars/{{ jar }}{%- if not loop.last %}:{% endif -%}
+{%- endfor %}
+
+
+{% for jar in spark_classpath_extras | sort %}
+{%- if loop.first %}spark.driver.extraClassPath {% endif -%}{{ spark_usr_dir  }}/jars/{{ jar }}{%- if not loop.last %}:{% endif -%}
+{%- endfor %}
+
+
+#Extra configurations from the defaults in the spark role
+{% for key, value in spark_defaults_extras.items() | sort %}
+{{ key }} {{ value }}
+{% endfor %}

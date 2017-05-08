@@ -1,0 +1,7 @@
+---
+
+#Define the location for the configuration dir for Spark (default value: /etc/spark)
+spark_conf_dir: "/etc/spark"
+
+#Define the location where Spark binaries and libs are (dafault value: /usr/lib/spark)
+spark_usr_dir: "/usr/lib/spark"   #this is the symlink to the extracted/installed spark

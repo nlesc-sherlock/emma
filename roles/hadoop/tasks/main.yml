@@ -1,0 +1,142 @@
+---
+#Setting up Hadoop
+- name: Create service account for Hadoop
+  user: name={{ hadoop_user }}
+        system=yes
+        state=present
+        groups="{{ hadoop_user_groups | join(',') }}"
+  tags: ["hadoop-user"]
+
+- name: Create a .ssh Directory.
+  file: path=~/.ssh state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=0700
+  sudo: yes
+  sudo_user: "{{ hadoop_user }}"
+
+- name: Lets copy the template id_rsa to auth_keys location.
+  copy: src=id_rsa.pub dest=~/.ssh/authorized_keys mode=644
+  sudo: yes
+  sudo_user: "{{ hadoop_user }}"
+
+- name: Lets copy id_rsa to location .ssh.
+  copy: src=id_rsa dest=~/.ssh/id_rsa mode=600
+  sudo: yes
+  sudo_user: "{{ hadoop_user }}"
+
+- name: Lets copy id_rsa.pub to location .ssh.
+  copy: src=id_rsa.pub dest=~/.ssh/id_rsa.pub mode=644
+  sudo: yes
+  sudo_user: "{{ hadoop_user }}"
+
+- name: Ensure Hadoop directory exists
+  file: path="{{ hadoop_dir }}" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=g+rw
+
+- name: Ensure Hadoop configuration directory exists
+  file: path="{{ hadoop_parent_conf_dir }}" state=directory
+  tags: ["config"]
+
+- name: Ensure Hadoop log and run directories exist
+  file: path="{{ item }}"
+        owner={{ hadoop_user }}
+        group={{ hadoop_user_groups[0] }}
+        mode=0755
+        state=directory
+  with_items:
+    - "{{ hadoop_log_dir }}"
+    - "{{ hadoop_run_dir }}"
+
+- name: Download Hadoop distribution
+  get_url: url="{{ hadoop_mirror }}/hadoop-{{ hadoop_version }}//hadoop-{{ hadoop_version }}.tar.gz"
+           dest="{{ hadoop_src_dir }}/hadoop-{{ hadoop_version }}.tar.gz"
+
+- name: Extract Hadoop distribution
+  unarchive: src="{{ hadoop_src_dir }}/hadoop-{{ hadoop_version }}.tar.gz"
+             dest="{{ hadoop_usr_parent_dir }}"
+             copy=no
+             creates="{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}"
+
+- name: Setup Hadoop distribution symlinks
+  file: src="{{ item.src }}"
+        dest="{{ item.dest }}"
+        state=link
+  with_items:
+    - { src: "{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}", dest: "{{ hadoop_usr_dir }}" }
+    - { src: "{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}/etc/hadoop", dest: "{{ hadoop_conf_dir }}" }
+  tags: ["symlinks"]
+
+- name: Create shims for Hadoop binaries
+  template: src=hadoop-shim.j2
+            dest="/usr/bin/{{ item }}"
+            mode=0755
+  with_items:
+    - hadoop
+    - hdfs
+    - yarn
+  tags: ["shims"]
+
+- name: Configure hadoop core-site
+  template: src=core-site.xml.j2
+            dest="{{ hadoop_conf_dir }}/core-site.xml"
+  tags: ["core-site"]
+
+- name: Configure hadoop hdfs-site
+  template: src=hdfs-site.xml.j2
+            dest="{{ hadoop_conf_dir }}/hdfs-site.xml"
+  tags: ["config"]
+
+- name: Hadoop config slaves
+  template:
+    src: slaves.j2
+    dest: '{{ hadoop_conf_dir }}/slaves'
+
+- name: Hadoop config masters
+  template:
+    src: masters.j2
+    dest: '{{ hadoop_conf_dir }}/masters'
+
+- name: Copy hadoop-hdfs.systemd
+  template: src=hadoop-hdfs.systemd.j2 dest=/etc/systemd/system/hadoop-hdfs.service
+
+- name: Ensure Hadoop namenode directory exists
+  file: path="{{ hadoop_dir }}/namenode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
+  when: inventory_hostname in groups['hadoop-namenode']
+
+- name: Ensure Hadoop datanode directory exists
+  file: path="{{ hadoop_dir }}/datanode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
+  when: inventory_hostname in groups['hadoop-datanode']
+
+- name: Format namenode
+  script: namenode_format.sh
+  register: namenode_format
+  when: inventory_hostname in groups['hadoop-namenode']
+
+- include: start-hadoop.yml
+
+- name: Create HDFS /tmp
+  shell: hadoop fs -mkdir -p /tmp
+  when: inventory_hostname in groups['hadoop-namenode']
+
+- name: Create HDFS /var
+  shell: hadoop fs -mkdir -p /var/log
+  when: inventory_hostname in groups['hadoop-namenode']
+
+- name: Create HDFS /user dirs
+  shell: hadoop fs -mkdir -p /user/history
+  when: inventory_hostname in groups['hadoop-namenode']
+
+- name: Set HDFS permissions
+  shell: hadoop fs -chmod -R 1777 /tmp
+  when: inventory_hostname in groups['hadoop-namenode']
+- name: Set HDFS permissions
+  shell: hadoop fs -chmod -R 1777 /var
+  when: inventory_hostname in groups['hadoop-namenode']
+- name: Set HDFS permissions
+  shell: hadoop fs -chmod -R 1777 /user
+  when: inventory_hostname in groups['hadoop-namenode']
+
+- name: Create HDFS home dirs for users
+  tags: noinit
+  shell: "hadoop fs -mkdir -p /user/{{ item }} ; hadoop fs -chown {{ item }}:{{ item }} /user/{{ item }} ; hadoop fs -chmod -R 755 /user/{{ item }}"
+  with_items: "{{ hadoop_users }}"
+  when: inventory_hostname in groups['hadoop-namenode']
+
+- include: stop-hadoop.yml

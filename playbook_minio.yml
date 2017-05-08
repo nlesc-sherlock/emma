@@ -1,9 +1,0 @@
----
-
-- hosts: minio
-  remote_user: root
-  vars_files:
-   - vars/minio_vars.yml
-  roles:
-    - minio
-  any_errors_fatal: true

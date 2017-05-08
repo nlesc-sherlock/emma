@@ -7,7 +7,15 @@ emma.key
 emma.key.pub
 /*-cloudimg-console.log
 vars/minio_vars.yml
+vars/spark_vars.yml
+vars/docker_vars.yml
 env_linux.sh
 env_windows.cmd
 roles/minio/tests/ssh-config
 roles/minio/tests/__pycache__
+/.cache
+vars/common_vars.yml
+vars/hadoop_vars.yml
+roles/hadoop/files/id_rsa
+roles/hadoop/files/id_rsa.pub
+playbooks/*.retry

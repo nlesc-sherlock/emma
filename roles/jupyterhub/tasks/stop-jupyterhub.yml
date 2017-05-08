@@ -1,0 +1,4 @@
+---
+- name: JupyterHub stopped
+  systemd: name=jupyterhub state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['spark-master']

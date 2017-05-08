@@ -6,8 +6,6 @@ emma2.<domain to use>
 [docker:children]
 docker-swarm-manager
 docker-swarm-worker
-[docker:vars]
-docker_manager_ip=<public ip of docker-swarm-manager host>
 
 [spark-master]
 emma1.<domain to use>

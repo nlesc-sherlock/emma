@@ -1,0 +1,6 @@
+---
+# Applied fix at http://stackoverflow.com/questions/40831991/jupyter-apache-toree-scala-kernel-is-busy
+- name: Toree (Spark Jupyter)
+  pip: name=toree executable=pip3 state=latest extra_args='-i https://pypi.anaconda.org/hyoon/simple'
+- name: Toree to Jupyter
+  command: jupyter toree install --spark_home='{{ spark_usr_dir }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala

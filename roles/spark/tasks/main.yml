@@ -1,21 +1,11 @@
 ---
-#spark
-- name: Add ppa:webupd8team/java
-  apt_repository: repo=ppa:webupd8team/java
+#Create environment for Spark
 - name: R ppa key
   apt_key: id="{{ cran_ppa_key }}" state=present keyserver=keyserver.ubuntu.com
 - name: R ppa
   apt_repository: repo='deb {{ cran_url }}/bin/linux/ubuntu xenial/' state=present
 - name: Update apt cache
   apt: update_cache=yes
-- name: accept Oracle license
-  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' vtype='select' value='true'
-- name: Oracle JDK8
-  apt: name={{ item }}
-  with_items:
-    - oracle-java8-installer
-    - oracle-java8-set-default
-    - oracle-java8-unlimited-jce-policy
 - name: numpy
   apt: name=python-numpy
 - name: libnet
@@ -26,10 +16,151 @@
   command: R CMD javareconf
 - name: RJava
   apt: name=r-cran-rjava
-- name: Spark in PATH
-  blockinfile:
-    dest: /etc/profile.d/spark.sh
-    create: yes
-    block: |
-      export SPARK_HOME={{ spark_home }}
-      export PATH=$PATH:$SPARK_HOME/bin
+
+#Setting up Spark
+- name: Create service account for Spark
+  user: name={{ spark_user }}
+        system=yes
+        home={{ spark_lib_dir }}
+        shell={{ spark_user_shell }}
+        state=present
+        groups="{{ spark_user_groups | join(',') }}"
+  tags: ["spark-user"]
+
+- name: Ensure Spark directory exists
+  #file: path="{{ spark_dir }}" state=directory owner={{ spark_user }} group={{ spark_user_groups[0] }} mode=g+rw
+  file: path="{{ spark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
+
+- name: Ensure Spark events directory exists
+  file: path={{ spark_dir }}/spark-events state=directory owner=ubuntu group=root mode=g+rw
+#file: path={{ spark_dir }}/spark-events state=directory owner={{ spark_user }} group={{ spark_user_groups[0] }} mode=g+rw
+
+- name: Ensure Spark configuration directory exists
+  file: path="{{ spark_conf_dir }}"
+        state=directory
+  tags: ["config"]
+
+- name: Ensure Spark log and run directories exist
+  file: path="{{ item }}"
+        owner={{ spark_user }}
+        group={{ spark_user_groups[0] }}
+        mode=0755
+        state=directory
+  with_items:
+    - "{{ spark_log_dir }}"
+    - "{{ spark_run_dir }}"
+
+- name: Download Spark distribution
+  get_url: url="{{ spark_mirror }}/spark-{{ spark_version }}.tgz"
+           dest="{{ spark_src_dir }}/spark-{{ spark_version }}.tgz"
+
+- name: Extract Spark distribution
+  unarchive: src="{{ spark_src_dir }}/spark-{{ spark_version }}.tgz"
+             dest="{{ spark_usr_parent_dir }}"
+             copy=no
+             creates="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}"
+
+- name: Setup Spark distribution symlinks
+  file: src="{{ item.src }}"
+        dest="{{ item.dest }}"
+        state=link
+  with_items:
+    - { src: "{{ spark_usr_parent_dir }}/spark-{{ spark_version }}", dest: "{{ spark_usr_dir }}" }
+    - { src: "{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf", dest: "{{ spark_conf_dir }}/conf" }
+  tags: ["symlinks"]
+
+- name: Create shims for Spark binaries
+  template: src=spark-shim.j2
+            dest="/usr/bin/{{ item }}"
+            mode=0755
+  with_items:
+    - spark-class
+    - spark-shell
+    - spark-sql
+    - spark-submit
+  tags: ["shims"]
+
+- name: install maven
+  apt: name=maven
+
+#Downland necessary jars using maven
+- name: Maven joda-time
+  maven_artifact:
+    group_id: joda-time
+    artifact_id: joda-time
+    version: "{{ joda_time_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/joda-time-{{ joda_time_version }}.jar"
+
+- name: Maven hadoop-aws
+  maven_artifact:
+    group_id: org.apache.hadoop
+    artifact_id: hadoop-aws
+    version: "{{ hadoop_aws_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/hadoop-aws-{{ hadoop_aws_version }}.jar"
+
+- name: Maven aws-java-sdk-s3
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: aws-java-sdk-s3
+    version: "{{ aws_java_sdk_s3_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar"
+
+- name: Maven aws-java-sdk-core
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: aws-java-sdk-core
+    version: "{{ aws_java_sdk_s3_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-core-{{ aws_java_sdk_s3_version }}.jar"
+
+- name: Maven aws-java-sdk-kms
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: aws-java-sdk-kms
+    version: "{{ aws_java_sdk_s3_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-kms-{{ aws_java_sdk_s3_version }}.jar"
+
+- name: Maven jmespath-java
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: jmespath-java
+    version: 1.0
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/jmespath-java-1.0.jar"
+  when: ( aws_java_sdk_s3_version == "3.0.0-apha1") or (aws_java_sdk_s3_version == "3.0.0-apha2")
+
+- name: Configure Spark environment
+  template: src=spark-env.sh.j2
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/spark-env.sh"
+  tags: ["config"]
+
+- name: Configure Spark defaults config file
+  template: src=spark-defaults.conf.j2
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/spark-defaults.conf"
+  tags: ["config"]
+
+- name: Configure Hive defaults site file
+  template: src=hive-site.xml.j2
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/hive-site.xml"
+  tags: ["config"]
+
+#Spark Master
+- name: Spark config slaves
+  template:
+    src: slaves.j2
+    dest: '{{ spark_conf_dir }}/conf/slaves'
+  when: inventory_hostname in groups['spark-master']
+
+- name: Copy start-master.systemd
+  template: src=spark-master.systemd.j2 dest=/etc/systemd/system/spark-master.service
+  when: inventory_hostname in groups['spark-master']
+
+- name: Copy start-slave.systemd
+  template: src=spark-slave.systemd.j2 dest=/etc/systemd/system/spark-slave.service
+
+- name: Copy start-shuffle.systemd
+  template: src=spark-shuffle.systemd.j2 dest=/etc/systemd/system/spark-shuffle.service

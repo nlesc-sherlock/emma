@@ -1,0 +1,6 @@
+---
+- hosts: minio
+  remote_user: root
+
+  tasks:
+    - include: ../roles/minio/tasks/stop-minio.yml

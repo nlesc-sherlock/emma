@@ -1,0 +1,11 @@
+---
+- hosts: hadoop
+  remote_user: root
+  vars_files: 
+  - ../vars/common_vars.yml
+  - ../vars/hadoop_vars.yml
+  environment: 
+    JAVA_HOME: "{{ java_home }}"
+
+  tasks:
+    - include: ../roles/hadoop/tasks/start-hadoop.yml

@@ -32,6 +32,13 @@
 - name: Autoremove unused packages
   command: apt-get -y autoremove
   when: "'packages will be REMOVED' in check_autoremove.stdout"
+- name: Check if network is up
+  command: ping -c 1 www.google.com
+  ignore_errors: True
+  register: ping_result
+- name: Restart network service
+  service: name=networking state=restarted
+  when: ping_result.rc != 0
 - name: Update apt cache
   apt: update_cache=yes
 - name: Install reboot notifier
@@ -41,18 +48,8 @@
 - name: Upgrade APT to the lastest packages
   apt: upgrade=full
 - name: Rebooting machine so new kernel is active
-  command: shutdown -r now removes=/var/run/reboot-required
-  async: 0
-  poll: 0
-  ignore_errors: true
-  register: restarted
-- name: Waiting for reboot...
-  local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex=OpenSSH port=22 delay=15 state=started
-  sudo: no
-  when: restarted.changed
-- name: Rebooting machine so new kernel is active
-  command: shutdown -r now removes=/var/run/reboot-required
-  async: 0
+  command: sleep 5 && shutdown -r now removes=/var/run/reboot-required
+  async: 1
   poll: 0
   ignore_errors: true
   register: restarted
@@ -94,3 +91,18 @@
   with_items: "{{ users }}"
 - name: Tmp dir on /data/local
   file: path=/data/local/tmp state=directory mode=1777
+- name: Install python-lxml
+  apt: name=python-lxml
+- name: accept Oracle license
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' vtype='select' value='true'
+
+- name: Add ppa:webupd8team/java
+  apt_repository: repo=ppa:webupd8team/java
+- name: Update apt cache
+  apt: update_cache=yes
+- name: Oracle JDK8
+  apt: name={{ item }}
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+    - oracle-java8-unlimited-jce-policy

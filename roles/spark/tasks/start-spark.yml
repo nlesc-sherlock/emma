@@ -1,0 +1,12 @@
+---
+- name: Spark-master started
+  systemd: name=spark-master state=started daemon_reload=yes
+  when: inventory_hostname in groups['spark-master']
+
+- name: Spark-slave started
+  systemd: name=spark-slave state=started daemon_reload=yes
+  when: inventory_hostname in groups['spark-worker']
+
+- name: Spark-shuffle started
+  systemd: name=spark-shuffle state=started daemon_reload=yes
+  when: inventory_hostname in groups['spark-worker'] and inventory_hostname not in groups['spark-master']
