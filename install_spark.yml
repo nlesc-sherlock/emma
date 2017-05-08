@@ -24,24 +24,6 @@
   remote_user: root
   vars_files:
    - vars/spark_vars.yml
-   - vars/minio_vars.yml
-   - vars/common_vars.yml
-  roles:
-    - spark-master
-
-- hosts: spark
-  remote_user: root
-  vars_files:
-   - vars/spark_vars.yml
-   - vars/minio_vars.yml
-   - vars/common_vars.yml
-  roles:
-    - spark-slave
-
-- hosts: spark-master
-  remote_user: root
-  vars_files:
-   - vars/spark_vars.yml
    - vars/common_vars.yml
   roles:
     - jupyterhub
