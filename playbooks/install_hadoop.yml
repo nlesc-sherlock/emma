@@ -2,8 +2,8 @@
 - hosts: hadoop
   remote_user: root
   vars_files:
-   - vars/common_vars.yml
-   - vars/hadoop_vars.yml
+   - ../vars/common_vars.yml
+   - ../vars/hadoop_vars.yml
   environment:
     JAVA_HOME: "{{ java_home }}"
     HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
