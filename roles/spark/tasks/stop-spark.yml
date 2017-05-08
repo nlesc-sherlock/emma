@@ -1,0 +1,17 @@
+---
+- name: Spark-shuffle stopped
+  systemd: name=spark-shuffle state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['spark_worker']
+
+- name: Spark-slave stopped
+  systemd: name=spark-slave state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['spark_worker']
+
+- name: JupyterHub stopped
+  systemd: name=jupyterhub state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['spark_master']
+
+- name: Spark-master stopped
+  systemd: name=spark-master state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['spark_master']
+
