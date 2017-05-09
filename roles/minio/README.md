@@ -41,3 +41,8 @@ s3cmd  ls s3://files
 
 s3cmd get s3://files/sonnets.txt romulo.txt
 ```
+
+To upload data to a sub-directory follow this example:
+```
+cd <root_dir>/<sub_dir> ; for f in `ls *`; do s3cmd put $f s3://<root_dir>/<sub_dir>/$f; done
+```

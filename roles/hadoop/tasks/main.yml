@@ -96,9 +96,31 @@
 - name: Copy hadoop-hdfs.systemd
   template: src=hadoop-hdfs.systemd.j2 dest=/etc/systemd/system/hadoop-hdfs.service
 
+- name: Check if namenode exists
+  stat:
+    path: "{{ hadoop_dir }}/namenode"
+  register: stat_result
+
+- name: Delete namenode if it exists
+  file:
+   state: absent
+   path: "{{ hadoop_dir }}/namenode/"
+  when: stat_result.stat.exists == True
+
 - name: Ensure Hadoop namenode directory exists
   file: path="{{ hadoop_dir }}/namenode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
   when: inventory_hostname in groups['hadoop-namenode']
+
+- name: Check if datanode exists
+  stat:
+    path: "{{ hadoop_dir }}/datanode"
+  register: stat_result
+
+- name: Delete datanode if it exists
+  file:
+   state: absent
+   path: "{{ hadoop_dir }}/datanode/"
+  when: stat_result.stat.exists == True
 
 - name: Ensure Hadoop datanode directory exists
   file: path="{{ hadoop_dir }}/datanode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
