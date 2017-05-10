@@ -63,6 +63,13 @@ To destroy all VMs
 vagrant(.exe) destroy
 ```
 
+In case vagrant needs to be set using a private network due to issues in getting IPs in the public network the option **--network-type=private_network** should be used.
+```
+vagrant.exe --network-type=private_network up
+vagrant.exe --network-type=private_network reload
+```
+If not used, vagrant will set a public network by default.
+
 ## Check
 
 Verify login for *N* hosts.
