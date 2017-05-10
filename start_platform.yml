@@ -6,15 +6,13 @@
   - vars/hadoop_vars.yml
   environment: 
     JAVA_HOME: "{{ java_home }}"
-
   tasks:
     - include: roles/hadoop/tasks/start-hadoop.yml
 
-- hosts: minio
-  remote_user: root
-
-  tasks:
-    - include: roles/minio/tasks/start-minio.yml
+  #- hosts: minio
+  #remote_user: root
+  #tasks:
+  #  - include: roles/minio/tasks/start-minio.yml
 
 - hosts: spark
   remote_user: root
