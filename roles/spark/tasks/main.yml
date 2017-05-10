@@ -148,6 +148,34 @@
             dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/hive-site.xml"
   tags: ["config"]
 
+#Install Numpy & SciPy and its dependencies
+- name: Install pip packages
+  pip: name={{ item }} executable=pip3 extra_args=--user
+  with_items:
+    - numpy
+    - scipy
+    - matplotlib
+    - ipython
+    - jupyter
+    - pandas
+    - sympy
+    - nose
+
+#Install and enable ATLAS and OpenBLAS for netlib-java to be used by Breeze
+#Breeze is a library for linear algebra operations used by SparkML
+- name: Install Atlas and OpenBLAS packages
+  apt: name={{ item }}
+  with_items:
+    - libatlas3-base
+    - libopenblas-base
+- name: Configure Atlas and OpenBLAS
+  shell: "{{ item }}"
+  with_items:
+    - sudo update-alternatives --config libblas.so
+    - sudo update-alternatives --config libblas.so.3
+    - sudo update-alternatives --config liblapack.so
+    - sudo update-alternatives --config liblapack.so.3
+
 #Spark Master
 - name: Spark config slaves
   template:
