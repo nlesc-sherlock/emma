@@ -5,8 +5,6 @@
     - npm
     - nodejs
     - nodejs-legacy
-    - python3-pip
-    - python-pip
     - libffi-dev
 - name: configurable-http-proxy
   npm: name=configurable-http-proxy global=yes
