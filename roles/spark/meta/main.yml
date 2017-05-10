@@ -1,4 +1,3 @@
 ---
 dependencies:
 - {role: hadoop}
-- {role: minio}
