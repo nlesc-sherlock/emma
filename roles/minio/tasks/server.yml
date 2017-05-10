@@ -26,9 +26,3 @@
     dest: "{{ initd_conf_dir }}/minio"
     mode: 0755
   when: ansible_service_mgr != "systemd"
-
-- name: enable and start the minio service
-  service:
-    name: minio
-    state: started
-    enabled: yes
