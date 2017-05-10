@@ -1,4 +1,5 @@
 import org.apache.spark.ml.clustering.KMeans
+import com.github.fommil.netlib.NativeSystemBLAS
 
 // Loads data.
 val dataset = spark.read.format("libsvm").load("hdfs:///user/ubuntu/files/sample_kmeans_data.txt")
