@@ -8,11 +8,13 @@
         "browser": "on",
         "logger": {
             "console": {
-                "enable": false
+                "enable": true
+                "filename": "{{ minio_server_logdir }}/minio_console.log",
+                "level": "debug"
             },
             "file": {
                 "enable": true,
-                "filename": "{{ minio_server_datadir }}/minio.log",
+                "filename": "{{ minio_server_logdir }}/minio_file.log",
                 "level": "debug"
             }
         }
