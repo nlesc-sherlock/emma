@@ -31,6 +31,11 @@
     dest: /etc/jupyterhub/jupyterhub_config.py
     block: |
       c.JupyterHub.ip = '0.0.0.0'
+ - name: Tell JupyterHub JAVA_HOME
+   blockinfile:
+     dest: /etc/jupyterhub/jupyterhub_config.py
+     block: |
+       c.Spawner.environment = {"'JAVA_HOME':'{{ java_home }}'"}
 # Default hub_port in use by Spark
 - name: Bind JupyterHub to port 8011
   blockinfile:
