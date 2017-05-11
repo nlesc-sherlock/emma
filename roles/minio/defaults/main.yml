@@ -15,7 +15,10 @@ minio_server_envfile: /etc/default/minio
 minio_server_addr: ":9091"
 
 # Minio server data directories
-minio_server_datadir: "/data/local/minio"
+minio_server_datadir: "/data/local/minio/data"
+
+# Minio server log directory
+minio_server_logdir: "/data/local/minio/log"
 
 # Additional minio server CLI options
 minio_server_opts: ""
