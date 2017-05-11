@@ -153,13 +153,12 @@
 
 #Install Numpy & SciPy and its dependencies
 - name: Install pip packages
-  pip: name={{ item }} executable=pip3 extra_args=--user
+  pip: name={{ item }} executable=pip3
   with_items:
     - numpy
     - scipy
     - matplotlib
     - ipython
-    - jupyter
     - pandas
     - sympy
     - nose
