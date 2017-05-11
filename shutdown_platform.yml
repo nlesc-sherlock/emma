@@ -8,10 +8,10 @@
     - include: roles/jupyterhub/tasks/stop-jupyterhub.yml
     - include: roles/spark/tasks/stop-spark.yml
 
-  #- hosts: minio
-  #remote_user: root
-  #tasks:
-  #  - include: roles/minio/tasks/stop-minio.yml
+- hosts: minio
+  remote_user: root
+  tasks:
+    - include: roles/minio/tasks/stop-minio.yml
 
 - hosts: hadoop
   remote_user: root
