@@ -6,7 +6,10 @@ minio_access_key: "<Custom username or access key of 5 to 20 characters in lengt
 minio_secret_key: "<Custom password or secret key of 8 to 40 characters in length>"
 
 #Define the server data directory to be set in all nodes, it will overwrite the default value
-minio_server_datadir: "<data_dir_path>"
+minio_server_datadir: "/data/local/minio/data"
+
+# Minio server log directory
+minio_server_logdir: "/data/local/minio/log"
 
 #Define the port where minio server will listen
 minio_server_addr: ":9091"
