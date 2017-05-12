@@ -1,5 +1,8 @@
 ---
 # Applied fix at http://stackoverflow.com/questions/40831991/jupyter-apache-toree-scala-kernel-is-busy
+#
+# Important to mention the information about which toree to use came from:
+# https://medium.com/@faizanahemad/machine-learning-with-jupyter-using-scala-spark-and-python-the-setup-62d05b0c7f56
 - name: Add repo for sbt
   command: echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
 
