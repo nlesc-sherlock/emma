@@ -1,5 +1,5 @@
 ---
 - name: stop the minio service
-  service:
+  systemd:
     name: minio
     state: stopped

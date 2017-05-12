@@ -87,8 +87,9 @@ Vagrant.configure(2) do |config|
     config.vm.synced_folder ".", "/vagrant", type: "virtualbox", disabled: false
   end
 
-  num_hosts = Integer("#{ENV['NUM_HOSTS']}")-1
+  num_hosts = Integer("#{ENV['NUM_HOSTS']}")
   puts "Number of hosts is %s" % num_hosts
+  num_hosts = Integer("#{ENV['NUM_HOSTS']}")-1
   (0..num_hosts).each do |i|
     config.vm.define "#{ENV['HOST_NAME']}#{i}" do |node|
       node.vm.hostname = "#{ENV['HOST_NAME']}#{i}.#{ENV['HOST_DOMAIN']}"

@@ -1,7 +1,8 @@
 #!/bin/bash
-host_num=`calc ${NUM_HOSTS}-1 | sed 's/\t//g'`
+#host_num=`calc ${NUM_HOSTS}-1 | sed 's/\t//g'`
+host_num=0
 host_name="$HOST_NAME$host_num"
-port=2211
+port=2222
 #port=$( vagrant.exe ssh-config emma3 | grep Port | cut -d " " -f 4)
 mkdir -p ${KEYS_LOCATION}/$host_name/
 cp .vagrant/machines/$host_name/virtualbox/private_key ${KEYS_LOCATION}/$host_name/private_key
