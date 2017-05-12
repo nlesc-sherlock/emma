@@ -1,6 +1,36 @@
 ---
 # Applied fix at http://stackoverflow.com/questions/40831991/jupyter-apache-toree-scala-kernel-is-busy
-- name: Toree (Spark Jupyter)
-  pip: name=toree executable=pip3 state=latest extra_args='-i https://pypi.anaconda.org/hyoon/simple'
+- name: Add repo for sbt
+  command: echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+
+- name: Add apt key for sbt
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=2EE0EA64E40A89B84B2DF73499E82A75642AC823
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install sbt
+  apt: name=sbt
+
+- name: incubator-toree
+  git:
+    repo: https://github.com/apache/incubator-toree.git
+    dest: "{{ jupyterhub_src_dir }}/incubator-toree"
+    update: no
+  when: inventory_hostname in groups['jupyterhub']
+
+- stat: path={{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/VERSION
+  register: p
+
+- name: Build & Package
+  shell: "cd {{ jupyterhub_src_dir }}/incubator-toree ; sudo make release"
+  when: p.stat.exists is defined and not p.stat.exists
+
+- name: Toree (Spark Jupyter) installation
+  pip: executable=pip3 name="{{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/"
+
+#- name: Toree (Spark Jupyter)
+  #pip: name=toree executable=pip3 state=latest extra_args='-i https://pypi.anaconda.org/hyoon/simple'
+
 - name: Toree to Jupyter
   command: jupyter toree install --spark_home='{{ spark_usr_dir }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
