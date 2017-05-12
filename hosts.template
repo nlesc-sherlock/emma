@@ -1,32 +1,59 @@
 [docker-swarm-manager]
 emma0.<domain to use>
 [docker-swarm-worker]
-emma1.<domain to use>
-emma2.<domain to use>
-[docker:children]
-docker-swarm-manager
-docker-swarm-worker
-
-[spark-master]
-emma1.<domain to use>
-[spark-worker]
-emma0.<domain to use>
-emma2.<domain to use>
-[spark:children]
-spark-master
-spark-worker
-
-[glusterfs-primary]
-emma2.<domain to use>
-[glusterfs-second]
-emma0.<domain to use>
-emma1.<domain to use>
-[glusterfs:children]
-glusterfs-primary
-glusterfs-second
-
-[minio]
 emma0.<domain to use>
 emma1.<domain to use>
 emma2.<domain to use>
 emma3.<domain to use>
+[docker:children]
+docker-swarm-manager
+docker-swarm-worker
+
+[glusterfs-primary]
+emma0.<domain to use>
+[glusterfs-second]
+emma0.<domain to use>
+emma1.<domain to use>
+emma2.<domain to use>
+emma3.<domain to use>
+[glusterfs:children]
+glusterfs-primary
+glusterfs-second
+
+[minio-server]
+emma0.<domain to use>
+[minio-worker]
+emma0.<domain to use>
+emma1.<domain to use>
+emma2.<domain to use>
+emma3.<domain to use>
+[minio:children]
+minio-server
+minio-worker
+
+[hadoop-namenode]
+emma0.<domain to use>
+[hadoop-resourcemanager]
+emma0.<domain to use>
+[hadoop-datanode]
+emma0.<domain to use>
+emma1.<domain to use>
+emma2.<domain to use>
+emma3.<domain to use>
+[hadoop:children]
+hadoop-namenode
+hadoop-datanode
+
+[spark-master]
+emma0.<domain to use>
+[spark-worker]
+emma0.<domain to use>
+emma1.<domain to use>
+emma2.<domain to use>
+emma3.<domain to use>
+[spark:children]
+spark-master
+spark-worker
+
+[jupyterhub]
+emma0.<domain to use>
