@@ -1,6 +1,6 @@
 ---
 
 - name: restart minio
-  service:
+  systemd:
     name: minio
     state: restarted

@@ -16,3 +16,6 @@ All the dependencies should be installed. However, since Spark is a **pre-built 
 ```
 com.github.fommil.netlib:all:1.1.2
 ```
+
+##GeoTrellis
+The installation followed the information available at [GeoTrellis GitHub](https://github.com/locationtech/geotrellis). The same repository has a **doc* dir where there is a [guide on how to use the library in Spark](https://github.com/locationtech/geotrellis/blob/master/docs/guide/spark.rst).

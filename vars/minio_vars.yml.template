@@ -11,5 +11,8 @@ minio_server_datadir: "/data/local/minio/data"
 # Minio server log directory
 minio_server_logdir: "/data/local/minio/log"
 
+# Minio server log directory, different than <data_dir_path>
+minio_server_logdir: "<log_dir_path>"
+
 #Define the port where minio server will listen
 minio_server_addr: ":9091"
