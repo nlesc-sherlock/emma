@@ -1,4 +1,7 @@
 ---
+- name: Ensure Jupyter source directory exists
+  file: path="{{ jupyterhub_src_dir }}" state=directory group=users mode=g+rw
+
 - name: Deps 4 JupyterHub notebook
   apt: name={{ item }}
   with_items:
@@ -10,10 +13,12 @@
   npm: name=configurable-http-proxy global=yes
 - name: Jupyter for Python 3
   pip: name=jupyter executable=pip3
-- name: Jupyter-client downgrade for Python 3
-  pip: name=jupyter-client executable=pip3 version==4.4.0
+
+  #- name: Jupyter-client downgrade for Python 3
+  #pip: name=jupyter-client executable=pip3 version==4.4.0
   #- name: Jupyter-client downgrade for Python 2.7
-  #  pip: name=jupyter-client executable=pip version==4.4.0
+  #pip: name=jupyter-client executable=pip version==4.4.0
+
 - name: ipykernel for Python 3
   pip: name=ipykernel executable=pip3
 - name: Python 3 to Jupyter
