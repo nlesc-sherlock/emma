@@ -1,5 +1,20 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+require 'getoptlong'
+
+opts = GetoptLong.new(
+  [ '--network-type', GetoptLong::OPTIONAL_ARGUMENT ]
+)
+
+networkType='public_network'
+
+opts.each do |opt, arg|
+  case opt
+    when '--network-type'
+      networkType=arg
+  end
+end
+
 module OS
     def OS.windows?
         (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
@@ -32,10 +47,18 @@ else
     puts "Vagrant launched from unknown platform."
 end
 
+puts "Vagrant will use a #{networkType}."
+
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/xenial64"
-  #config.vm.network "public_network", bridge: "enp2s0"
-  config.vm.network "public_network"
+  if "#{networkType}" != "private_network"
+    config.vm.network "public_network"
+  else
+    config.vm.network "private_network", type: "dhcp"
+    config.vm.network "forwarded_port", guest: 9091, host: 9091, host_ip: "127.0.0.1", auto_correct: true, id: "minio"
+    config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1", auto_correct: true, id: "spark_master"
+    config.vm.network "forwarded_port", guest: 8000, host: 8000, host_ip: "127.0.0.1", auto_correct: true, id: "jupyterhub"
+  end
   config.vm.provision "shell", inline: <<-SHELL
     #disable ipv6
     echo "disabling ipv6"
@@ -64,8 +87,9 @@ Vagrant.configure(2) do |config|
     config.vm.synced_folder ".", "/vagrant", type: "virtualbox", disabled: false
   end
 
-  num_hosts = Integer("#{ENV['NUM_HOSTS']}")-1
+  num_hosts = Integer("#{ENV['NUM_HOSTS']}")
   puts "Number of hosts is %s" % num_hosts
+  num_hosts = Integer("#{ENV['NUM_HOSTS']}")-1
   (0..num_hosts).each do |i|
     config.vm.define "#{ENV['HOST_NAME']}#{i}" do |node|
       node.vm.hostname = "#{ENV['HOST_NAME']}#{i}.#{ENV['HOST_DOMAIN']}"
