@@ -18,6 +18,27 @@
   - include: roles/glusterfs/tasks/mount-volume.yml
   - include: roles/glusterfs/tasks/docker-glusterfs.yml
 
+- hosts: minio
+  remote_user: root
+  vars_files:
+   - ../vars/common_vars.yml
+   - ../vars/minio_vars.yml
+  roles:
+    - minio
+  any_errors_fatal: true
+
+- hosts: hadoop
+  remote_user: root
+  vars_files:
+   - ../vars/common_vars.yml
+   - ../vars/hadoop_vars.yml
+  environment:
+    JAVA_HOME: "{{ java_home }}"
+    HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
+    HADOOP_CONF_DIR: "{{ hadoop_conf_dir }}"
+  roles:
+    - hadoop
+
 - hosts: spark
   remote_user: root
   vars_files:

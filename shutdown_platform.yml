@@ -4,16 +4,14 @@
   vars_files:
    - vars/spark_vars.yml
    - vars/minio_vars.yml
-
   tasks:
     - include: roles/jupyterhub/tasks/stop-jupyterhub.yml
     - include: roles/spark/tasks/stop-spark.yml
 
-- hosts: minio
-  remote_user: root
-  
-  tasks:
-    - include: roles/minio/tasks/stop-minio.yml
+  #- hosts: minio
+  #remote_user: root
+  #tasks:
+  #  - include: roles/minio/tasks/stop-minio.yml
 
 - hosts: hadoop
   remote_user: root
@@ -22,7 +20,6 @@
   - vars/hadoop_vars.yml
   environment: 
     JAVA_HOME: "{{ java_home }}"
-
   tasks:
     - include: roles/hadoop/tasks/stop-hadoop.yml
 
