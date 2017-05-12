@@ -196,7 +196,7 @@
   template: src=spark-shuffle.systemd.j2 dest=/etc/systemd/system/spark-shuffle.service
 
 - name: Copy build.gradle
-  template: src=build.gradle.j2 dest=~/build.gradle
+  copy: src=build.gradle dest=~/build.gradle
 
 - name: Gradle install dependencies
   shell: sudo gradle downloadDependencies
