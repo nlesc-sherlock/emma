@@ -65,8 +65,7 @@ vagrant(.exe) destroy
 
 In case vagrant needs to be set using a private network due to issues in getting IPs in the public network the option **--network-type=private_network** should be used.
 ```
-vagrant.exe --network-type=private_network up
-vagrant.exe --network-type=private_network reload
+vagrant --network-type=private_network up
 ```
 If not used, vagrant will set a public network by default. To switch between a public and private network and vice versa it is required a **vagrant halt** and then **vagrant up**, it is not recommended to use **vagrant reload**.
 
