@@ -1,5 +1,5 @@
 ---
 
 #Define the JAVA_HOME (default: "/usr/lib/jvm/java-8-oracle")
-java_home: <path_to_java>
+java_home: "/usr/lib/jvm/java-8-oracle"
 
