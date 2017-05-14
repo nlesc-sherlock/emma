@@ -1,5 +1,5 @@
 ---
 - name: JupyterHub started
   systemd: name=jupyterhub state=started daemon_reload=yes
-  when: inventory_hostname in groups['spark-master']
+  when: inventory_hostname in groups['jupyterhub']
 

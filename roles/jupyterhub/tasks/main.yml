@@ -1,4 +1,7 @@
 ---
+- name: Ensure Jupyter source directory exists
+  file: path="{{ jupyterhub_src_dir }}" state=directory group=users mode=g+rw
+
 - name: Deps 4 JupyterHub notebook
   apt: name={{ item }}
   with_items:
@@ -8,39 +11,36 @@
     - libffi-dev
 - name: configurable-http-proxy
   npm: name=configurable-http-proxy global=yes
+
 - name: Jupyter for Python 3
   pip: name=jupyter executable=pip3
-- name: Jupyter-client downgrade for Python 3
-  pip: name=jupyter-client executable=pip3 version==4.4.0
-- name: Jupyter-client downgrade for Python 2.7
-  pip: name=jupyter-client executable=pip version==4.4.0
+
 - name: ipykernel for Python 3
   pip: name=ipykernel executable=pip3
+
 - name: Python 3 to Jupyter
   shell: /usr/bin/python3 -m ipykernel install creates=/usr/local/share/jupyter/kernels/python3
+
 - name: Toree (Spark Jupyter)
   include: toree.yml
+
 - name: JupyterHub
   pip: name=jupyterhub executable=pip3
+
 - name: /etc/jupyterhub
   file: path=/etc/jupyterhub state=directory
+
 - name: JupyterHub config
   command: jupyterhub --generate-config -f /etc/jupyterhub/jupyterhub_config.py creates=/etc/jupyterhub/jupyterhub_config.py
-- name: Bind JupyterHub to all interfaces
+
+# Default hub_port in use by Spark
+- name: Bind JupyterHub to all interfaces, port 8011, and define JAVA_HOME
   blockinfile:
     dest: /etc/jupyterhub/jupyterhub_config.py
     block: |
       c.JupyterHub.ip = '0.0.0.0'
-- name: Tell JupyterHub JAVA_HOME
-  blockinfile:
-    dest: /etc/jupyterhub/jupyterhub_config.py
-    block: |
       c.Spawner.environment = {"'JAVA_HOME':'{{ java_home }}'"}
-# Default hub_port in use by Spark
-- name: Bind JupyterHub to port 8011
-  blockinfile:
-    dest: /etc/jupyterhub/jupyterhub_config.py
-    block: |
       c.JupyterHub.hub_port = 8011
+
 - name: Start/stop script JupyterHub
   copy: src=jupyterhub.systemd dest=/etc/systemd/system/jupyterhub.service
