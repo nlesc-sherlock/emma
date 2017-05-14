@@ -32,8 +32,5 @@
 - name: Toree (Spark Jupyter) installation
   pip: executable=pip3 name="{{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/"
 
-#- name: Toree (Spark Jupyter)
-  #pip: name=toree executable=pip3 state=latest extra_args='-i https://pypi.anaconda.org/hyoon/simple'
-
 - name: Toree to Jupyter
   shell: jupyter toree install --spark_home='{{ spark_usr_dir }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
