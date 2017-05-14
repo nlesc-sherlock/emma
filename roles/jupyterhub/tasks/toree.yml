@@ -4,7 +4,7 @@
 # Important to mention the information about which toree to use came from:
 # https://medium.com/@faizanahemad/machine-learning-with-jupyter-using-scala-spark-and-python-the-setup-62d05b0c7f56
 - name: Add repo for sbt
-  command: echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+  shell: echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
 
 - name: Add apt key for sbt
   apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=2EE0EA64E40A89B84B2DF73499E82A75642AC823
@@ -22,7 +22,7 @@
     update: no
   when: inventory_hostname in groups['jupyterhub']
 
-- stat: path={{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/VERSION
+- stat: path={{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/toree-0.2.0.dev1.tar.gz
   register: p
 
 - name: Build & Package
@@ -36,4 +36,4 @@
   #pip: name=toree executable=pip3 state=latest extra_args='-i https://pypi.anaconda.org/hyoon/simple'
 
 - name: Toree to Jupyter
-  command: jupyter toree install --spark_home='{{ spark_usr_dir }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
+  shell: jupyter toree install --spark_home='{{ spark_usr_dir }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
