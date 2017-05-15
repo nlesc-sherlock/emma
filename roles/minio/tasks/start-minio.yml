@@ -1,6 +1,11 @@
 ---
+- name: Include defaults
+  include_vars:
+    dir: '../defaults'
+    depth: 1
+
 - name: Configure s3cmd config file
-  template: src=s3cfg.j2
+  template: src=../templates/s3cfg.j2
             dest="/home/ubuntu/.s3cfg"
   tags: ["s3cmd_config"]
 
