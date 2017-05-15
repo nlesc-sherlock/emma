@@ -35,3 +35,8 @@
 - name: Install S3 client
   apt: name=s3cmd
 
+- name: Configure s3cmd config file
+  template: src=s3cfg.j2
+            dest="/home/ubuntu/.s3cfg"
+  tags: ["s3cmd_config"]
+
