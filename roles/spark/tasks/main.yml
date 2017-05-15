@@ -31,11 +31,9 @@
   tags: ["spark-user"]
 
 - name: Ensure Spark directory exists
-  #file: path="{{ spark_dir }}" state=directory owner={{ spark_user }} group={{ spark_user_groups[0] }} mode=g+rw
   file: path="{{ spark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
 
 - name: Ensure Spark events directory exists
-  #file: path={{ spark_dir }}/spark-events state=directory owner=ubuntu group=root mode=g+rw
   file: path={{ spark_dir }}/spark-events state=directory owner={{ spark_user }} group={{ spark_user_groups[0] }} mode=g+rw
 
 - name: Ensure Spark configuration directory exists
@@ -153,7 +151,6 @@
 
 #Install Numpy & SciPy and its dependencies
 - name: Install pip packages
-  #pip: name={{ item }} executable=pip3 extra_args=--user
   pip: name={{ item }} executable=pip3
   with_items:
     - numpy
