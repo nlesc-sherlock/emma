@@ -1,6 +1,8 @@
 ---
 - hosts: minio
   remote_user: root
+  vars_files:
+  - ../vars/minio_vars.yml
 
   tasks:
     - include: ../roles/minio/tasks/start-minio.yml
