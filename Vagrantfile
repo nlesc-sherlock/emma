@@ -49,6 +49,11 @@ end
 
 puts "Vagrant will use a #{networkType}."
 
+if "#{networkType}" != "public_network" and "#{networkType}" != "private_network"
+    puts "--network-type should be either public_network or private_network."
+    exit()
+end
+
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/xenial64"
   if "#{networkType}" != "private_network"
