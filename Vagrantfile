@@ -76,6 +76,7 @@ Vagrant.configure(2) do |config|
   config.vm.box_check_update = true
   config.vm.provider :virtualbox do |vb|
     vb.gui = false
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
   config.vbguest.auto_update = true
   vbox = VagrantPlugins::ProviderVirtualBox::Driver::Meta.new
