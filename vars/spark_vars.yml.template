@@ -1,5 +1,4 @@
 ---
-
 #Define the location for the configuration dir for Spark (default value: /etc/spark)
 spark_conf_dir: "/etc/spark"
 
