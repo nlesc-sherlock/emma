@@ -19,3 +19,20 @@ com.github.fommil.netlib:all:1.1.2
 
 ##GeoTrellis
 The installation followed the information available at [GeoTrellis GitHub](https://github.com/locationtech/geotrellis). The same repository has a **doc* dir where there is a [guide on how to use the library in Spark](https://github.com/locationtech/geotrellis/blob/master/docs/guide/spark.rst).
+
+maven is:https://mvnrepository.com/artifact/org.locationtech.geotrellis
+
+http://nbviewer.jupyter.org/gist/om-henners/c6c8d40389dab75cf535
+
+
+RDD, DataFrame and Data Set
+https://indatalabs.com/blog/data-engineering/convert-spark-rdd-to-dataframe-dataset
+
+Core concepts for Geo-trellis:
+https://geotrellis.readthedocs.io/en/1.0/guide/core-concepts/
+
+what is GIS:
+https://www.gislounge.com/what-is-gis/
+
+spark documention:
+http://spark.apache.org/docs/latest/programming-guide.html
