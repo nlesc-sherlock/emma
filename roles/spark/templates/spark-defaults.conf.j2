@@ -18,8 +18,9 @@ spark.eventLog.enabled true
 spark.eventLog.dir {{ spark_dir }}/spark-events
 spark.executor.memory 1g
 spark.worker.memory 1g
-spark.driver.memory 1g
+spark.driver.memory 2g
 spark.daemon.memory 1g
+spark.dirver.maxResultSize 1g
 spark.serializer org.apache.spark.serializer.KryoSerializer
 
 #Configuration for S3
