@@ -39,7 +39,7 @@
     dest: /etc/jupyterhub/jupyterhub_config.py
     block: |
       c.JupyterHub.ip = '0.0.0.0'
-      c.Spawner.environment = {"'JAVA_HOME':'{{ java_home }}'"}
+      c.Spawner.environment = {'JAVA_HOME':'{{ java_home }}'}
       c.JupyterHub.hub_port = 8011
 
 - name: Start/stop script JupyterHub
