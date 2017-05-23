@@ -79,6 +79,7 @@
     - spark-shell
     - spark-sql
     - spark-submit
+    - pyspark
   tags: ["shims"]
 
 - name: install maven
