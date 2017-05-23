@@ -4,3 +4,13 @@ spark_conf_dir: "/etc/spark"
 
 #Define the location where Spark binaries and libs are (dafault value: /usr/lib/spark)
 spark_usr_dir: "/usr/lib/spark"   #this is the symlink to the extracted/installed spark
+
+spark_worker_cores: 2
+spark_executor_memory: 2
+spark_worker_memory: 2
+spark_driver_memory: 1
+spark_daemon_memory: 3
+spark_driver_maxResultSize: 1
+spark_dynamicAllocation_initialExecutors: 1
+spark_dynamicAllocation_maxExecutors: 2
+spark_broadcast_blockSize: 20
