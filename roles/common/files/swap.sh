@@ -1,4 +1,5 @@
-dd if=/dev/zero of=/data/local/swapfile bs=1024 count=4096k
+dd if=/dev/zero of=/data/local/swapfile bs=1024 count=16384k
+chmod 600 /data/local/swapfile
 mkswap /data/local/swapfile
 swapon /data/local/swapfile
-echo "/data/local/swapfile       none    swap    sw      0       0" >> /etc/fstab
+sh -c 'echo "/data/local/swapfile       none    swap    sw      0       0" >> /etc/fstab'
