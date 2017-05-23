@@ -18,4 +18,4 @@ aws_java_sdk_s3_version: "1.10.6"
 hadoop_aws_version: "2.8.0"
 spark_classpath_extras: [ "joda-time-{{ joda_time_version }}.jar", "aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
 spark_env_extras: {}
-spark_defaults_extras: { spark.kryoserializer.buffer.max 256m }
+spark_defaults_extras: { spark.kryoserializer.buffer.max 256m, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
