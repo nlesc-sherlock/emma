@@ -12,8 +12,9 @@ spark_run_dir: "/run/spark"
 spark_user: "spark"           # the name of the (OS)user created for spark
 spark_user_groups: [ users ]         # Optional list of (OS)groups the new spark user should belong to
 spark_user_shell: "/bin/false"    # the spark user's default shell
-spark_worker_cores: 2
+spark_executor_cores: 2
 spark_executor_memory: 2
+spark_worker_cores: 2
 spark_worker_memory: 2
 spark_driver_memory: 1
 spark_daemon_memory: 3
