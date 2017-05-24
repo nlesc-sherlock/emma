@@ -22,9 +22,9 @@
 # - SPARK_EXECUTOR_INSTANCES, Number of workers to start (Default: 2)
 # - SPARK_EXECUTOR_CORES, Number of cores for the workers (Default: 1).
 # - SPARK_EXECUTOR_MEMORY, Memory per Worker (e.g. 1000M, 2G) (Default: 1G)
-export SPARK_EXECUTOR_MEMORY="{{ spark_executor_memory }}G"
+export SPARK_EXECUTOR_MEMORY="{{ spark_executor_memory }}"
 # - SPARK_DRIVER_MEMORY, Memory for Master (e.g. 1000M, 2G) (Default: 512 Mb)
-export SPARK_DRIVER_MEMORY="{{ spark_driver_memory }}G"
+export SPARK_DRIVER_MEMORY="{{ spark_driver_memory }}"
 # - SPARK_YARN_APP_NAME, The name of your application (Default: Spark)
 # - SPARK_YARN_QUEUE, The hadoop queue to use for allocation requests (Default: ‘default’)
 # - SPARK_YARN_DIST_FILES, Comma separated list of files to be distributed with the job.
@@ -37,7 +37,7 @@ export SPARK_DRIVER_MEMORY="{{ spark_driver_memory }}G"
 # - SPARK_WORKER_CORES, to set the number of cores to use on this machine
 export SPARK_WORKER_CORES="{{ spark_worker_cores }}"
 # - SPARK_WORKER_MEMORY, to set how much total memory workers have to give executors (e.g. 1000m, 2g)
-export SPARK_WORKER_MEMORY="{{ spark_worker_memory }}G"
+export SPARK_WORKER_MEMORY="{{ spark_worker_memory }}"
 # - SPARK_WORKER_PORT / SPARK_WORKER_WEBUI_PORT, to use non-default ports for the worker
 # - SPARK_WORKER_INSTANCES, to set the number of worker processes per node
 # - SPARK_WORKER_DIR, to set the working directory of worker processes

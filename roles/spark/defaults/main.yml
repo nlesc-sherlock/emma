@@ -15,15 +15,15 @@ spark_user_shell: "/bin/false"    # the spark user's default shell
 spark_memory_fraction: 0.6
 spark_memory_storageFraction: 0.5
 spark_executor_cores: 2
-spark_executor_memory: 2
+spark_executor_memory: 2g
 spark_worker_cores: 2
-spark_worker_memory: 2
-spark_driver_memory: 1
-spark_daemon_memory: 3
-spark_driver_maxResultSize: 1
+spark_worker_memory: 2g
+spark_driver_memory: 1g
+spark_daemon_memory: 3g
+spark_driver_maxResultSize: 1g
 spark_dynamicAllocation_initialExecutors: 1
 spark_dynamicAllocation_maxExecutors: 2
-spark_broadcast_blockSize: 20
+spark_broadcast_blockSize: 20m
 
 joda_time_version: "2.9.4"
 aws_java_sdk_s3_version: "1.10.6"
