@@ -27,7 +27,8 @@ spark.daemon.memory {{ spark_daemon_memory }}
 spark.driver.maxResultSize {{ spark_driver_maxResultSize }}
 #spark.submit.deployMode cluster
 spark.serializer org.apache.spark.serializer.KryoSerializer
-
+spark.scheduler.mode FAIR
+spark.driver.allowMultipleContexts true
 
 #Configuration for S3
 spark.hadoop.fs.s3a.impl org.apache.hadoop.fs.s3a.S3AFileSystem
