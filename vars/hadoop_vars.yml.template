@@ -4,4 +4,5 @@ hadoop_usr_dir: "/usr/lib/hadoop"   #this is the symlink to the extracted/instal
 hadoop_lib_dir: "/var/lib/hadoop"
 hadoop_log_dir: "/var/log/hadoop"
 hadoop_run_dir: "/run/hadoop"
+hadoop_http_user: "emma"
 hadoop_user_groups: [ users ]         # Optional list of (OS)groups the new hadoop user should belong to
