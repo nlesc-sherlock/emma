@@ -1,4 +1,24 @@
 ---
+- name: Configure hadoop core-site
+  template: src=../templates/core-site.xml.j2
+            dest="{{ hadoop_conf_dir }}/core-site.xml"
+  tags: ["core-site"]
+
+- name: Configure hadoop hdfs-site
+  template: src=../templates/hdfs-site.xml.j2
+            dest="{{ hadoop_conf_dir }}/hdfs-site.xml"
+  tags: ["config"]
+
+- name: Hadoop config slaves
+  template:
+    src: ../templates/slaves.j2
+    dest: '{{ hadoop_conf_dir }}/slaves'
+
+- name: Hadoop config masters
+  template:
+    src: ../templates/masters.j2
+    dest: '{{ hadoop_conf_dir }}/masters'
+
 - name: Start namenode
   shell: "{{ hadoop_usr_dir }}/sbin/hadoop-daemon.sh --config {{ hadoop_conf_dir }} --script hdfs start namenode"
   register: hadoop_namenode
