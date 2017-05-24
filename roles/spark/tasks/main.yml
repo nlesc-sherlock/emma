@@ -162,6 +162,9 @@
     - sympy
     - nose
 
+- name: Install Python3-tk to have module _tkinter
+  apt: name=python3-tk
+
 #Install and enable ATLAS and OpenBLAS for netlib-java to be used by Breeze
 #Breeze is a library for linear algebra operations used by SparkML
 - name: Install Atlas and OpenBLAS packages
