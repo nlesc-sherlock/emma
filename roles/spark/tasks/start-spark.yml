@@ -1,8 +1,7 @@
 ---
 - name: Include defaults
   include_vars:
-    dir: '../defaults'
-    depth: 1
+    file: '../../../vars/spark_vars.yml'
 
 - name: Configure Spark environment
   template: src=../templates/spark-env.sh.j2

@@ -18,6 +18,8 @@ spark.executor.cores={{ spark_executor_cores }}
 spark.eventLog.enabled true
 spark.eventLog.dir {{ spark_dir }}/spark-events
 spark.broadcast.blockSize {{ spark_broadcast_blockSize }}m
+spark.memory.fraction {{ spark_memory_fraction }}
+spark.memory.storageFraction {{ spark_memory_storageFraction }}
 spark.executor.memory {{ spark_executor_memory }}g
 spark.worker.memory {{ spark_worker_memory }}g
 spark.driver.memory {{ spark_driver_memory }}g

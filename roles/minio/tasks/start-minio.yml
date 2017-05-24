@@ -1,8 +1,7 @@
 ---
 - name: Include defaults
   include_vars:
-    dir: '../defaults'
-    depth: 1
+    file: '../../../vars/minio_vars.yml'
 
 - name: Configure s3cmd config file
   template: src=../templates/s3cfg.j2
