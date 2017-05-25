@@ -26,15 +26,15 @@ hadoop_aws_version: "2.8.0"
 spark_classpath_extras: [ "joda-time-{{ joda_time_version }}.jar", "aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
 spark_defaults_extras: { spark.kryoserializer.buffer.max 256m, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
 
-spark_memory_fraction: 0.6
+spark_memory_fraction: 0.8
 spark_memory_storageFraction: 0.5
 spark_executor_cores: 2
 spark_executor_memory: 2g
 spark_worker_cores: 2
-spark_worker_memory: 2g
-spark_driver_memory: 1g
-spark_daemon_memory: 3g
-spark_driver_maxResultSize: 1g
+spark_worker_memory: 2800m
+spark_driver_memory: 2500m
+spark_daemon_memory: 1250m
+spark_driver_maxResultSize: 2g
 spark_dynamicAllocation_initialExecutors: 1
 spark_dynamicAllocation_maxExecutors: 2
 spark_broadcast_blockSize: 20m
