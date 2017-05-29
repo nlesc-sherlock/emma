@@ -20,7 +20,7 @@ com.github.fommil.netlib:all:1.1.2
 ```
 
 ## GeoTrellis
-The installation followed the information available at [GeoTrellis GitHub](https://github.com/locationtech/geotrellis). The same repository has a **doc* dir where there is a [guide on how to use the library in Spark](https://github.com/locationtech/geotrellis/blob/master/docs/guide/spark.rst). When using sbt, maven or gradle the Geotrellis jars should be downloaded from [org.locationtech.geotrellis](https://mvnrepository.com/artifact/org.locationtech.geotrellis).
+The installation followed the information available at [GeoTrellis GitHub](https://github.com/locationtech/geotrellis). The same repository has a **doc** dir where there is a [guide on how to use the library in Spark](https://github.com/locationtech/geotrellis/blob/master/docs/guide/spark.rst). When using sbt, maven or gradle the Geotrellis jars should be downloaded from [org.locationtech.geotrellis](https://mvnrepository.com/artifact/org.locationtech.geotrellis).
 
 Before starting using GeoTrellis, we recommend the read of [Core concepts for Geo-trellis](https://geotrellis.readthedocs.io/en/1.0/guide/core-concepts/).
 
