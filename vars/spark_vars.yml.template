@@ -1,6 +1,37 @@
 ---
+#Define Spark version
+spark_version: "2.1.1-bin-without-hadoop"
+
 #Define the location for the configuration dir for Spark (default value: /etc/spark)
 spark_conf_dir: "/etc/spark"
 
+#Define the location where the spark archive will be extracted
+spark_usr_parent_dir: "/usr/lib"
+
 #Define the location where Spark binaries and libs are (dafault value: /usr/lib/spark)
 spark_usr_dir: "/usr/lib/spark"   #this is the symlink to the extracted/installed spark
+
+#Define the location of the logs
+spark_log_dir: "/var/log/spark"
+
+spark_dir: "/data/local/spark"
+spark_run_dir: "/run/spark"
+spark_env_extras: {}
+joda_time_version: "2.9.4"
+aws_java_sdk_s3_version: "1.10.6"
+hadoop_aws_version: "2.8.0"
+spark_classpath_extras: [ "joda-time-{{ joda_time_version }}.jar", "aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
+spark_defaults_extras: { spark.kryoserializer.buffer.max 256m, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
+
+spark_memory_fraction: 0.6
+spark_memory_storageFraction: 0.5
+spark_executor_cores: 2
+spark_executor_memory: 2g
+spark_worker_cores: 2
+spark_worker_memory: 2g
+spark_driver_memory: 1g
+spark_daemon_memory: 3g
+spark_driver_maxResultSize: 1g
+spark_dynamicAllocation_initialExecutors: 1
+spark_dynamicAllocation_maxExecutors: 2
+spark_broadcast_blockSize: 20m

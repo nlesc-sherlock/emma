@@ -12,15 +12,23 @@
 spark.master    spark://{{ groups['spark-master'][0] }}:7077
 spark.shuffle.service.enabled true
 spark.dynamicAllocation.enabled   true
-spark.dynamicAllocation.initialExecutors  1
-spark.executor.cores=1
+spark.dynamicAllocation.initialExecutors  {{ spark_dynamicAllocation_initialExecutors }}
+spark.dynamicAllocation.maxExecutors {{ spark_dynamicAllocation_maxExecutors }}
+spark.executor.cores={{ spark_executor_cores }}
 spark.eventLog.enabled true
 spark.eventLog.dir {{ spark_dir }}/spark-events
-spark.executor.memory 1g
-spark.worker.memory 1g
-spark.driver.memory 1g
-spark.daemon.memory 1g
+spark.broadcast.blockSize {{ spark_broadcast_blockSize }}
+spark.memory.fraction {{ spark_memory_fraction }}
+spark.memory.storageFraction {{ spark_memory_storageFraction }}
+spark.executor.memory {{ spark_executor_memory }}
+spark.worker.memory {{ spark_worker_memory }}
+spark.driver.memory {{ spark_driver_memory }}
+spark.daemon.memory {{ spark_daemon_memory }}
+spark.driver.maxResultSize {{ spark_driver_maxResultSize }}
+#spark.submit.deployMode cluster
 spark.serializer org.apache.spark.serializer.KryoSerializer
+spark.scheduler.mode FAIR
+spark.driver.allowMultipleContexts true
 
 #Configuration for S3
 spark.hadoop.fs.s3a.impl org.apache.hadoop.fs.s3a.S3AFileSystem

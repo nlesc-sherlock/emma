@@ -1,8 +1,7 @@
 ---
 - name: Include defaults
   include_vars:
-    dir: '../defaults'
-    depth: 1
+    file: '../../../vars/spark_vars.yml'
 
 - name: Configure Spark environment
   template: src=../templates/spark-env.sh.j2
@@ -29,4 +28,3 @@
 
 - name: Spark-shuffle started
   systemd: name=spark-shuffle state=started daemon_reload=yes
-  when: inventory_hostname in groups['spark-worker'] and inventory_hostname not in groups['spark-master']

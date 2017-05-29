@@ -79,6 +79,7 @@
     - spark-shell
     - spark-sql
     - spark-submit
+    - pyspark
   tags: ["shims"]
 
 - name: install maven
@@ -161,6 +162,9 @@
     - sympy
     - nose
 
+- name: Install Python3-tk to have module _tkinter
+  apt: name=python3-tk
+
 #Install and enable ATLAS and OpenBLAS for netlib-java to be used by Breeze
 #Breeze is a library for linear algebra operations used by SparkML
 - name: Install Atlas and OpenBLAS packages
@@ -198,3 +202,23 @@
 
 - name: Gradle install dependencies
   shell: sudo gradle downloadDependencies
+
+    #Geotrellis for Python
+- name: add repository for GDAL
+  apt_repository: repo=ppa:ubuntugis/ubuntugis-unstable
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Upgrade APT to the lastest packages
+  apt: upgrade=full
+
+- name: Install GDAL
+  apt: name={{ item }}
+  with_items:
+    - gdal-bin
+    - python-gdal
+    - python3-gdal
+
+- name: Install python-geotrellis
+  pip: name=python-geotrellis executable=pip3

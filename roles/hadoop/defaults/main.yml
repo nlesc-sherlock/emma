@@ -12,4 +12,5 @@ hadoop_log_dir: "/var/log/hadoop"
 hadoop_run_dir: "/run/hadoop"
 hadoop_users: [ hadoop, spark, ubuntu ]           # the name of the (OS)user created for hadoop
 hadoop_user: "{{ hadoop_users[0] }}"
+hadoop_http_user: "emma"
 hadoop_user_groups: [ users ]         # Optional list of (OS)groups the new hadoop user should belong to
