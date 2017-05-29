@@ -102,7 +102,7 @@ Vagrant.configure(2) do |config|
       # GlusterFS storage disk
       node.persistent_storage.enabled = true
       node.persistent_storage.location = "#{ENV['HOST_NAME']}#{i}-data.vdi"
-      node.persistent_storage.size = 20000
+      node.persistent_storage.size = 40000
       node.persistent_storage.mountname = 'data'
       node.persistent_storage.filesystem = 'xfs'
       node.persistent_storage.mountpoint = '/data/local'

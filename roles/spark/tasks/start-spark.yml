@@ -5,17 +5,17 @@
 
 - name: Configure Spark environment
   template: src=../templates/spark-env.sh.j2
-            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/spark-env.sh"
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}-bin-without-hadoop/conf/spark-env.sh"
   tags: ["config"]
 
 - name: Configure Spark defaults config file
   template: src=../templates/spark-defaults.conf.j2
-            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/spark-defaults.conf"
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}-bin-without-hadoop/conf/spark-defaults.conf"
   tags: ["config"]
 
 - name: Configure Hive defaults site file
   template: src=../templates/hive-site.xml.j2
-            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}/conf/hive-site.xml"
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}-bin-without-hadoop/conf/hive-site.xml"
   tags: ["config"]
 
 - name: Spark-master started
