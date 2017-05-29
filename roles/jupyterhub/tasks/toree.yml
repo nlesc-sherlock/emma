@@ -3,18 +3,6 @@
 #
 # Important to mention the information about which toree to use came from:
 # https://medium.com/@faizanahemad/machine-learning-with-jupyter-using-scala-spark-and-python-the-setup-62d05b0c7f56
-- name: Add repo for sbt
-  shell: echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
-
-- name: Add apt key for sbt
-  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=2EE0EA64E40A89B84B2DF73499E82A75642AC823
-
-- name: Update apt cache
-  apt: update_cache=yes
-
-- name: Install sbt
-  apt: name=sbt
-
 - name: incubator-toree
   git:
     repo: https://github.com/apache/incubator-toree.git
