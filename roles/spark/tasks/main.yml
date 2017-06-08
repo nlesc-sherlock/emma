@@ -172,6 +172,8 @@
   with_items:
     - libatlas3-base
     - libopenblas-base
+    - libblas-dev
+    - liblapack-dev
 - name: Configure Atlas and OpenBLAS
   shell: "{{ item }}"
   with_items:
@@ -224,10 +226,13 @@
   pip: name=python-geotrellis executable=pip3
 
 #Steps to get SciSpark
+- name: Install Git
+  apt: name=git
+
 - name: Ensure SciSpark directory exists
   file: path="{{ scispark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
 
-- name: SciSpark
+- name: Clone SciSpark GitHub repository
   git:
     repo: https://github.com/SciSpark/SciSpark
     dest: "{{ scispark_dir }}/SciSpark"
