@@ -1,4 +1,4 @@
-dd if=/dev/zero of=/data/local/swapfile bs=1024 count=1228k
+dd if=/dev/zero of=/data/local/swapfile bs=1024 count=12288k
 chmod 600 /data/local/swapfile
 mkswap /data/local/swapfile
 swapon /data/local/swapfile
