@@ -2,6 +2,8 @@
 
 - hosts: all
   remote_user: root
+  vars_files:
+    - ../vars/common_vars.yml
   roles:
     - common
   any_errors_fatal: true
