@@ -19,7 +19,7 @@
   pip: name=ipykernel executable=pip3
 
 - name: Python 3 to Jupyter
-  shell: /usr/bin/python3 -m ipykernel install creates=/usr/local/share/jupyter/kernels/python3
+  shell: /usr/bin/python3 -m ipykernel install
 
 - name: Toree (Spark Jupyter)
   include: toree.yml
