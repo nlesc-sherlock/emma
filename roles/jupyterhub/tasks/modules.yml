@@ -1,0 +1,31 @@
+---
+- name: Ensure Jupyter modules directory exists
+  file: path="{{ jupyterhub_modules_dir }}" state=directory group=users mode=g+rw
+
+# Rasterio
+# We followed the instructions posted at:
+# https://github.com/mapbox/rasterio/blob/master/CONTRIBUTING.rst#installing-rasterio
+
+- name: Add repository for GDAL
+  apt_repository: repo=ppa:ubuntugis/ppa
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: rasterio dependencies
+  apt: name={{ item }}
+  with_items:
+    - gdal-bin
+    - libgdal-dev
+    - libatlas-dev
+    - libatlas-base-dev
+    - gfortran
+
+- name: Clone SciSpark GitHub repository
+  git:
+    repo: https://github.com/mapbox/rasterio
+    dest: "{{ jupyterhub_modules_dir }}/rasterio"
+    update: no
+
+- name: Install rasterio
+  pip: executable=pip3 chdir="{{ jupyterhub_modules_dir }}/rasterio/" extra_args="-e .[test]" requirements="{{ jupyterhub_modules_dir }}/rasterio/requirements-dev.txt"

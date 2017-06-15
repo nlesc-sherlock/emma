@@ -44,3 +44,6 @@
 
 - name: Start/stop script JupyterHub
   copy: src=jupyterhub.systemd dest=/etc/systemd/system/jupyterhub.service
+
+- name: Install modules needed for Applications using Spark Jupyter
+  include: modules.yml
