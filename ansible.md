@@ -14,8 +14,10 @@ vim env_linux.sh
 # Key used by root
 ssh-keygen -f ${HOST_NAME}.key
 # Key used by ${HOST_NAME} user
-ssh-keygen -f roles/common/files/${HOST_NAME}.key
+ssh-keygen -f files/${HOST_NAME}.key
 ```
+
+The user should check if each role has extra steps to setup environment. For example, the hadoop role requires the generation of an extra ssh-key for the hadoop user.
 
 ## Install ansible
 The recommended version is Ansible 2.2. Ansible should be installed using pip. To install pip and ansible dependencies do the following:

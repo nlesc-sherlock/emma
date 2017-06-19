@@ -59,6 +59,7 @@ export CLASSPATH=${CLASSPATH:-$(hadoop classpath)}
 export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-/etc/hadoop/conf}
 export HADOOP_INSTALL_DIR=${HADOOP_INSTALL_DIR:-/usr/lib/hadoop}
 export PYSPARK_PYTHON=python3.5
+export PYSPARK_DRIVER_PYTHON=python3.5
 
 export SPARK_LOG_DIR=${SPARK_LOG_DIR:-{{ spark_log_dir }}}
 export SPARK_PID_DIR=${SPARK_PID_DIR:-{{ spark_run_dir }}}
