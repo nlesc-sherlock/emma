@@ -69,7 +69,7 @@
   with_items: "{{ users }}"
 - name: SSH private key
   copy:
-    src: '{{ item.name }}.key'
+    src: '{{ role_path }}/../../files/{{ item.name }}.key'
     dest: '/data/local/home/{{ item.name }}/.ssh/id_rsa'
     owner: '{{ item.name }}'
     group: users
@@ -77,7 +77,7 @@
   with_items: "{{ users }}"
 - name: SSH public key
   copy:
-    src: '{{ item.name }}.key.pub'
+    src: '{{ role_path }}/../../files/{{ item.name }}.key.pub'
     dest: '/data/local/home/{{ item.name }}/.ssh/id_rsa.pub'
     owner: '{{ item.name }}'
     group: users
@@ -87,7 +87,7 @@
   authorized_key:
     user: '{{ item.name }}'
     state: present
-    key: "{{ lookup('file', item.name + '.key.pub') }}"
+    key: "{{ lookup('file', role_path + '/../../files/' + item.name + '.key.pub') }}"
   with_items: "{{ users }}"
 - name: Tmp dir on /data/local
   file: path=/data/local/tmp state=directory mode=1777
