@@ -73,8 +73,8 @@ If not used, vagrant will set a public network by default. To switch between a p
 
 Verify login for *N* hosts.
 ```
-ssh -i pheno.key root@pheno0.$PHENO_DOMAIN uptime
+ssh -i pheno.key root@pheno0.$HOST_DOMAIN uptime
 ...
-ssh -i pheno.key root@phenoN.$PHENO_DOMAIN uptime
+ssh -i pheno.key root@phenoN.$HOST_DOMAIN uptime
 ```
 
