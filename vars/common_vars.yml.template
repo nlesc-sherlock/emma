@@ -5,6 +5,12 @@ trusted_networks:
   - 10.100.107.0/8
   - 192.168.1.1/16
   - 172.17.0.1/24
+  - 145.136.73.0/24
+  - 145.100.58.0/24
+  - 145.100.59.0/24
+  - 145.100.116.0/24
+  - 130.89.20.0/24
+  - 31.201.254.0/24
 
 #Define the JAVA_HOME (default: "/usr/lib/jvm/java-8-oracle")
 java_home: "/usr/lib/jvm/java-8-oracle"

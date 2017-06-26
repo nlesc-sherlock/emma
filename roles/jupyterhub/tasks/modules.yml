@@ -27,5 +27,8 @@
     dest: "{{ jupyterhub_modules_dir }}/rasterio"
     update: no
 
+- name: Install requirements
+  shell: "cd {{ jupyterhub_modules_dir }}/rasterio/ ; pip3 install -r requirements-dev.txt"
+
 - name: Install rasterio
-  pip: executable=pip3 chdir="{{ jupyterhub_modules_dir }}/rasterio/" extra_args="-e .[test]" requirements="{{ jupyterhub_modules_dir }}/rasterio/requirements-dev.txt"
+  shell: "cd {{ jupyterhub_modules_dir }}/rasterio/ ; pip3 install -e .[test]"

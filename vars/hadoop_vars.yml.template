@@ -3,6 +3,8 @@ hadoop_conf_dir: "/etc/hadoop/conf"
 hadoop_usr_dir: "/usr/lib/hadoop"   #this is the symlink to the extracted/installed hadoop
 hadoop_lib_dir: "/var/lib/hadoop"
 hadoop_log_dir: "/var/log/hadoop"
+hadoop_tmp_dir: "/data/local/hadoop/tmp/"
 hadoop_run_dir: "/run/hadoop"
 hadoop_http_user: "emma"
+hadoop_users: [ emma, hadoop, spark, ubuntu ]
 hadoop_user_groups: [ users ]         # Optional list of (OS)groups the new hadoop user should belong to

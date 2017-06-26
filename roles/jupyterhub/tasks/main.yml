@@ -41,6 +41,7 @@
       c.JupyterHub.ip = '0.0.0.0'
       c.Spawner.environment = {'JAVA_HOME':'{{ java_home }}'}
       c.JupyterHub.hub_port = 8011
+      c.NotebookApp.iopub_data_rate_limit = 100000000
 
 - name: Start/stop script JupyterHub
   copy: src=jupyterhub.systemd dest=/etc/systemd/system/jupyterhub.service
