@@ -40,6 +40,8 @@
     apt: name=apt-transport-https
   - name: python-dev
     apt: name=python-dev
+  - name: python3-dev
+    apt: name=python3-dev
   - name: Reinstall python-pkg-resources
     apt: name=python-pkg-resources force=yes
   - name: python setuptools
