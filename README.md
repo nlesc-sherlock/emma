@@ -79,11 +79,9 @@ cd <path_to_emma>/emma
 . env_linux.sh
 ```
 
-After that the user is ready to setup the infra-structure.
-
 ### Infra-structure
 
-The infra-structure, physical place where the platform runs, is composed by a set of virtual machines with the following characteristics:
+With the environment set, the next step is to setup the infra-structure. The infra-structure, physical place where the platform runs, is composed by a set of virtual machines with the following characteristics:
 1. Ubuntu 16.04 OS
 2. Public network interface
 3. OS disk, 200Mb for software + enough room in /tmp
@@ -93,9 +91,7 @@ The infra-structure, physical place where the platform runs, is composed by a se
 
 
 The infrastructure is a collection of machines which must be reachable by ssh. The machines must be prepared/constructed by either [preparing cloud virtual machine](cloud.md) or [constructing using Vagrant boxes](vagrant.md).
-Once the machines are prepared the servers are provisioned using [Ansible](https://www.ansible.com/), an automation tool for IT infra-structure. To install it and configure it please read [ansible.md](ansible.md).
-
-The roles defined for Ansbile will create a platform with the following features:
+Once the machines are prepared the servers are provisioned using [Ansible](https://www.ansible.com/), an automation tool for IT infra-structure. The roles defined for Ansbile will create a platform with the following features:
 
 * [GlusterFS](gluster.md)
 * [Minio](minio.md)
@@ -104,3 +100,4 @@ The roles defined for Ansbile will create a platform with the following features
 * [Docker Swarm](dockerswarm.md)
 * [JupyterHub](jupyterhub.md)
 
+To install it and configure it please read **[ansible.md](ansible.md)**, but before doing it we also recommend the user to click on each feature to understand the setup requirements for each them.
