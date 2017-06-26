@@ -16,6 +16,6 @@ roles/minio/tests/__pycache__
 /.cache
 vars/common_vars.yml
 vars/hadoop_vars.yml
-roles/hadoop/files/id_rsa
-roles/hadoop/files/id_rsa.pub
+files/hadoop_id_rsa
+files/hadoop_id_rsa.pub
 playbooks/*.retry
