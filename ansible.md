@@ -2,21 +2,17 @@
 Ansible is used to setup environment in a set of machines.
 
 ## Setup environment:
+Everytime the user opens a bash console on Windows or Linux the environment is set through the following commands:
 ```
-#create and edit env_linux.sh
-cp env_linux.sh.template env_linux.sh
-vim env_linux.sh
-
-#Linux environments (also in the embedded Ubuntu environment in Windows).
-#On each bash
+#Windows
+cd <path_to_emma>/emma
 . env_linux.sh
+./env_windows.sh
 
-# Key used by root
-ssh-keygen -f ${HOST_NAME}.key
-# Key used by ${HOST_NAME} user
-ssh-keygen -f files/${HOST_NAME}.key
+#Linux
+cd <path_to_emma>/emma
+. env_linux.sh
 ```
-
 The user should check if each role has extra steps to setup environment. For example, the hadoop role requires the generation of an extra ssh-key for the hadoop user.
 
 ## Install ansible
@@ -90,3 +86,10 @@ To shutdown the platform just run the following command:
 ```
 ansible-playbook shutdown_platform.yml
 ```
+## Demo deployment
+
+A demo deployment which uses the platform set by the above playbooks is done using the demos for the Sherlock project.
+```
+ansible-playbook demo.yml
+```
+Once deployed, a website is available on http://\<docker-swarm-manager\> (\<docker-swarm-manager\> is defined in the hosts file as described in [ansible.md](ansible.md).
