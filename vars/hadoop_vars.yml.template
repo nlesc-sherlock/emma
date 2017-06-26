@@ -5,4 +5,5 @@ hadoop_lib_dir: "/var/lib/hadoop"
 hadoop_log_dir: "/var/log/hadoop"
 hadoop_run_dir: "/run/hadoop"
 hadoop_http_user: "emma"
+hadoop_users: [ emma, hadoop, spark, ubuntu ]
 hadoop_user_groups: [ users ]         # Optional list of (OS)groups the new hadoop user should belong to
