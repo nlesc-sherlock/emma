@@ -2,7 +2,7 @@
 Ansible is used to setup environment in a set of machines.
 
 ## Setup environment:
-Everytime the user opens a bash console on Windows or Linux the environment is set through the following commands:
+Every time the user opens a bash console on Windows or Linux the environment is set through the following commands:
 ```
 #Windows
 cd <path_to_emma>/emma
@@ -13,7 +13,7 @@ cd <path_to_emma>/emma
 cd <path_to_emma>/emma
 . env_linux.sh
 ```
-The user should check if each role has extra steps to setup environment. For example, the hadoop role requires the generation of an extra ssh-key for the hadoop user.
+The user should check if each role has extra steps to setup environment. For example, the Hadoop role requires the generation of an extra ssh-key for the Hadoop user.
 
 ## Install ansible
 The recommended version is Ansible 2.2. Ansible should be installed using pip. To install pip and ansible dependencies do the following:

@@ -67,7 +67,7 @@ ssh-keygen -f ${HOST_NAME}.key
 ssh-keygen -f files/${HOST_NAME}.key
 ```
 
-Everytime the user opens a bash console on Windows or Linux the environment is set through the following commands:
+Every time the user opens a bash console on Windows or Linux the environment is set through the following commands:
 ```
 #Windows
 cd <path_to_emma>/emma
