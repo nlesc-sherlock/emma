@@ -15,7 +15,7 @@ spark_usr_parent_dir: "/usr/lib"
 spark_usr_dir: "/usr/lib/spark"   #this is the symlink to the extracted/installed spark
 
 #Define the location of the logs
-spark_log_dir: "/var/log/spark"
+spark_log_dir: "/data/local/spark/log/spark"
 
 spark_dir: "/data/local/spark"
 spark_run_dir: "/run/spark"
@@ -24,7 +24,7 @@ joda_time_version: "2.9.4"
 aws_java_sdk_s3_version: "1.10.6"
 hadoop_aws_version: "2.8.0"
 spark_classpath_extras: [ "joda-time-{{ joda_time_version }}.jar", "aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
-spark_defaults_extras: { spark.kryoserializer.buffer.max 256m, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
+spark_defaults_extras: { spark.default.parallelism 32, spark.network.timeout 360s, spark.local.dir /data/local/spark/tmp/, spark.kryoserializer.buffer 512m, spark.kryoserializer.buffer.max 1g, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
 
 spark_memory_fraction: 0.8
 spark_memory_storageFraction: 0.5
