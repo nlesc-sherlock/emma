@@ -21,7 +21,7 @@
     - libatlas-base-dev
     - gfortran
 
-- name: Clone SciSpark GitHub repository
+- name: Clone Rasterio GitHub repository
   git:
     repo: https://github.com/mapbox/rasterio
     dest: "{{ jupyterhub_modules_dir }}/rasterio"
