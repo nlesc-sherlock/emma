@@ -1,6 +1,7 @@
 ---
 - hosts: spark
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   vars_files:
    - vars/spark_vars.yml
    - vars/minio_vars.yml
@@ -9,12 +10,14 @@
     - include: roles/spark/tasks/stop-spark.yml
 
 - hosts: minio
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   tasks:
     - include: roles/minio/tasks/stop-minio.yml
 
 - hosts: hadoop
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   vars_files: 
   - vars/common_vars.yml
   - vars/hadoop_vars.yml
