@@ -16,6 +16,7 @@
 - name: Build & Package
   shell: "cd {{ jupyterhub_src_dir }}/incubator-toree ; sudo make release"
   when: p.stat.exists is defined and not p.stat.exists
+  ignore_errors: yes
 
 - name: Toree (Spark Jupyter) installation
   pip: executable=pip3 name="{{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/"
