@@ -113,7 +113,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "6144"
+    vb.memory = "./#{ENV['MEM_SIZE']}"
   end
 
   config.vm.provision "fix-no-tty", type: "shell" do |s|

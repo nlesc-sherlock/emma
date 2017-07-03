@@ -2,6 +2,12 @@
 export HOST_NAME=<name>
 export HOST_DOMAIN=<domain>
 export NUM_HOSTS=<num_hosts>
+
+#Vagrant will use 80% of the total main memory
+total_memory=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+export MEM_SIZE=$(calc $total_memory*0.8/$NUM_HOSTS/1024 | awk '{printf("%d",$1 + 0.5)}')
+echo "Memory per node: $MEM_SIZE MB"
+
 export KEYS_LOCATION=/tmp/$HOST_NAME
 #Use double back slash to express window path
 #Default value in Windows is C:\\HashiCorp\\Vagrant\\home
