@@ -113,7 +113,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "3196"
+    vb.memory = "./#{ENV['MEM_SIZE']}"
   end
 
   config.vm.provision "fix-no-tty", type: "shell" do |s|
@@ -137,6 +137,7 @@ Vagrant.configure(2) do |config|
     cp /vagrant/#{ENV['HOST_NAME']}.key /root/.ssh/id_rsa
     cp /vagrant/#{ENV['HOST_NAME']}.key.pub /root/.ssh/id_rsa.pub
     cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+    cat /root/.ssh/id_rsa.pub >> /home/ubuntu/.ssh/authorized_keys
     chmod -R 600 /root/.ssh
     apt-get update
     apt-get install -y python-dev

@@ -1,7 +1,8 @@
 ---
 
 - hosts: all
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   vars_files:
     - ../vars/common_vars.yml
   roles:
@@ -9,7 +10,8 @@
   any_errors_fatal: true
 
 - hosts: minio
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   vars_files:
    - ../vars/common_vars.yml
    - ../vars/minio_vars.yml
@@ -18,7 +20,8 @@
   any_errors_fatal: true
 
 - hosts: hadoop
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   vars_files:
    - ../vars/common_vars.yml
    - ../vars/hadoop_vars.yml
@@ -30,7 +33,8 @@
     - hadoop
 
 - hosts: spark
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   vars_files:
    - ../vars/common_vars.yml
    - ../vars/hadoop_vars.yml
@@ -45,7 +49,8 @@
   any_errors_fatal: true
 
 - hosts: jupyterhub
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   vars_files:
    - ../vars/spark_vars.yml
    - ../vars/common_vars.yml
