@@ -1,6 +1,7 @@
 ---
 - hosts: hadoop
-  remote_user: root
+  remote_user: ubuntu
+  become: true
   vars_files: 
   - ../vars/common_vars.yml
   - ../vars/hadoop_vars.yml
