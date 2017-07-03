@@ -10,5 +10,8 @@ setx.exe HOST_DOMAIN $HOST_DOMAIN
 echo -n setx: NUM_HOSTS: $NUM_HOSTS
 setx.exe NUM_HOSTS $NUM_HOSTS
 
+echo -n setx: MEM_SIZE: $MEM_SIZE
+setx.exe MEM_SIZE $MEM_SIZE
+
 echo -n setx: VAGRANT_HOME: $VAGRANT_HOME
 setx.exe VAGRANT_HOME $VAGRANT_HOME 

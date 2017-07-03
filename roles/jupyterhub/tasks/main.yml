@@ -18,6 +18,12 @@
 - name: ipykernel for Python 3
   pip: name=ipykernel executable=pip3
 
+- name: Copy irkernel_install
+  copy: src=irkernel_install.r dest="{{ jupyterhub_src_dir }}/irkernel_install.r"
+
+- name: Install irkernel
+  shell: "Rscript {{ jupyterhub_src_dir }}/irkernel_install.r"
+
 - name: Python 3 to Jupyter
   shell: /usr/bin/python3 -m ipykernel install
 
