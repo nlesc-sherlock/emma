@@ -18,7 +18,6 @@
 - name: ipykernel for Python 3
   pip: name=ipykernel executable=pip3
 
-# Instructions coming from https://irkernel.github.io/installation/
 - name: Copy irkernel_install
   copy: src=irkernel_install.r dest="{{ jupyterhub_src_dir }}/irkernel_install.r"
 
