@@ -17,6 +17,9 @@ spark_usr_dir: "/usr/lib/spark"   #this is the symlink to the extracted/installe
 #Define the location of the logs
 spark_log_dir: "/data/local/spark/log/spark"
 
+#Define the location of work dir
+spark_work_dir: "/data/local/spark/work"
+
 spark_dir: "/data/local/spark"
 spark_run_dir: "/run/spark"
 spark_env_extras: {}
