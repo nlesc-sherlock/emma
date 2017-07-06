@@ -41,7 +41,7 @@
         state=directory
   tags: ["config"]
 
-- name: Ensure Spark log and run directories exist
+- name: Ensure Spark log, run, and work directories exist
   file: path="{{ item }}"
         owner={{ spark_user }}
         group={{ spark_user_groups[0] }}
@@ -50,6 +50,7 @@
   with_items:
     - "{{ spark_log_dir }}"
     - "{{ spark_run_dir }}"
+    - "{{ spark_work_dir }}"
 
 - name: Download Spark distribution
   get_url: url="{{ spark_mirror }}/spark-{{ spark_version }}-bin-without-hadoop.tgz"
