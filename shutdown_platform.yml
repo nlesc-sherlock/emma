@@ -8,12 +8,17 @@
   tasks:
     - include: roles/jupyterhub/tasks/stop-jupyterhub.yml
     - include: roles/spark/tasks/stop-spark.yml
+  tags:
+    - hadoop
+
 
 - hosts: minio
   remote_user: ubuntu
   become: true
   tasks:
     - include: roles/minio/tasks/stop-minio.yml
+  tags:
+    - minio
 
 - hosts: hadoop
   remote_user: ubuntu
@@ -25,4 +30,7 @@
     JAVA_HOME: "{{ java_home }}"
   tasks:
     - include: roles/hadoop/tasks/stop-hadoop.yml
+  tags:
+    - spark
+
 

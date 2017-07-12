@@ -128,3 +128,16 @@
 - name: Install sbt
   apt: name=sbt
 
+# Extra Python packages
+- name: Extra Python packages
+  pip: name={{ item }} executable=pip3
+  with_items: "{{ python_packages }}"
+  tags:
+    - extra_python_packages
+
+# Extra System packages
+- name: Extra system packages
+  apt: name={{ item }}
+  with_items: "{{ system_packages }}"
+  tags:
+    - extra_system_packages
