@@ -97,6 +97,15 @@ Through [ansible-tags](http://docs.ansible.com/ansible/playbooks_tags.html) it i
 * **jupyterhub**: it only installs/starts/stops services related with jupyterhub role
 * **jupyter_modules**: it only installs extra modules for jupyterhub
 
+If you wanted to just to update firewall instead of run the entire installation, you could do this:
+```
+ansible-playbook playbooks/install_spark.yml --tags "firewall"
+```
+On the other hand, if you want to start the platform with exception of Minio service, you could do this:
+```
+ansible-playbook start_platform.yml --skip-tags "minio"
+```
+
 ## Demo deployment
 
 A demo deployment which uses the platform set by the above playbooks is done using the demos for the Sherlock project.
