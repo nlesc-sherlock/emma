@@ -21,6 +21,7 @@
   pip: name={{ item }} executable=pip3
   with_items:
     - traitlets
+    - pyyaml
 
 - name: Install pixiedust
   pip: name=pixiedust executable=pip3
