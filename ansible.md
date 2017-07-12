@@ -86,6 +86,17 @@ To shutdown the platform just run the following command:
 ```
 ansible-playbook shutdown_platform.yml
 ```
+
+Through [ansible-tags](http://docs.ansible.com/ansible/playbooks_tags.html) it is possible to have fine grained control over the task execution. Currently we have the following tags:
+* **firewall**: it only updates firewall
+* **python_packages**: it only installs extra Python modules using pip
+* **system_packages**: it only install extra System packages using apt-get
+* **hadoop**: it only installs/starts/stops services related with hadoop role
+* **minio**: it only installs/starts/stops services related with minio role
+* **spark**: it only installs/starts/stops services related with spark role
+* **jupyterhub**: it only installs/starts/stops services related with jupyterhub role
+* **jupyter_modules**: it only installs extra modules for jupyterhub
+
 ## Demo deployment
 
 A demo deployment which uses the platform set by the above playbooks is done using the demos for the Sherlock project.
