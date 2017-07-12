@@ -32,5 +32,6 @@
     - include: roles/hadoop/tasks/stop-hadoop.yml
   tags:
     - spark
+    - jupyterhub
 
 

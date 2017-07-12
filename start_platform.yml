@@ -33,4 +33,5 @@
     - include: roles/jupyterhub/tasks/start-jupyterhub.yml
   tags:
     - spark
+    - jupyterhub
 
