@@ -1,12 +1,9 @@
 ---
-- name: Allow SSH in UFW
-  ufw: rule=allow port=22 proto=tcp
-- name: Set firewall default policy
-  ufw: state=enabled policy=reject
-  sudo: true
-- name: Only allow incoming traffic from trusted networks
-  ufw: rule=allow src={{ item }} state=enabled
-  with_items: "{{ trusted_networks }}"
+- name: Set firewall settings
+    include: firewall.yml
+    tags:
+  - firewall
+
 - name: Set hostname to fqdn
   hostname: name='{{ inventory_hostname }}'
 - name: Dont bind hostname to loopback
@@ -128,3 +125,16 @@
 - name: Install sbt
   apt: name=sbt
 
+# Extra Python packages
+- name: Extra Python packages
+  pip: name={{ item }} executable=pip3
+  with_items: "{{ python_packages }}"
+  tags:
+    - extra_python_packages
+
+# Extra System packages
+- name: Extra system packages
+  apt: name={{ item }}
+  with_items: "{{ system_packages }}"
+  tags:
+    - extra_system_packages

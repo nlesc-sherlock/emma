@@ -57,3 +57,5 @@
 
 - name: Install modules needed for Applications using Spark Jupyter
   include: modules.yml
+  tags:
+    - jupyterhub_modules

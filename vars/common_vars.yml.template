@@ -15,3 +15,8 @@ trusted_networks:
 #Define the JAVA_HOME (default: "/usr/lib/jvm/java-8-oracle")
 java_home: "/usr/lib/jvm/java-8-oracle"
 
+#List of extra Python packages to installed
+python_packages:
+
+#List of extra System packages to installed
+system_packages:

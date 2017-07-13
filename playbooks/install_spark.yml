@@ -8,6 +8,8 @@
   roles:
     - common
   any_errors_fatal: true
+  tags:
+    - common
 
 - hosts: minio
   remote_user: ubuntu
@@ -18,6 +20,8 @@
   roles:
     - minio
   any_errors_fatal: true
+  tags:
+    - minio
 
 - hosts: hadoop
   remote_user: ubuntu
@@ -30,6 +34,8 @@
     HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
     HADOOP_CONF_DIR: "{{ hadoop_conf_dir }}"
   roles:
+    - hadoop
+  tags:
     - hadoop
 
 - hosts: spark
@@ -47,6 +53,8 @@
   roles:
     - spark
   any_errors_fatal: true
+  tags:
+    - spark
 
 - hosts: jupyterhub
   remote_user: ubuntu
@@ -55,4 +63,6 @@
    - ../vars/spark_vars.yml
    - ../vars/common_vars.yml
   roles:
+    - jupyterhub
+  tags:
     - jupyterhub
