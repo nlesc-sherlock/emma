@@ -8,3 +8,4 @@ trusted_networks:
 python_packages:
 
 system_packages:
+  - aptitude

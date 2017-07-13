@@ -1,8 +1,8 @@
 ---
 - name: Set firewall settings
-    include: firewall.yml
-    tags:
-  - firewall
+  include: firewall.yml
+  tags:
+    - firewall
 
 - name: Set hostname to fqdn
   hostname: name='{{ inventory_hostname }}'

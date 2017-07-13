@@ -20,3 +20,4 @@ python_packages:
 
 #List of extra System packages to installed
 system_packages:
+  - aptitude
