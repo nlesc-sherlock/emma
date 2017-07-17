@@ -8,24 +8,16 @@
   tags: ["hadoop-user"]
 
 - name: Create a .ssh Directory.
-  file: path=~/.ssh state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=0700
-  sudo: yes
-  sudo_user: "{{ hadoop_user }}"
+  file: path=/data/local/home/{{ hadoop_user }}/.ssh owner="{{ hadoop_user }}" group="{{ hadoop_user_groups[0] }}" state=directory mode=0700
 
 - name: Lets copy the template id_rsa to auth_keys location.
-  copy: src="{{ role_path }}/../../files/hadoop_id_rsa.pub" dest=~/.ssh/authorized_keys mode=644
-  sudo: yes
-  sudo_user: "{{ hadoop_user }}"
+  copy: src="{{ role_path }}/../../files/hadoop_id_rsa.pub" dest="/data/local/home/{{ hadoop_user }}/.ssh/authorized_keys" mode=644
 
 - name: Lets copy id_rsa to location .ssh.
-  copy: src="{{ role_path }}/../../files/hadoop_id_rsa" dest=~/.ssh/id_rsa mode=600
-  sudo: yes
-  sudo_user: "{{ hadoop_user }}"
+  copy: src="{{ role_path }}/../../files/hadoop_id_rsa" dest="/data/local/home/{{ hadoop_user }}/.ssh/id_rsa" mode=600
 
 - name: Lets copy id_rsa.pub to location .ssh.
-  copy: src="{{ role_path }}/../../files/hadoop_id_rsa.pub" dest=~/.ssh/id_rsa.pub mode=644
-  sudo: yes
-  sudo_user: "{{ hadoop_user }}"
+  copy: src="{{ role_path }}/../../files/hadoop_id_rsa.pub" dest="/data/local/home/{{ hadoop_user }}/.ssh/id_rsa.pub" mode=644
 
 - name: Ensure Hadoop directory exists
   file: path="{{ hadoop_dir }}" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=g+rw
