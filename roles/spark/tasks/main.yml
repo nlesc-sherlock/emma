@@ -223,9 +223,6 @@
     - python-gdal
     - python3-gdal
 
-- name: Install python-geotrellis
-  pip: name=python-geotrellis executable=pip3
-
 #Steps to get SciSpark
 - name: Install Git
   apt: name=git
