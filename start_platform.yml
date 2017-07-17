@@ -7,6 +7,8 @@
   - vars/hadoop_vars.yml
   environment: 
     JAVA_HOME: "{{ java_home }}"
+    HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
+    HADOOP_CONF_DIR: "{{ hadoop_conf_dir }}"
   tasks:
     - include: roles/hadoop/tasks/start-hadoop.yml
   tags:
@@ -30,8 +32,16 @@
    - vars/minio_vars.yml
   tasks:
     - include: roles/spark/tasks/start-spark.yml
-    - include: roles/jupyterhub/tasks/start-jupyterhub.yml
   tags:
     - spark
+
+- hosts: jupyterhub
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/spark_vars.yml
+  tasks:
+    - include: roles/jupyterhub/tasks/start-jupyterhub.yml
+  tags:
     - jupyterhub
 

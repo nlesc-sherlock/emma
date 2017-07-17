@@ -1,4 +1,14 @@
 ---
+- hosts: jupyterhub
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/spark_vars.yml
+  tasks:
+    - include: roles/jupyterhub/tasks/stop-jupyterhub.yml
+  tags:
+    - jupyterhub
+
 - hosts: spark
   remote_user: ubuntu
   become: true
@@ -6,11 +16,9 @@
    - vars/spark_vars.yml
    - vars/minio_vars.yml
   tasks:
-    - include: roles/jupyterhub/tasks/stop-jupyterhub.yml
     - include: roles/spark/tasks/stop-spark.yml
   tags:
-    - hadoop
-
+    - spark
 
 - hosts: minio
   remote_user: ubuntu
@@ -31,7 +39,6 @@
   tasks:
     - include: roles/hadoop/tasks/stop-hadoop.yml
   tags:
-    - spark
-    - jupyterhub
+    - hadoop
 
 
