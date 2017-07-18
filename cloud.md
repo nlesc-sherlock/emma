@@ -2,7 +2,10 @@
 
 Once the virtual machines are instantiated in the cloud give some time for their kernel get updated. For cloud based setup, skip this when deploying to vagrant. The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with (make sure first you read [ansible.md](ansible.md) to have Ansbile up and running):
 ```
-ansible-playbook -e datadisk=/dev/vdb prepcloud-playbook.yml
+#First define the environment, use env_linux.sh.template. Then run
+. env_linux.sh
+
+ansible-playbook -e datadisk=/dev/vdb -e host_name=$HOST_NAME prepcloud-playbook.yml
 ```
 
 If the first run fails because the **apt-get update** fails the solution is to reboot the machines and then log in into each of them using the web-ui and do the following:

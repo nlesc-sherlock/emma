@@ -22,11 +22,12 @@
   with_items:
     - traitlets
     - pyyaml
+    - requests
 
 - name: Install pixiedust
   pip: name=pixiedust executable=pip3
 
-- name: Pixiedust to Jupyter
+- name: Pixiedust for Jupyter
   expect:
     command: "jupyter pixiedust install"
     responses:

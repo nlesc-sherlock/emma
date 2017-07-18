@@ -9,6 +9,8 @@
     - nodejs
     - nodejs-legacy
     - libffi-dev
+    - libcurl4-openssl-dev
+
 - name: configurable-http-proxy
   npm: name=configurable-http-proxy global=yes
 

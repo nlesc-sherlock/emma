@@ -1,4 +1,11 @@
 ---
+users:
+  - name: emma
+    uid: 1100
+    # Password created with `mkpasswd --method=SHA-512 pass1234`
+    password: $6$6/6NkDn01w$6ld/sdc/B42cVtSNFQTQLlNPYOqin8m4kluy.QbvtLraHLliTs5QaPIYJcKyYr7KKhsY2znFZLSC2YzdROKwZ.
+    # Also add roles/common/files/<username>.key and roles/common/files/<username>.key.pub
+    # with ssh-keygen -f roles/common/files/<username>.key
 
 trusted_networks:
   - 10.100.107.0/8
@@ -8,3 +15,4 @@ trusted_networks:
 python_packages:
 
 system_packages:
+  - aptitude

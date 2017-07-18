@@ -6,11 +6,11 @@
   - name: Mkdir /root/.ssh
     file: name=/root/.ssh owner=root state=directory
   - name: Copy private ssh key for root
-    copy: src=emma.key dest=/root/.ssh/id_rsa owner=root mode=go-rw
+    copy: src={{ host_name }}.key dest=/root/.ssh/id_rsa owner=root mode=go-rw
   - name: Copy public ssh key for root
-    copy: src=emma.key.pub dest=/root/.ssh/id_rsa.pub owner=root
+    copy: src={{ host_name }}.key.pub dest=/root/.ssh/id_rsa.pub owner=root
   - name: Copy authorized keys for root
-    copy: src=emma.key.pub dest=/root/.ssh/authorized_keys owner=root
+    copy: src={{ host_name }}.key.pub dest=/root/.ssh/authorized_keys owner=root
   - name: Create data directory
     file: path=/data/local state=directory
   - name: Create partition on {{ datadisk }}

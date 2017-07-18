@@ -1,8 +1,8 @@
 ---
 - name: Set firewall settings
-    include: firewall.yml
-    tags:
-  - firewall
+  include: firewall.yml
+  tags:
+    - firewall
 
 - name: Set hostname to fqdn
   hostname: name='{{ inventory_hostname }}'
@@ -57,7 +57,7 @@
 - name: NTP
   apt: name=ntp
 - name: Home dir on /data/local/home
-  file: path=/data/local/home state=directory
+  file: path=/data/local/home state=directory owner=ubuntu group=users mode=g+rwx
 - name: Posix users
   user: user={{ item.name }} group=users shell=/bin/bash uid={{ item.uid }} password='{{ item.password }}' home=/data/local/home/{{ item.name }} move_home=yes
   with_items: "{{ users }}"
