@@ -18,6 +18,9 @@ The user should check if each role has extra steps to setup environment. For exa
 ## Install ansible
 The recommended version is Ansible 2.2. Ansible should be installed using pip. To install pip and ansible dependencies do the following:
 ```
+# Update apt-get
+sudo  apt-get update
+
 #Install pip:
 sudo apt-get install python-pip
 
