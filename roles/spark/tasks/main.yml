@@ -19,7 +19,6 @@
 - name: Gradle
   apt: name=gradle
 
-
 #Setting up Spark
 - name: Create service account for Spark
   user: name={{ spark_user }}
@@ -29,6 +28,44 @@
         state=present
         groups="{{ spark_user_groups | join(',') }}"
   tags: ["spark-user"]
+
+- stat: path="{{ spark_src_dir }}/spark-{{ spark_version }}-bin-without-hadoop.tgz"
+  register: spark_dirs
+
+- name: Remove Spark directories if we are installing a new version
+  shell: "{{ item }}"
+  with_items:
+    - sudo rm -fr {{ spark_dir }}
+    - sudo rm -fr {{ spark_conf_dir }}
+    - sudo rm -fr {{ spark_log_dir }}
+    - sudo rm -fr {{ spark_run_dir }}
+    - sudo rm -fr {{ spark_work_dir }}
+    - sudo rm -fr {{ spark_src_dir }}/spark*
+    - sudo rm -fr {{ spark_usr_parent_dir }}/spark*
+  when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
+
+- name: Remove symlinks
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ spark_usr_dir }}"
+    - "{{ spark_conf_dir }}/conf"
+  when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
+
+- name: Remove the shortcuts
+  shell: "{{ item }}"
+  with_items:
+    - sudo rm -f /usr/bin/spark-class
+    - sudo rm -f /usr/bin/spark-shell
+    - sudo rm -f /usr/bin/spark-sql
+    - sudo rm -f /usr/bin/spark-submit
+    - sudo rm -f /usr/bin/pyspark
+  when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
+
+ name: Remove SciSpark jar so it is re-compiled for the new Spark version
+ shell: "sudo rm -fr {{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
+ when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
 
 - name: Ensure Spark directory exists
   file: path="{{ spark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
