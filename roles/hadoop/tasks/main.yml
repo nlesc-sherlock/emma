@@ -36,6 +36,33 @@
     - "{{ hadoop_log_dir }}"
     - "{{ hadoop_run_dir }}"
 
+- stat: path="{{ hadoop_src_dir }}/hadoop-{{ hadoop_version }}.tar.gz"
+  register: hadoop_dirs
+
+- name: Remove Hadoop directories if we are installing a new version
+  shell: "{{ item }}"
+  with_items:
+    - sudo rm -fr {{ hadoop_src_dir }}/hadoop*
+    - sudo rm -fr {{ hadoop_usr_parent_dir }}/hadoop*
+  when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
+
+- name: Remove symlinks
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ hadoop_usr_dir }}"
+    - "{{ hadoop_conf_dir }}"
+  when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
+
+- name: Remove the shortcuts
+  shell: "{{ item }}"
+  with_items:
+    - sudo rm -f /usr/bin/hadoop
+    - sudo rm -f /usr/bin/hdfs
+    - sudo rm -f /usr/bin/yarn
+  when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
+
 - name: Download Hadoop distribution
   get_url: url="{{ hadoop_mirror }}/hadoop-{{ hadoop_version }}//hadoop-{{ hadoop_version }}.tar.gz"
            dest="{{ hadoop_src_dir }}/hadoop-{{ hadoop_version }}.tar.gz"
@@ -45,6 +72,9 @@
              dest="{{ hadoop_usr_parent_dir }}"
              copy=no
              creates="{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}"
+
+- name: remove the Hadoop doc dir
+  shell: "sudo rm -fr {{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}/share/doc"
 
 - name: Setup Hadoop distribution symlinks
   file: src="{{ item.src }}"

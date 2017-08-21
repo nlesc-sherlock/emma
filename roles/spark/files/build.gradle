@@ -13,6 +13,9 @@ repositories {
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    maven {
+        url "https://repo1.maven.org/maven2/"
+    }
 }
 
 // In this section you declare the dependencies for your production and test code
@@ -21,6 +24,7 @@ dependencies {
     compile group: 'com.github.fommil.netlib', name: 'all', version: '1.1.2'
     compile group: 'org.locationtech.geotrellis', name: 'geotrellis-spark_2.11', version: '1.1.0-RC4'
     compile group: 'org.locationtech.geotrellis', name: 'geotrellis-s3_2.11', version: '1.1.0-RC4'
+    compile group: 'com.quantifind', name: 'wisp_2.11', version: '0.0.4'
 }
 
 ext.compileLibDir = file('/usr/lib/spark/jars')
