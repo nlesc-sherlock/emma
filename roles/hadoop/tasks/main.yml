@@ -73,8 +73,10 @@
              copy=no
              creates="{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}"
 
-- name: remove the Hadoop doc dir
-  shell: "sudo rm -fr {{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}/share/doc"
+- name: Remove the Hadoop doc dir
+  file:
+    state: absent
+    path: "{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}/share/doc/"
 
 - name: Setup Hadoop distribution symlinks
   file: src="{{ item.src }}"
