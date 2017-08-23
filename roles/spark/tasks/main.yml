@@ -33,15 +33,17 @@
   register: spark_dirs
 
 - name: Remove Spark directories if we are installing a new version
-  shell: "{{ item }}"
+  file:
+    state: absent
+    path: "{{ item }}"
   with_items:
-    - sudo rm -fr {{ spark_dir }}
-    - sudo rm -fr {{ spark_conf_dir }}
-    - sudo rm -fr {{ spark_log_dir }}
-    - sudo rm -fr {{ spark_run_dir }}
-    - sudo rm -fr {{ spark_work_dir }}
-    - sudo rm -fr {{ spark_src_dir }}/spark*
-    - sudo rm -fr {{ spark_usr_parent_dir }}/spark*
+    - "{{ spark_dir }}"
+    - "{{ spark_conf_dir }}"
+    - "{{ spark_log_dir }}"
+    - "{{ spark_run_dir }}"
+    - "{{ spark_work_dir }}"
+    - "{{ spark_src_dir }}/spark*"
+    - "{{ spark_usr_parent_dir }}/spark*"
   when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
 
 - name: Remove symlinks
@@ -54,18 +56,22 @@
   when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
 
 - name: Remove the shortcuts
-  shell: "{{ item }}"
+  file:
+    state: absent
+    path: "{{ item }}"
   with_items:
-    - sudo rm -f /usr/bin/spark-class
-    - sudo rm -f /usr/bin/spark-shell
-    - sudo rm -f /usr/bin/spark-sql
-    - sudo rm -f /usr/bin/spark-submit
-    - sudo rm -f /usr/bin/pyspark
+    - /usr/bin/spark-class
+    - /usr/bin/spark-shell
+    - /usr/bin/spark-sql
+    - /usr/bin/spark-submit
+    - /usr/bin/pyspark
   when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
 
- name: Remove SciSpark jar so it is re-compiled for the new Spark version
- shell: "sudo rm -fr {{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
- when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
+- name: Remove SciSpark jar so it is re-compiled for the new Spark version
+  file:
+    state: absent
+    path: "{{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
+  when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
 
 - name: Ensure Spark directory exists
   file: path="{{ spark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
@@ -283,4 +289,7 @@
   when: p.stat.exists is defined and not p.stat.exists
 
 - name: Copy jar to Spark jars dir
-  shell: cp {{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar {{ spark_usr_dir }}/jars/SciSpark.jar
+  copy:
+    remote_src: true
+    src: "{{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
+    dest: "{{ spark_usr_dir }}/jars/SciSpark.jar"
