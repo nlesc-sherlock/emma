@@ -40,10 +40,26 @@
   register: hadoop_dirs
 
 - name: Remove Hadoop directories if we are installing a new version
-  shell: "{{ item }}"
+  file:
+    state: absent
+    path: "{{ item }}"
   with_items:
-    - sudo rm -fr {{ hadoop_src_dir }}/hadoop*
-    - sudo rm -fr {{ hadoop_usr_parent_dir }}/hadoop*
+    - "{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}/"
+    - "{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_prev_version }}/"
+  when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
+
+- name: Find Hadoop tars to be removed if we are installing a new version.
+  find:
+    paths: "{{ hadoop_src_dir }}/"
+    patterns: "hadoop*"
+  register: hadoop_tars_to_delete
+  when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
+
+- name: Remove Hadoop tars if we are installing a new version
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ hadoop_tars_to_delete.files }}"
   when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
 
 - name: Remove symlinks
@@ -56,11 +72,13 @@
   when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
 
 - name: Remove the shortcuts
-  shell: "{{ item }}"
+  file:
+    state: absent
+    path: "{{ item }}"
   with_items:
-    - sudo rm -f /usr/bin/hadoop
-    - sudo rm -f /usr/bin/hdfs
-    - sudo rm -f /usr/bin/yarn
+    - /usr/bin/hadoop
+    - /usr/bin/hdfs
+    - /usr/bin/yarn
   when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
 
 - name: Download Hadoop distribution
