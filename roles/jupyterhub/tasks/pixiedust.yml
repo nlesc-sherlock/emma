@@ -34,7 +34,7 @@
       'Keep y/n [y]?': "n" 
       'Please enter a PIXIEDUST_HOME location': "{{ pixiedust_home_dir }}"
       'Step 2: Please enter a SPARK_HOME location': "{{ spark_usr_dir }}"
-      'Please enter a SCALA_HOME location': "/usr/share/scala-2.11" 
+      'Please enter a SCALA_HOME location': "/usr/share/scala/"
       'Please enter a Kernel Name': "Python with Pixiedust (Spark 2.1)"
 
 - name: Use python3.5
@@ -44,7 +44,4 @@
     line: '  "python3.5",'
 
 - name: Copy kernel to global kernels dir
-  copy:
-    remote_src: true
-    src: /root/.local/share/jupyter/kernels/pythonwithpixiedustspark21/
-    dest: /usr/local/share/jupyter/kernels/
+  shell: "cp -r /root/.local/share/jupyter/kernels/pythonwithpixiedustspark21/ /usr/local/share/jupyter/kernels/"
