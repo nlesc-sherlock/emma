@@ -34,7 +34,7 @@
       'Keep y/n [y]?': "n" 
       'Please enter a PIXIEDUST_HOME location': "{{ pixiedust_home_dir }}"
       'Step 2: Please enter a SPARK_HOME location': "{{ spark_usr_dir }}"
-      'Please enter a SCALA_HOME location': "/usr/share/scala-2.11" 
+      'Please enter a SCALA_HOME location': "/usr/share/scala/"
       'Please enter a Kernel Name': "Python with Pixiedust (Spark 2.1)"
 
 - name: Use python3.5

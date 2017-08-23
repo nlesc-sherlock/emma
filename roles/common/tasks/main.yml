@@ -45,14 +45,15 @@
 - name: Upgrade APT to the lastest packages
   apt: upgrade=full
 - name: Rebooting machine so new kernel is active
-  command: sleep 5 && shutdown -r now removes=/var/run/reboot-required
+  become: yes
+  shell: sleep 5 && shutdown -r now removes=/var/run/reboot-required
   async: 1
   poll: 0
   ignore_errors: true
   register: restarted
 - name: Waiting for reboot...
-  local_action: wait_for host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex=OpenSSH port=22 delay=15 state=started
-  sudo: no
+  become: false
+  local_action: wait_for host={{ ansible_default_ipv4.address }} search_regex=OpenSSH port=22 delay=30 timeout=60 state=started
   when: restarted.changed
 - name: NTP
   apt: name=ntp

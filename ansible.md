@@ -110,6 +110,24 @@ On the other hand, if you want to start the platform with exception of Minio ser
 ansible-playbook start_platform.yml --skip-tags "minio"
 ```
 
+### Update an existent cluster
+In case a cluster is already installed and the user wants update the **Hadoop** or **Spark** cluster to an older or newer version the user should do the following:
+```
+#edit vars/hadoop_vars.yml and set
+hadoop_prev_version: "<current_version>"
+hadoop_version: "<new_version>"
+
+#edit vars/spark_vars.yml and set
+spark_prev_version: "<current_version>"
+spark_version: "<new_version>"
+
+#Run installation script just for Hadoop and Spark
+ansible-playbook playbooks/install_spark.yml --tags "hadoop,spark"
+
+#In case the user does not want to format HDFS
+ansible-playbook playbooks/install_spark.yml --tags "hadoop,spark" --skip-tags "hdfs_format"
+```
+
 ## Demo deployment
 
 A demo deployment which uses the platform set by the above playbooks is done using the demos for the Sherlock project.

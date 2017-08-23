@@ -1,4 +1,5 @@
 ---
+hadoop_prev_version: "2.8.0"
 hadoop_version: "2.8.0"
 hadoop_mirror: "http://apache.proserve.nl/hadoop/common/"
 hadoop_conf_dir: "/etc/hadoop/conf"

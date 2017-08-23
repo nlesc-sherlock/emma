@@ -40,10 +40,26 @@
   register: hadoop_dirs
 
 - name: Remove Hadoop directories if we are installing a new version
-  shell: "{{ item }}"
+  file:
+    state: absent
+    path: "{{ item }}"
   with_items:
-    - sudo rm -fr {{ hadoop_src_dir }}/hadoop*
-    - sudo rm -fr {{ hadoop_usr_parent_dir }}/hadoop*
+    - "{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}/"
+    - "{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_prev_version }}/"
+  when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
+
+- name: Find Hadoop tars to be removed if we are installing a new version.
+  find:
+    paths: "{{ hadoop_src_dir }}/"
+    patterns: "hadoop*"
+  register: hadoop_tars_to_delete
+  when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
+
+- name: Remove Hadoop tars if we are installing a new version
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ hadoop_tars_to_delete.files }}"
   when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
 
 - name: Remove symlinks
@@ -56,11 +72,13 @@
   when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
 
 - name: Remove the shortcuts
-  shell: "{{ item }}"
+  file:
+    state: absent
+    path: "{{ item }}"
   with_items:
-    - sudo rm -f /usr/bin/hadoop
-    - sudo rm -f /usr/bin/hdfs
-    - sudo rm -f /usr/bin/yarn
+    - /usr/bin/hadoop
+    - /usr/bin/hdfs
+    - /usr/bin/yarn
   when: hadoop_dirs.stat.exists is defined and not hadoop_dirs.stat.exists
 
 - name: Download Hadoop distribution
@@ -73,8 +91,10 @@
              copy=no
              creates="{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}"
 
-- name: remove the Hadoop doc dir
-  shell: "sudo rm -fr {{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}/share/doc"
+- name: Remove the Hadoop doc dir
+  file:
+    state: absent
+    path: "{{ hadoop_usr_parent_dir }}/hadoop-{{ hadoop_version }}/share/doc/"
 
 - name: Setup Hadoop distribution symlinks
   file: src="{{ item.src }}"
@@ -122,65 +142,80 @@
   stat:
     path: "{{ hadoop_dir }}/namenode"
   register: stat_result
+  tags: ["hdfs_format"] 
 
 - name: Delete namenode if it exists
   file:
    state: absent
    path: "{{ hadoop_dir }}/namenode/"
   when: stat_result.stat.exists == True
+  tags: ["hdfs_format"] 
 
 - name: Ensure Hadoop namenode directory exists
   file: path="{{ hadoop_dir }}/namenode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Check if datanode exists
   stat:
     path: "{{ hadoop_dir }}/datanode"
   register: stat_result
+  tags: ["hdfs_format"] 
 
 - name: Delete datanode if it exists
   file:
    state: absent
    path: "{{ hadoop_dir }}/datanode/"
   when: stat_result.stat.exists == True
+  tags: ["hdfs_format"] 
 
 - name: Ensure Hadoop datanode directory exists
   file: path="{{ hadoop_dir }}/datanode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
   when: inventory_hostname in groups['hadoop-datanode']
+  tags: ["hdfs_format"] 
 
 - name: Format namenode
   script: namenode_format.sh
   register: namenode_format
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - include: start-hadoop.yml
+  tags: ["hdfs_format"] 
 
 - name: Create HDFS /tmp
   shell: hadoop fs -mkdir -p /tmp
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Create HDFS /var
   shell: hadoop fs -mkdir -p /var/log
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Create HDFS /user dirs
   shell: hadoop fs -mkdir -p /user/history
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Set HDFS permissions
   shell: hadoop fs -chmod -R 1777 /tmp
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 - name: Set HDFS permissions
   shell: hadoop fs -chmod -R 1777 /var
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 - name: Set HDFS permissions
   shell: hadoop fs -chmod -R 1777 /user
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Create HDFS home dirs for users
-  tags: noinit
   shell: "hadoop fs -mkdir -p /user/{{ item }} ; hadoop fs -chown {{ item }}:{{ item }} /user/{{ item }} ; hadoop fs -chmod -R 755 /user/{{ item }}"
   with_items: "{{ hadoop_users }}"
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - include: stop-hadoop.yml
+  tags: ["hdfs_format"] 
