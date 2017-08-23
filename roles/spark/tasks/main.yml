@@ -38,12 +38,25 @@
     path: "{{ item }}"
   with_items:
     - "{{ spark_dir }}"
-    - "{{ spark_conf_dir }}"
     - "{{ spark_log_dir }}"
     - "{{ spark_run_dir }}"
     - "{{ spark_work_dir }}"
-    - "{{ spark_src_dir }}/spark*"
-    - "{{ spark_usr_parent_dir }}/spark*"
+    - "{{ spark_usr_parent_dir }}/spark-{{ spark_version }}-bin-without-hadoop/"
+    - "{{ spark_usr_parent_dir }}/spark-{{ spark_prev_version }}-bin-without-hadoop/"
+  when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
+
+- name: Find Spark tars to be removed if we are installing a new version.
+  find:
+    paths: "{{ spark_src_dir }}/"
+    patterns: "spark*"
+  register: spark_tars_to_delete
+  when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
+
+- name: Remove Spark tars if we are installing a new version
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ spark_tars_to_delete.files }}"
   when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
 
 - name: Remove symlinks
