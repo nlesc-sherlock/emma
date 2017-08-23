@@ -142,65 +142,80 @@
   stat:
     path: "{{ hadoop_dir }}/namenode"
   register: stat_result
+  tags: ["hdfs_format"] 
 
 - name: Delete namenode if it exists
   file:
    state: absent
    path: "{{ hadoop_dir }}/namenode/"
   when: stat_result.stat.exists == True
+  tags: ["hdfs_format"] 
 
 - name: Ensure Hadoop namenode directory exists
   file: path="{{ hadoop_dir }}/namenode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Check if datanode exists
   stat:
     path: "{{ hadoop_dir }}/datanode"
   register: stat_result
+  tags: ["hdfs_format"] 
 
 - name: Delete datanode if it exists
   file:
    state: absent
    path: "{{ hadoop_dir }}/datanode/"
   when: stat_result.stat.exists == True
+  tags: ["hdfs_format"] 
 
 - name: Ensure Hadoop datanode directory exists
   file: path="{{ hadoop_dir }}/datanode" state=directory owner={{ hadoop_user }} group={{ hadoop_user_groups[0] }} mode=700
   when: inventory_hostname in groups['hadoop-datanode']
+  tags: ["hdfs_format"] 
 
 - name: Format namenode
   script: namenode_format.sh
   register: namenode_format
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - include: start-hadoop.yml
+  tags: ["hdfs_format"] 
 
 - name: Create HDFS /tmp
   shell: hadoop fs -mkdir -p /tmp
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Create HDFS /var
   shell: hadoop fs -mkdir -p /var/log
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Create HDFS /user dirs
   shell: hadoop fs -mkdir -p /user/history
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Set HDFS permissions
   shell: hadoop fs -chmod -R 1777 /tmp
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 - name: Set HDFS permissions
   shell: hadoop fs -chmod -R 1777 /var
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 - name: Set HDFS permissions
   shell: hadoop fs -chmod -R 1777 /user
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - name: Create HDFS home dirs for users
-  tags: noinit
   shell: "hadoop fs -mkdir -p /user/{{ item }} ; hadoop fs -chown {{ item }}:{{ item }} /user/{{ item }} ; hadoop fs -chmod -R 755 /user/{{ item }}"
   with_items: "{{ hadoop_users }}"
   when: inventory_hostname in groups['hadoop-namenode']
+  tags: ["hdfs_format"] 
 
 - include: stop-hadoop.yml
+  tags: ["hdfs_format"] 
