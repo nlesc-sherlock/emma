@@ -44,4 +44,7 @@
     line: '  "python3.5",'
 
 - name: Copy kernel to global kernels dir
-  shell: "cp -r /root/.local/share/jupyter/kernels/pythonwithpixiedustspark21/ /usr/local/share/jupyter/kernels/"
+  copy:
+    remote_src: true
+    src: /root/.local/share/jupyter/kernels/pythonwithpixiedustspark21/
+    dest: /usr/local/share/jupyter/kernels/
