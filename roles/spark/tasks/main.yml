@@ -19,6 +19,13 @@
 - name: Gradle
   apt: name=gradle
 
+- name: Get Scala
+  get_url: url="http://www.scala-lang.org/files/archive/scala-{{ scala_version }}.deb"
+           dest="/tmp/scala-{{ scala_version }}.deb"
+
+- name: Install Scala
+  shell: "dpkg -r scala ; dpkg -i /tmp/scala-{{ scala_version }}.deb"
+
 #Setting up Spark
 - name: Create service account for Spark
   user: name={{ spark_user }}
@@ -80,11 +87,20 @@
     - /usr/bin/pyspark
   when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
 
+- stat: path="{{ spark_src_dir }}/spark-{{ spark_version }}-bin-without-hadoop.tgz"
+  register: spark_dirs
+  when: spark_dirs is not defined
+  tags: ["scispark"]
+
 - name: Remove SciSpark jar so it is re-compiled for the new Spark version
   file:
     state: absent
-    path: "{{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
+    path: "{{ item }}"
+  with_items:
+    - "{{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
+    - "{{ spark_usr_dir }}/jars/SciSpark.jar"
   when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
+  tags: ["scispark"]
 
 - name: Ensure Spark directory exists
   file: path="{{ spark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
@@ -285,24 +301,29 @@
 
 - name: Ensure SciSpark directory exists
   file: path="{{ scispark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
+  tags: ["scispark"]
 
 - name: Clone SciSpark GitHub repository
   git:
     repo: https://github.com/SciSpark/SciSpark
     dest: "{{ scispark_dir }}/SciSpark"
     update: no
+  tags: ["scispark"]
 
 - stat: path={{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar
   register: p
+  tags: ["scispark"]
 
 - name: Sbt Assembly SciSpark
-  shell: "cd {{ scispark_dir }}/SciSpark ; sbt -Dspark.version={{ spark_version }} -Dscala.version={{ scala_version }} clean assembly"
+  shell: "cd {{ scispark_dir }}/SciSpark ; sbt -Dspark.version={{ spark_version }} -Dscala.version={{ scala_version }} -Dsbt.version={{ sbt_version }} clean assembly"
   environment:
     SPARK_HOME: "{{ spark_usr_dir }}"
   when: p.stat.exists is defined and not p.stat.exists
+  tags: ["scispark"]
 
 - name: Copy jar to Spark jars dir
   copy:
     remote_src: true
     src: "{{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
     dest: "{{ spark_usr_dir }}/jars/SciSpark.jar"
+  tags: ["scispark"]
