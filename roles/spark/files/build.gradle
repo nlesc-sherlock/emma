@@ -20,11 +20,9 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    //compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.10.56'
     compile group: 'com.github.fommil.netlib', name: 'all', version: '1.1.2'
     compile group: 'org.locationtech.geotrellis', name: 'geotrellis-spark_2.11', version: '1.1.0-RC4'
     compile group: 'org.locationtech.geotrellis', name: 'geotrellis-s3_2.11', version: '1.1.0-RC4'
-    compile group: 'com.quantifind', name: 'wisp_2.11', version: '0.0.4'
 }
 
 ext.compileLibDir = file('/usr/lib/spark/jars')
