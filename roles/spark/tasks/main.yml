@@ -285,7 +285,7 @@
   copy: src=build.gradle dest=/home/ubuntu/build.gradle
 
 - name: Gradle install dependencies
-  shell: sudo gradle downloadDependencies
+  shell: gradle downloadDependencies
 
     #Geotrellis for Python
 - name: add repository for GDAL
