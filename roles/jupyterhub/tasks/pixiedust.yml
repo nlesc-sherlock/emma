@@ -9,9 +9,6 @@
 - name: Ensure Pixiedust bin directory exists
   file: path="{{ pixiedust_home_dir }}/bin" state=directory group=users mode=g+rw
 
-- name: Install Scala
-  apt: name=scala
-
 - name: Install dependencies for ansible
   pip: name={{ item }} executable=pip
   with_items:
