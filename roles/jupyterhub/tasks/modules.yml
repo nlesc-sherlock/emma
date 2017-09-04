@@ -32,3 +32,13 @@
 
 - name: Install rasterio
   shell: "cd {{ jupyterhub_modules_dir }}/rasterio/ ; pip3 install -e .[test]"
+
+- name: extras pip modules
+  pip: name={{ item }} executable=pip3
+  with_items:
+    - scikit-learn
+    - ipywidgets
+    - pillow
+
+- name: widgetsnb extension for Jupyter
+  command: jupyter nbextension enable --sys-prefix --py widgetsnbextension
