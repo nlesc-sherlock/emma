@@ -96,7 +96,7 @@
     state: absent
     path: "{{ item }}"
   with_items:
-    - "{{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
+    - "{{ scispark_dir }}/SciSpark/target/scala-{{ scala_release }}/SciSpark.jar"
     - "{{ spark_usr_dir }}/jars/SciSpark.jar"
   when: spark_dirs_sci.stat.exists is defined and not spark_dirs_sci.stat.exists
   tags: ["scispark"]
@@ -318,7 +318,7 @@
     update: no
   tags: ["scispark"]
 
-- stat: path={{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar
+- stat: path={{ scispark_dir }}/SciSpark/target/scala-{{ scala_release }}/SciSpark.jar
   register: p
   tags: ["scispark"]
 
@@ -332,6 +332,6 @@
 - name: Copy jar to Spark jars dir
   copy:
     remote_src: true
-    src: "{{ scispark_dir }}/SciSpark/target/scala-2.11/SciSpark.jar"
+    src: "{{ scispark_dir }}/SciSpark/target/scala-{{ scala_release }}/SciSpark.jar"
     dest: "{{ spark_usr_dir }}/jars/SciSpark.jar"
   tags: ["scispark"]
