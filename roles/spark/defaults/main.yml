@@ -1,5 +1,6 @@
 ---
 sbt_version: 0.13.15
+scala_release: 2.11
 scala_version: 2.11.8
 spark_prev_version: "2.1.1"
 spark_version: "2.1.1"
