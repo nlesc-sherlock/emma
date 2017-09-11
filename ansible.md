@@ -110,7 +110,7 @@ On the other hand, if you want to start the platform with exception of Minio ser
 ansible-playbook start_platform.yml --skip-tags "minio"
 ```
 
-### Update an existent cluster
+### Update an existent platform
 In case a cluster is already installed and the user wants update the **Hadoop** or **Spark** cluster to an older or newer version the user should do the following:
 ```
 #edit vars/hadoop_vars.yml and set
