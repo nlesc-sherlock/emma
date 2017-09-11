@@ -3,8 +3,8 @@
 /*.retry
 /env
 /.vagrant
-emma.key
-emma.key.pub
+*.key
+*.key.pub
 /*-cloudimg-console.log
 vars/minio_vars.yml
 vars/spark_vars.yml
@@ -18,4 +18,6 @@ vars/common_vars.yml
 vars/hadoop_vars.yml
 files/hadoop_id_rsa
 files/hadoop_id_rsa.pub
+files/*.key
+files/*.key.pub
 playbooks/*.retry
