@@ -14,6 +14,9 @@ minio_server_envfile: /etc/default/minio
 # Minio server listen address
 minio_server_addr: ":9091"
 
+# Minio directories
+minio_dir: "/data/local/minio"
+
 # Minio server data directories
 minio_server_datadir: "/data/local/minio/data"
 
