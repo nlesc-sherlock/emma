@@ -2,6 +2,10 @@
 
 Vagrant is a tool to emulate a cluster of machines.
 
+## Requirements
+
+The user needs to have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed.
+
 ## Installation
 
 For Linux systems a simple package installation is enough.
