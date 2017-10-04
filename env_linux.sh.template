@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# THE USER SHOULD REPLACE ALL variables which are set to <...>
+# THE USER SHOULD REPLACE ALL variables which are set to <...> with lower case words or numbers.
  
 export CLUSTER_NAME=<name>    # How you want your cluster be called, machine's name prefix and cluster's user name.
 export HOST_DOMAIN=<domain>   # How you want your domain to be 
