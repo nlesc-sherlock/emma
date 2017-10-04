@@ -15,7 +15,6 @@ sudo apt-get install vagrant
 ```
 
 For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed as if it was to be executed using the CMD console. To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation. To solve it is required to click in properties and claim ownership of the directory so the installation can proceed. Despite it is installed to be used on the CMD console vagrant.exe can be called from using [Ubuntu environment](#windows). Before doing that some environment variables need to be set. Create *env_linux.sh* and run *env_windows.sh* on [Ubuntu environment](#windows) before using *vagrant.exe*.
-
 ```
 #create and edit env_linux.sh.template
 cp env_linux.sh.template env_linux.cmd
@@ -26,6 +25,12 @@ vim env_linux.cmd
 #On Ubuntu bash for Windows run, it is required to restart all consoles to have the environment variables set.
 ./env_windows.sh
 ```
+
+**NOTE:** despite the [Ubuntu environment](#windows) is used to run Vagrant the user should call the vagrant's command as this:
+```
+vagrant.exe
+```
+
 ### Plugins
 Vagrant needs two plugins and they will be installed in *VAGRANT\_HOME*.
 ```
@@ -69,16 +74,16 @@ vagrant(.exe) destroy
 
 In case vagrant needs to be set using a private network due to issues in getting IPs in the public network the option **--network-type=private_network** should be used.
 ```
-vagrant --network-type=private_network up
+vagrant(.exe) --network-type=private_network up
 ```
-If not used, vagrant will set a public network by default. To switch between a public and private network and vice versa it is required a **vagrant halt** and then **vagrant up**, it is not recommended to use **vagrant reload**.
+
+If not used, vagrant will set a public network by default. To switch between a public and private network and vice versa it is required a **vagrant(.exe) halt** and then **vagrant(.exe) up**, it is not recommended to use **vagrant(.exe) reload**.
 
 ## Check
 
 Verify login for *N* hosts.
 ```
-ssh -i pheno.key root@pheno0.$HOST_DOMAIN uptime
+ssh -i ${HOST_NAME}.key root@pheno0.$HOST_DOMAIN uptime
 ...
-ssh -i pheno.key root@phenoN.$HOST_DOMAIN uptime
+ssh -i ${HOST_NAME}.key root@phenoN.$HOST_DOMAIN uptime
 ```
-
