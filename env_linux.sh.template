@@ -2,7 +2,7 @@
 
 # THE USER SHOULD REPLACE ALL variables which are set to <...>
  
-export CLUSTER_NAME=<name>       # How you want your hosts be called
+export CLUSTER_NAME=<name>    # How you want your cluster be called, machine's name prefix and cluster's user name.
 export HOST_DOMAIN=<domain>   # How you want your domain to be 
 export NUM_HOSTS=<num_hosts>  # How many host you would like to have
 
