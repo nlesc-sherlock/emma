@@ -66,7 +66,7 @@ vim env_linux.sh
 #On each bash
 . env_linux.sh
 
-# Key used by root
+# Key used by root, no need of passphrase
 ssh-keygen -f ${HOST_NAME}.key
 # Key used by ${HOST_NAME} user
 ssh-keygen -f files/${HOST_NAME}.key
@@ -105,4 +105,4 @@ Once the machines are prepared the servers are provisioned using [Ansible](https
 * [Docker Swarm](dockerswarm.md)
 * [JupyterHub](jupyterhub.md)
 
-To install it and configure it please read **[ansible.md](ansible.md)**, but before doing it we also recommend the user to click on each feature to understand the setup requirements for each them.
+Preceding the platform's installation, the user should click on each feature to understand the setup requirements for each of them. Once all the requirements have been fulfilled, the user should follow the platform's installation steps listed in **[ansible.md](ansible.md)**.
