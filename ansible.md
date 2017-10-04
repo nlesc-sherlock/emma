@@ -15,8 +15,9 @@ cd <path_to_emma>/emma
 ```
 The user should check if each role has extra steps to setup environment. For example, the Hadoop role requires the generation of an extra ssh-key for the Hadoop user.
 
-## Install ansible
-The recommended version is Ansible 2.2. Ansible should be installed using pip. To install pip and ansible dependencies do the following:
+## Install Ansible
+The recommended version is Ansible 2.3. However, we try to have the playbooks aligned with the latest version.
+Before installing Ansible, the user needs to install the followin dependencies:
 ```
 # Update apt-get
 sudo  apt-get update
@@ -33,16 +34,9 @@ sudo pip install testinfra
 #Dependencies
 pip install wheel
 
-#Install ansible (Note that sudo is not used here because you are installing Ansible into your own virtual environment.):
-pip install ansible
-
 ```
 
-POSIX user `${HOST_NAME}` created with password `pass1234`.
-To add more users edit `roles/common/vars/main.yml` file.
-
-Firewall only allows connections from trusted networks.
-The trusted networks can be changed in `roles/common/vars/main.yml` file.
+Ansible should then be install using Ubuntu package manager **apt-get**. To install the latest Ansible the user should follow the [installation instructions from the Ansible web-site](http://docs.ansible.com/ansible/latest/intro_installation.html#latest-releases-via-apt-ubuntu).
 
 ## Provision
 
