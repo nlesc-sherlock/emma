@@ -97,7 +97,7 @@ Through [ansible-tags](http://docs.ansible.com/ansible/playbooks_tags.html) it i
 
 If you wanted to just to update firewall instead of run the entire installation, you could do this:
 ```
-ansible-playbook playbooks/install_spark.yml --tags "firewall"
+ansible-playbook install_platform.yml --tags "firewall"
 ```
 On the other hand, if you want to start the platform with exception of Minio service, you could do this:
 ```
@@ -116,10 +116,10 @@ spark_prev_version: "<current_version>"
 spark_version: "<new_version>"
 
 #Run installation script just for Hadoop and Spark
-ansible-playbook playbooks/install_spark.yml --tags "hadoop,spark"
+ansible-playbook install_platform.yml --tags "hadoop,spark"
 
 #In case the user does not want to format HDFS
-ansible-playbook playbooks/install_spark.yml --tags "hadoop,spark" --skip-tags "hdfs_format"
+ansible-playbook install_platform.yml --tags "hadoop,spark" --skip-tags "hdfs_format"
 ```
 
 ## Demo deployment
