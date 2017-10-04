@@ -3,17 +3,17 @@
 Emma is a project to create a platform for development of application for Spark and DockerSwarm clusters. The platform runs on an infra-structure composed by virtual machines and Ansible playbooks are used to create a storage layer, processing layer and [JupyterHub](https://jupyter-notebook.readthedocs.io/en/latest/index.html) services. The storage layer offers two flavors of storage, file-base by [GlusterFS](https://www.gluster.org/) and [Hadoop Distributed File System (HDFS)](http://hadoop.apache.org/), and object-based using [Minio](https://www.minio.io). The processing layer has a [Apache Spark cluster](http://spark.apache.org/) and a [Docker Swarm](https://docs.docker.com/engine/swarm/) sharing the storage instances.
 
 ## Deployment
-At the moment **emma** deployment was tested using two OSs environment, Linux and Windows.
+At the moment the deployment of clusters with **emma** was tested with two OSs environment, Linux and Windows.
 
 ### Linux as host OS
 For Linux it was tested using Ubuntu 14.04 and Ubuntu 16.04, however, it is recommended to use the latter. For Linux no special environment setup is required.
-To deploy **emma** the user needs to clone **emma** repository:
+Before deploying a cluster user needs to clone **emma** repository:
 ```
 git clone https://github.com/nlesc-sherlock/emma
 ```
 
 ### Windows as host OS
-For Windows **emma** deployment was only tested on Windows 10 using the embedded Ubuntu 16.04 environment. It setup is straight forward and it simple follows the steps listed in the [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
+For Windows, **emma** was only tested on Windows 10 using the embedded Ubuntu 16.04 environment. It setup is straight forward and it simple follows the steps listed in the [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 
 Once installed it recommended to verify if the version 16.04 is installed. For that the user simply needs to type **bash** in the search windows at the left bottom of Windows 10 Desktop-environment and press enter.
 Once the bash console is open the user should then type:
@@ -47,7 +47,7 @@ For windows users need to change the line-ending setting for **git**, they shoul
 git config --global core.autocrlf false
 ```
 
-To deploy **emma** the user needs to clone **emma** repository:
+Before deploying a cluster user needs to clone **emma** repository:
 ```
 git clone https://github.com/nlesc-sherlock/emma
 ```
