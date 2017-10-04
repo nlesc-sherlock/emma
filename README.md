@@ -6,8 +6,8 @@ Emma is a project to create a platform for development of application for Spark 
 At the moment **emma** deployment was tested using two OSs environment, Linux and Windows.
 
 ### Linux as host OS
-For Linux it was tested using Ubuntu 14.04 and Ubuntu 16.04, it is recommended to use the latter. For Linux no special environment setup is required.
-The user should only do the following steps.
+For Linux it was tested using Ubuntu 14.04 and Ubuntu 16.04, however, it is recommended to use the latter. For Linux no special environment setup is required.
+To deploy **emma** the user needs to clone **emma** repository:
 ```
 git clone https://github.com/nlesc-sherlock/emma
 ```
@@ -41,8 +41,12 @@ export PATH=$PATH:/mnt/c/Windows/System32/
 Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*.
 This means ssh keys will to open for Ansible. Hence, before you run ansible you need to call getHosts.sh.
 
+For windows users need to change the line-ending setting for **git**, they should configure **git** to *Checkout as-is, commit as-is*:
+```
+git config --global core.autocrlf false
+```
 
-To deploy **emma** the user only needs to clone **emma** repository:
+To deploy **emma** the user needs to clone **emma** repository:
 ```
 git clone https://github.com/nlesc-sherlock/emma
 ```
