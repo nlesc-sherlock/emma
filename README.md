@@ -33,8 +33,9 @@ lsb_release -a
 ```
 
 After the installation the Ubuntu environment is accessible through the bash command of Windows.
-To add Windows executables to your Ubuntu *$PATH*, do the following once in a bash console:
+To add Windows executables to your Ubuntu *$PATH*, add the following to your **~/.bashrc** in the bash console:
 ```
+vim ~/bashrc
 export PATH=$PATH:/mnt/c/Windows/System32/
 ```
 
