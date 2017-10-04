@@ -5,7 +5,7 @@ Once the virtual machines are instantiated in the cloud give some time for their
 #First define the environment, use env_linux.sh.template. Then run
 . env_linux.sh
 
-ansible-playbook -e datadisk=/dev/vdb -e host_name=$HOST_NAME prepcloud-playbook.yml
+ansible-playbook -e datadisk=/dev/vdb -e host_name=$CLUSTER_NAME prepcloud-playbook.yml
 ```
 
 If the first run fails because the **apt-get update** fails the solution is to reboot the machines and then log in into each of them using the web-ui and do the following:

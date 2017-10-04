@@ -67,9 +67,9 @@ vim env_linux.sh
 . env_linux.sh
 
 # Key used by root, no need of passphrase
-ssh-keygen -f ${HOST_NAME}.key
-# Key used by ${HOST_NAME} user
-ssh-keygen -f files/${HOST_NAME}.key
+ssh-keygen -f ${CLUSTER_NAME}.key
+# Key used by ${CLUSTER_NAME} user
+ssh-keygen -f files/${CLUSTER_NAME}.key
 ```
 
 Every time the user opens a bash console on Windows or Linux the environment is set through the following commands:
@@ -90,7 +90,7 @@ With the environment set, the next step is to setup the infra-structure. The inf
 1. Ubuntu 16.04 OS
 2. Public network interface
 3. OS disk, 200Mb for software + enough room in /tmp
-4. Passwordless login as root with `${HOST_NAME}.key` private key.
+4. Passwordless login as root with `${CLUSTER_NAME}.key` private key.
 5. XFS Partition mounted at /data/local (used for swapfile, GlusterFS brick, Docker root)
 6. Python2 to run Ansible tasks
 

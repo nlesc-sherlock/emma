@@ -1,8 +1,8 @@
 #!/bin/bash
 . env_linux.sh
 
-echo -n setx: HOST_NAME: $HOST_NAME
-setx.exe HOST_NAME $HOST_NAME
+echo -n setx: CLUSTER_NAME: $CLUSTER_NAME
+setx.exe CLUSTER_NAME $CLUSTER_NAME
 
 echo -n setx: HOST_DOMAIN: $HOST_DOMAIN
 setx.exe HOST_DOMAIN $HOST_DOMAIN
