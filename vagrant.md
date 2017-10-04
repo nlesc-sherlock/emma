@@ -14,7 +14,7 @@ For Linux systems a simple package installation is enough.
 sudo apt-get install vagrant
 ```
 
-For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed as if it was to be executed using the CMD console. To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation. To solve it is required to click in properties and claim ownership of the directory so the installation can proceed. Despite it is installed to be used on the CMD console vagrant.exe can be called from using [Ubuntu environment](#windows). Before doing that some environment variables need to be set. Create *env_linux.sh* and run *env_windows.sh* on [Ubuntu environment](#windows) before using *vagrant.exe*.
+For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed as if it was to be executed using the CMD console. To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation. To solve it is required to click in properties and claim ownership of the directory so the installation can proceed. Despite it is installed to be used on the CMD console vagrant.exe can be called from using [Ubuntu environment](#windows). Before doing that some environment variables need to be set. Create *env_linux.sh* and run *env_windows.sh* on [Ubuntu environment](#windows) before using *vagrant.exe*. It is important to make sure home directory for vagrant has write permissions for Windows users, not only for Windows root/administrator.
 ```
 #create and edit env_linux.sh.template
 cp env_linux.sh.template env_linux.cmd
