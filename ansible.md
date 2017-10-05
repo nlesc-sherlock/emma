@@ -17,24 +17,6 @@ The user should check if each role has extra steps to setup environment. For exa
 
 ## Install Ansible
 The recommended version is Ansible 2.3. However, we try to have the playbooks aligned with the latest version.
-Before installing Ansible, the user needs to install the followin dependencies:
-```
-# Update apt-get
-sudo  apt-get update
-
-#Install pip:
-sudo apt-get install python-pip
-
-#Install dependencies:
-sudo apt install libffi-dev python-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
-
-# For Unit tests, testinfra: https://github.com/philpep/testinfra
-sudo pip install testinfra
-
-#Dependencies
-pip install wheel
-
-```
 
 Ansible should then be install using Ubuntu package manager **apt-get**. To install the latest Ansible the user should follow the [installation instructions from the Ansible web-site](http://docs.ansible.com/ansible/latest/intro_installation.html#latest-releases-via-apt-ubuntu).
 
