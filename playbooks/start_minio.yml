@@ -1,9 +1,0 @@
----
-- hosts: minio
-  remote_user: ubuntu
-  become: true
-  vars_files:
-  - ../vars/minio_vars.yml
-
-  tasks:
-    - include: ../roles/minio/tasks/start-minio.yml

@@ -97,11 +97,11 @@ Vagrant.configure(2) do |config|
   puts "Number of hosts is %s" % num_hosts
   num_hosts = Integer("#{ENV['NUM_HOSTS']}")-1
   (0..num_hosts).each do |i|
-    config.vm.define "#{ENV['HOST_NAME']}#{i}" do |node|
-      node.vm.hostname = "#{ENV['HOST_NAME']}#{i}.#{ENV['HOST_DOMAIN']}"
+    config.vm.define "#{ENV['CLUSTER_NAME']}#{i}" do |node|
+      node.vm.hostname = "#{ENV['CLUSTER_NAME']}#{i}.#{ENV['HOST_DOMAIN']}"
       # GlusterFS storage disk
       node.persistent_storage.enabled = true
-      node.persistent_storage.location = "#{ENV['HOST_NAME']}#{i}-data.vdi"
+      node.persistent_storage.location = "#{ENV['CLUSTER_NAME']}#{i}-data.vdi"
       node.persistent_storage.size = 40000
       node.persistent_storage.mountname = 'data'
       node.persistent_storage.filesystem = 'xfs'
@@ -123,19 +123,19 @@ Vagrant.configure(2) do |config|
 
   if Vagrant::VERSION =~ /1.9.[0-9]/ && vbox_version =~ /5.1.[0-9]/
     puts "Copy ssh keys by hand."
-    config.vm.provision "file", source: "./#{ENV['HOST_NAME']}.key", destination: "/tmp/#{ENV['HOST_NAME']}.key"
-    config.vm.provision "file", source: "./#{ENV['HOST_NAME']}.key.pub", destination: "/tmp/#{ENV['HOST_NAME']}.key.pub"
+    config.vm.provision "file", source: "./#{ENV['CLUSTER_NAME']}.key", destination: "/tmp/#{ENV['CLUSTER_NAME']}.key"
+    config.vm.provision "file", source: "./#{ENV['CLUSTER_NAME']}.key.pub", destination: "/tmp/#{ENV['CLUSTER_NAME']}.key.pub"
     config.vm.provision "shell", inline: <<-SHELL
       mkdir -p /vagrant
-      cp /tmp/#{ENV['HOST_NAME']}.key /vagrant/
-      cp /tmp/#{ENV['HOST_NAME']}.key.pub /vagrant/
+      cp /tmp/#{ENV['CLUSTER_NAME']}.key /vagrant/
+      cp /tmp/#{ENV['CLUSTER_NAME']}.key.pub /vagrant/
     SHELL
   end
 
   config.vm.provision "shell", inline: <<-SHELL
     mkdir -p /root/.ssh
-    cp /vagrant/#{ENV['HOST_NAME']}.key /root/.ssh/id_rsa
-    cp /vagrant/#{ENV['HOST_NAME']}.key.pub /root/.ssh/id_rsa.pub
+    cp /vagrant/#{ENV['CLUSTER_NAME']}.key /root/.ssh/id_rsa
+    cp /vagrant/#{ENV['CLUSTER_NAME']}.key.pub /root/.ssh/id_rsa.pub
     cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
     cat /root/.ssh/id_rsa.pub >> /home/ubuntu/.ssh/authorized_keys
     chmod -R 600 /root/.ssh

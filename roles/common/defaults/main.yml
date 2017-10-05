@@ -1,6 +1,6 @@
 ---
 users:
-  - name: emma
+  - name: "{{ lookup('env', 'CLUSTER_NAME') }}"
     uid: 1100
     # Password created with `mkpasswd --method=SHA-512 pass1234`
     password: $6$6/6NkDn01w$6ld/sdc/B42cVtSNFQTQLlNPYOqin8m4kluy.QbvtLraHLliTs5QaPIYJcKyYr7KKhsY2znFZLSC2YzdROKwZ.
