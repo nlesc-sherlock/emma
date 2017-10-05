@@ -66,7 +66,7 @@ vim env_linux.sh
 #On each bash
 . env_linux.sh
 
-# Key used by root, no need of passphrase
+# Key used by root, do not set passphrase when asked
 ssh-keygen -f ${CLUSTER_NAME}.key
 # Key used by ${CLUSTER_NAME} user
 ssh-keygen -f files/${CLUSTER_NAME}.key
