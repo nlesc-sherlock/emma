@@ -1,19 +1,21 @@
 # Emma
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.996308.svg)](https://doi.org/10.5281/zenodo.996308)
+
 Emma is a project to create a platform for development of application for Spark and DockerSwarm clusters. The platform runs on an infra-structure composed by virtual machines and Ansible playbooks are used to create a storage layer, processing layer and [JupyterHub](https://jupyter-notebook.readthedocs.io/en/latest/index.html) services. The storage layer offers two flavors of storage, file-base by [GlusterFS](https://www.gluster.org/) and [Hadoop Distributed File System (HDFS)](http://hadoop.apache.org/), and object-based using [Minio](https://www.minio.io). The processing layer has a [Apache Spark cluster](http://spark.apache.org/) and a [Docker Swarm](https://docs.docker.com/engine/swarm/) sharing the storage instances.
 
 ## Deployment
-At the moment **emma** deployment was tested using two OSs environment, Linux and Windows.
+At the moment the deployment of clusters with **emma** was tested with two OSs environment, Linux and Windows.
 
 ### Linux as host OS
-For Linux it was tested using Ubuntu 14.04 and Ubuntu 16.04, it is recommended to use the latter. For Linux no special environment setup is required.
-The user should only do the following steps.
+For Linux it was tested using Ubuntu 14.04 and Ubuntu 16.04, however, it is recommended to use the latter. For Linux no special environment setup is required.
+Before deploying a cluster user needs to clone **emma** repository:
 ```
 git clone https://github.com/nlesc-sherlock/emma
 ```
 
 ### Windows as host OS
-For Windows **emma** deployment was only tested on Windows 10 using the embedded Ubuntu 16.04 environment. It setup is straight forward and it simple follows the steps listed in the [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
+For Windows, **emma** was only tested on Windows 10 using the embedded Ubuntu 16.04 environment. It setup is straight forward and it simple follows the steps listed in the [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 
 Once installed it recommended to verify if the version 16.04 is installed. For that the user simply needs to type **bash** in the search windows at the left bottom of Windows 10 Desktop-environment and press enter.
 Once the bash console is open the user should then type:
@@ -33,16 +35,21 @@ lsb_release -a
 ```
 
 After the installation the Ubuntu environment is accessible through the bash command of Windows.
-To add Windows executables to your Ubuntu *$PATH*, do the following once in a bash console:
+To add Windows executables to your Ubuntu *$PATH*, add the following to your **~/.bashrc** in the bash console:
 ```
+vim ~/bashrc
 export PATH=$PATH:/mnt/c/Windows/System32/
 ```
 
 Note the *C* drive will be mounted with the files owned by *root* and file permissions set to *777*.
 This means ssh keys will to open for Ansible. Hence, before you run ansible you need to call getHosts.sh.
 
+For windows users need to change the line-ending setting for **git**, they should configure **git** to *Checkout as-is, commit as-is*:
+```
+git config --global core.autocrlf false
+```
 
-To deploy **emma** the user only needs to clone **emma** repository:
+Before deploying a cluster user needs to clone **emma** repository:
 ```
 git clone https://github.com/nlesc-sherlock/emma
 ```
@@ -61,10 +68,10 @@ vim env_linux.sh
 #On each bash
 . env_linux.sh
 
-# Key used by root
-ssh-keygen -f ${HOST_NAME}.key
-# Key used by ${HOST_NAME} user
-ssh-keygen -f files/${HOST_NAME}.key
+# Key used by root, do not set passphrase when asked
+ssh-keygen -f ${CLUSTER_NAME}.key
+# Key used by ${CLUSTER_NAME} user
+ssh-keygen -f files/${CLUSTER_NAME}.key
 ```
 
 Every time the user opens a bash console on Windows or Linux the environment is set through the following commands:
@@ -85,7 +92,7 @@ With the environment set, the next step is to setup the infra-structure. The inf
 1. Ubuntu 16.04 OS
 2. Public network interface
 3. OS disk, 200Mb for software + enough room in /tmp
-4. Passwordless login as root with `${HOST_NAME}.key` private key.
+4. Passwordless login as root with `${CLUSTER_NAME}.key` private key.
 5. XFS Partition mounted at /data/local (used for swapfile, GlusterFS brick, Docker root)
 6. Python2 to run Ansible tasks
 
@@ -100,4 +107,4 @@ Once the machines are prepared the servers are provisioned using [Ansible](https
 * [Docker Swarm](dockerswarm.md)
 * [JupyterHub](jupyterhub.md)
 
-To install it and configure it please read **[ansible.md](ansible.md)**, but before doing it we also recommend the user to click on each feature to understand the setup requirements for each them.
+Preceding the platform's installation, the user should click on each feature to understand the setup requirements for each of them. Once all the requirements have been fulfilled, the user should follow the platform's installation steps listed in **[ansible.md](ansible.md)**.

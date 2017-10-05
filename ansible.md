@@ -15,34 +15,10 @@ cd <path_to_emma>/emma
 ```
 The user should check if each role has extra steps to setup environment. For example, the Hadoop role requires the generation of an extra ssh-key for the Hadoop user.
 
-## Install ansible
-The recommended version is Ansible 2.2. Ansible should be installed using pip. To install pip and ansible dependencies do the following:
-```
-# Update apt-get
-sudo  apt-get update
+## Install Ansible
+The recommended version is Ansible 2.3. However, we try to have the playbooks aligned with the latest version.
 
-#Install pip:
-sudo apt-get install python-pip
-
-#Install dependencies:
-sudo apt install libffi-dev python-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev 
-
-# For Unit tests, testinfra: https://github.com/philpep/testinfra
-sudo pip install testinfra
-
-#Dependencies
-pip install wheel
-
-#Install ansible (Note that sudo is not used here because you are installing Ansible into your own virtual environment.):
-pip install ansible
-
-```
-
-POSIX user `${HOST_NAME}` created with password `pass1234`.
-To add more users edit `roles/common/vars/main.yml` file.
-
-Firewall only allows connections from trusted networks.
-The trusted networks can be changed in `roles/common/vars/main.yml` file.
+Ansible should then be install using Ubuntu package manager **apt-get**. To install the latest Ansible the user should follow the [installation instructions from the Ansible web-site](http://docs.ansible.com/ansible/latest/intro_installation.html#latest-releases-via-apt-ubuntu).
 
 ## Provision
 
@@ -103,7 +79,7 @@ Through [ansible-tags](http://docs.ansible.com/ansible/playbooks_tags.html) it i
 
 If you wanted to just to update firewall instead of run the entire installation, you could do this:
 ```
-ansible-playbook playbooks/install_spark.yml --tags "firewall"
+ansible-playbook install_platform.yml --tags "firewall"
 ```
 On the other hand, if you want to start the platform with exception of Minio service, you could do this:
 ```
@@ -122,10 +98,10 @@ spark_prev_version: "<current_version>"
 spark_version: "<new_version>"
 
 #Run installation script just for Hadoop and Spark
-ansible-playbook playbooks/install_spark.yml --tags "hadoop,spark"
+ansible-playbook install_platform.yml --tags "hadoop,spark"
 
 #In case the user does not want to format HDFS
-ansible-playbook playbooks/install_spark.yml --tags "hadoop,spark" --skip-tags "hdfs_format"
+ansible-playbook install_platform.yml --tags "hadoop,spark" --skip-tags "hdfs_format"
 ```
 
 ## Demo deployment

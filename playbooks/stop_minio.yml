@@ -1,7 +1,0 @@
----
-- hosts: minio
-  remote_user: ubuntu
-  become: true
-
-  tasks:
-    - include: ../roles/minio/tasks/stop-minio.yml
