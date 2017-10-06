@@ -4,7 +4,7 @@
   remote_user: ubuntu
   become: true
   vars_files:
-    - ../vars/common_vars.yml
+    - vars/common_vars.yml
   roles:
     - common
   any_errors_fatal: true
@@ -15,8 +15,8 @@
   remote_user: ubuntu
   become: true
   vars_files:
-   - ../vars/common_vars.yml
-   - ../vars/minio_vars.yml
+   - vars/common_vars.yml
+   - vars/minio_vars.yml
   roles:
     - minio
   any_errors_fatal: true
@@ -27,8 +27,8 @@
   remote_user: ubuntu
   become: true
   vars_files:
-   - ../vars/common_vars.yml
-   - ../vars/hadoop_vars.yml
+   - vars/common_vars.yml
+   - vars/hadoop_vars.yml
   environment:
     JAVA_HOME: "{{ java_home }}"
     HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
@@ -42,10 +42,10 @@
   remote_user: ubuntu
   become: true
   vars_files:
-   - ../vars/common_vars.yml
-   - ../vars/hadoop_vars.yml
-   - ../vars/spark_vars.yml
-   - ../vars/minio_vars.yml
+   - vars/common_vars.yml
+   - vars/hadoop_vars.yml
+   - vars/spark_vars.yml
+   - vars/minio_vars.yml
   environment:
     JAVA_HOME: "{{ java_home }}"
     HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
@@ -60,8 +60,8 @@
   remote_user: ubuntu
   become: true
   vars_files:
-   - ../vars/spark_vars.yml
-   - ../vars/common_vars.yml
+   - vars/spark_vars.yml
+   - vars/common_vars.yml
   roles:
     - jupyterhub
   tags:
