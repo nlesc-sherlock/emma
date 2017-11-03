@@ -1,3 +1,3 @@
-# Python file location
+# Python modules location
 
-Location to store python modules specific to each user.
+Location to store Python modules specific to each user.
