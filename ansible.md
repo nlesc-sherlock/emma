@@ -104,6 +104,20 @@ ansible-playbook install_platform.yml --tags "hadoop,spark"
 ansible-playbook install_platform.yml --tags "hadoop,spark" --skip-tags "hdfs_format"
 ```
 
+### Add new modules
+For a new application the user might need to install a new module, such as a python module, using either **pip* or **apt-get**. The library to be install ed needs to be listed in **emma/vars/common_vars.yaml** either under the *python_packages* or *system_packages* varibles. To install them the user only needs to run an Emma's Ansible playbook:
+```
+#Pip
+ansible-playbook install_platform_light.yml --tags "extra_python_packages"
+
+#Apt-get
+ansible-playbook install_platform_light.yml --tags "extra_system_packages"
+```
+It is also possible to copy user defined modules such as a **python library**, **R library** and **scala jar**. To achieve that the user needs to copy the module to the respective folder under **emma/files/<python | scala | R>** and call:
+```
+ansible-playbook install_platform_light.yml --tags "user_defined_modules"
+```
+
 ## Demo deployment
 
 A demo deployment which uses the platform set by the above playbooks is done using the demos for the Sherlock project.
