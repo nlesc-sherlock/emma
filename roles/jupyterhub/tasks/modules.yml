@@ -52,3 +52,13 @@
     - parallel
     - rasterVis
     - sp
+
+- name: Ensure Jupyter's python modules directory exists
+  file: path="{{ jupyterhub_modules_dir }}/python/" state=directory group=users mode=g+rw
+
+- name: Copy Python modules
+  copy:
+    src: '{{ item }}'
+    dest: '{{ jupyterhub_modules_dir }}/python/'
+  with_fileglob:
+    - "{{ role_path }}/../../files/python/*.py"
