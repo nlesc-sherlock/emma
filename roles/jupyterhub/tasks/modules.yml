@@ -61,4 +61,30 @@
     src: '{{ item }}'
     dest: '{{ jupyterhub_modules_dir }}/python/'
   with_fileglob:
-    - "{{ role_path }}/../../files/python/*.py"
+    - "{{ role_path }}/../../files/python/*"
+  tags:
+    - user_defined_modules
+
+- name: Ensure Jupyter's R modules directory exists
+  file: path="{{ jupyterhub_modules_dir }}/r/" state=directory group=users mode=g+rw
+
+- name: Copy R modules
+  copy:
+    src: '{{ item }}'
+    dest: '{{ jupyterhub_modules_dir }}/r/'
+  with_fileglob:
+    - "{{ role_path }}/../../files/r/*"
+  tags:
+    - user_defined_modules
+
+- name: Ensure Jupyter's scala modules directory exists
+  file: path="{{ jupyterhub_modules_dir }}/scala/" state=directory group=users mode=g+rw
+
+- name: Copy Scala modules
+  copy:
+    src: '{{ item }}'
+    dest: '{{ jupyterhub_modules_dir }}/scala/'
+  with_fileglob:
+    - "{{ role_path }}/../../files/scala/*"
+  tags:
+    - user_defined_modules
