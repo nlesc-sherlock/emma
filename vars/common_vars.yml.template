@@ -23,9 +23,12 @@ trusted_networks:
 #Define the JAVA_HOME (default: "/usr/lib/jvm/java-8-oracle")
 java_home: "/usr/lib/jvm/java-8-oracle"
 
-#List of extra Python packages to installed
+#List of extra Python packages to installed, use --tags "extra_python_packages"
 python_packages:
+  - sklearn
+  - hdfs
 
-#List of extra System packages to installed
+#List of extra System packages to installed, use --tags "extra_system_packages"
 system_packages:
-  - aptitude
+  - iotop
+  - bc

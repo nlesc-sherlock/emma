@@ -2,9 +2,6 @@
 #Define sbt version
 sbt_version: 0.13.15
 
-#Define Scala release
-scala_release: 2.11
-
 #Define Scala version
 scala_version: 2.11.8
 
@@ -37,10 +34,20 @@ joda_time_version: "2.9.4"
 aws_java_sdk_s3_version: "1.10.6"
 hadoop_aws_version: "2.8.0"
 spark_classpath_extras: [ "joda-time-{{ joda_time_version }}.jar", "aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
-spark_defaults_extras: { spark.history.fs.cleaner.enabled true, spark.default.parallelism 32, spark.network.timeout 360s, spark.local.dir /data/local/spark/tmp/, spark.kryoserializer.buffer 512m, spark.kryoserializer.buffer.max 1g, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
+spark_defaults_extras: { spark.history.fs.cleaner.enabled true, spark.default.parallelism 1000, spark.network.timeout 360s, spark.local.dir /data/local/spark/tmp/, spark.kryoserializer.buffer 64m, spark.kryoserializer.buffer.max 1024m, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
+
+worker_debug_port: 5006
+driver_debug_port: 5005
+worker_waiting_on_startup: n
+driver_waiting_on_startup: n
+gc_debug: "" #"-XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintAdaptiveSizePolicy"
+gc_type: "+UseG1GC" #Or +UseParallelGC
 
 spark_memory_fraction: 0.8
 spark_memory_storageFraction: 0.5
+spark_memory_offheap_enable: true
+spark_memory_offheap_size: 2g
+spark_memory_uselegacymode: true
 spark_executor_cores: 2
 spark_executor_memory: 2g
 spark_worker_cores: 2
