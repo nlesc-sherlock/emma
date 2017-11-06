@@ -16,6 +16,7 @@ roles/minio/tests/__pycache__
 /.cache
 vars/common_vars.yml
 vars/hadoop_vars.yml
+vars/jupyterhub_vars.yml
 files/hadoop_id_rsa
 files/hadoop_id_rsa.pub
 files/*.key
