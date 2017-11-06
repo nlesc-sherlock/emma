@@ -45,6 +45,7 @@ worker_waiting_on_startup: n
 driver_waiting_on_startup: n
 gc_debug: "" #"-XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintAdaptiveSizePolicy"
 gc_type: "+UseG1GC" #Or +UseParallelGC
+spark_debug_mode: true
 
 spark_memory_fraction: 0.8
 spark_memory_storageFraction: 0.5
