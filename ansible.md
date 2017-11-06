@@ -119,7 +119,7 @@ It is also possible to copy *user defined modules (UDM)* such as a **python libr
 ansible-playbook install_platform_light.yml --tags "user_defined_modules"
 ```
 
-The *UDM* is then available at the path **{{ jupyterhub_modules_dir }}/< python | scala | r>**, the default path is */data/local/*.
+The *UDM* is then available at the path **{{ jupyterhub_modules_dir }}/< python | scala | r>**, the default path is */data/local/jupyterhub/modules/*.
 
 ## Demo deployment
 
