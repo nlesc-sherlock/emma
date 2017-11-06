@@ -35,7 +35,7 @@ A python notebook to do [Unsupervised classification of imagery using scikit-lea
 All information to debug set Spark for remote debugging and performance tuning.
 
 ### Remote debugging
-To set Spark for remote debugging the user should reconfigure Spark to have only an executor per worker. In **emma/vars/spark_vars/.yml** the user should set *spark_executor_cores* equal to *spark_worker_cores* and *spark_executor_memory* equal to *spark_worker_memory*. Such setting allows us to open a single debugger per executor, i.e., one per node.
+To set Spark for remote debugging the user should set *spark_debug_mode* to **true** in **emma/vars/spark_vars/.yml** and reconfigure Spark to have only an executor per worker. In **emma/vars/spark_vars/.yml** the user should set *spark_executor_cores* equal to *spark_worker_cores* and *spark_executor_memory* equal to *spark_worker_memory*. Such setting allows us to open a single debugger per executor, i.e., one per node.
 
 By default **driver's debugging port** is *5005* while the **worker's debugging port** is *5006*. They are defined in **emma/vars/spark_vars/.yml** by the variables *worker_debug_port* and *driver_debug_port*. To have either a worker or driver *waiting on startup* the variables *worker_waiting_on_startup* and *driver_waiting_on_startup* should be set to **y** (yes), by default they are set to **n** (no). 
 
