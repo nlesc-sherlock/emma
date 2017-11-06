@@ -31,4 +31,24 @@ SciSpark was installed using the [instructions available at SciSpark GitHub page
 
 A python notebook to do [Unsupervised classification of imagery using scikit-learn](http://nbviewer.jupyter.org/gist/om-henners/c6c8d40389dab75cf535). This example shows how to classify imagery (for example from LANDSAT) using scikit-learn. There are many classification methods available, but for this example they use K-Means as it's simple and fast. It uses [**numpy**](http://www.numpy.org/) and [**rasterio**](https://github.com/mapbox/rasterio).
 
+## Debug mode
+All information to debug set Spark for remote debugging and performance tuning.
 
+### Remote debugging
+To set Spark for remote debugging the user should set *spark_debug_mode* to **true** in **emma/vars/spark_vars/.yml** and reconfigure Spark to have only an executor per worker. In **emma/vars/spark_vars/.yml** the user should set *spark_executor_cores* equal to *spark_worker_cores* and *spark_executor_memory* equal to *spark_worker_memory*. Such setting allows us to open a single debugger per executor, i.e., one per node.
+
+By default **driver's debugging port** is *5005* while the **worker's debugging port** is *5006*. They are defined in **emma/vars/spark_vars/.yml** by the variables *worker_debug_port* and *driver_debug_port*. To have either a worker or driver *waiting on startup* the variables *worker_waiting_on_startup* and *driver_waiting_on_startup* should be set to **y** (yes), by default they are set to **n** (no). 
+
+For the configuration take place the user should restart Spark and Jupyterhub.
+```
+ansible-playbook shutdown_platform.yml --tags "spark,jupyterhub"
+ansible-playbook start_platform.yml --tags "spark,jupyterhub"
+```
+
+### Tuning garbage collection
+Spark is written in Scala, therefore, each process is a Java virtual machine (JVM). JVM memory management is done by a Garbage Collector (GC). The type of GC to be used is defined by variable *gc_type*. If the user wants to obtain GC debug information (s)he should set in **emma/vars/spark_vars/.yml** *gc_debug* to:
+```
+-XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintAdaptiveSizePolicy
+```
+
+[Tuning Java Garbage Collection for Apache Spark Applications](https://databricks.com/blog/2015/05/28/tuning-java-garbage-collection-for-spark-applications.html) is a blog post which explains how memory management in a JVM is done and how we can tune GC for Spark applications.

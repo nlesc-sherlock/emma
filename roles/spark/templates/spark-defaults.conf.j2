@@ -7,7 +7,13 @@
 # spark.eventLog.dir               hdfs://namenode:8021/directory
 # spark.serializer                 org.apache.spark.serializer.KryoSerializer
 # spark.driver.memory              5g
-# spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers="one two three"
+{% if spark_debug_mode == true %}
+spark.executor.extraJavaOptions -XX:{{ gc_type }} -XX:+UseCompressedOops {{ gc_debug }}  -agentlib:jdwp=transport=dt_socket,server=y,suspend={{ worker_waiting_on_startup }},address={{ worker_debug_port }}
+spark.driver.extraJavaOptions -XX:{{ gc_type }} -XX:+UseCompressedOops {{ gc_debug }} -agentlib:jdwp=transport=dt_socket,server=y,suspend={{ driver_waiting_on_startup }},address={{ driver_debug_port }}
+{% else %}
+spark.executor.extraJavaOptions -XX:{{ gc_type }} -XX:+UseCompressedOops 
+spark.driver.extraJavaOptions -XX:{{ gc_type }} -XX:+UseCompressedOops
+{% endif %}
 
 spark.master    spark://{{ groups['spark-master'][0] }}:7077
 spark.shuffle.service.enabled true
@@ -20,6 +26,9 @@ spark.eventLog.dir {{ spark_dir }}/spark-events
 spark.broadcast.blockSize {{ spark_broadcast_blockSize }}
 spark.memory.fraction {{ spark_memory_fraction }}
 spark.memory.storageFraction {{ spark_memory_storageFraction }}
+spark.memory.offHeap.enable {{ spark_memory_offheap_enable }}
+spark.memory.offHeap.size {{ spark_memory_offheap_size }}
+spark.memory.useLegacyMode {{ spark_memory_uselegacymode }}
 spark.executor.memory {{ spark_executor_memory }}
 spark.worker.memory {{ spark_worker_memory }}
 spark.driver.memory {{ spark_driver_memory }}

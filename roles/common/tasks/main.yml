@@ -17,6 +17,7 @@
   file: name=/data state=directory
 - name: Swap file
   script: swap.sh creates=/data/local/swapfile
+  when: create_swap_space == true
 - name: Remove puppet and chef
   apt: name={{ item }} state=absent
   with_items:
@@ -40,6 +41,8 @@
   apt: update_cache=yes
 - name: Install reboot notifier
   apt: name=update-notifier-common
+- name: Install psmisc
+  apt: name=psmisc
 - name: Install aptitude
   apt: name=aptitude
 - name: Upgrade APT to the lastest packages

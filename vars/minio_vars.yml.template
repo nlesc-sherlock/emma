@@ -5,6 +5,9 @@ minio_access_key: "<Custom username or access key of 5 to 20 characters in lengt
 #Define the secret key for minio
 minio_secret_key: "<Custom password or secret key of 8 to 40 characters in length>"
 
+# Minio directories
+minio_dir: "/data/local/minio"
+
 #Define the server data directory to be set in all nodes, it will overwrite the default value
 minio_server_datadir: "/data/local/minio/data"
 

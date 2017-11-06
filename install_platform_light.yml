@@ -62,6 +62,7 @@
   vars_files:
    - vars/spark_vars.yml
    - vars/common_vars.yml
+   - vars/jupyterhub_vars.yml
   roles:
     - jupyterhub
   tags:

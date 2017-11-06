@@ -13,6 +13,13 @@
     group: "{{ minio_group }}"
     shell: /bin/bash
 
+- stat: path={{ minio_dir }}
+  register: minio_dir_p
+
+- name: delete minio dir if it exists
+  file: path={{ minio_dir }} state=absent
+  when: minio_dir_p is defined and minio_dir_p.stat.exists is defined and minio_dir_p.stat.exists
+
 - name: create minio config dir
   file: path=/home/minio/.minio state=directory owner=minio group=users mode=g+rw
 
