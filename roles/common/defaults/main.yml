@@ -16,3 +16,5 @@ python_packages:
 
 system_packages:
   - aptitude
+
+create_swap_space: false

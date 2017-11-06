@@ -32,3 +32,6 @@ python_packages:
 system_packages:
   - iotop
   - bc
+
+#Create swap space
+create_swap_space: true
