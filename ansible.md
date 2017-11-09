@@ -104,8 +104,8 @@ ansible-playbook install_platform.yml --tags "hadoop,spark"
 ansible-playbook install_platform.yml --tags "hadoop,spark" --skip-tags "hdfs_format"
 ```
 
-### Add new nodes
-In case the user wants to add new nodes to the Spark cluster, the user does not need to re-create the entire cluster. It is only required that the platform is first install on the new nodes, and add them to HDFS as *data nodes* and to Spark as *workers*. To achieve that the first step is to create a new inventory file, it can be a copy of the [existent one](https://github.com/nlesc-sherlock/emma/blob/master/ansible.md#provision), which only lists the new nodes under **[hadoop-datanode]** and **[spark-worker]**, keeps the nodes under **[hadoop-namenode]** and **[spark-master]** and removes all other nodes.
+### Extend an exsitent platform
+In case a Spark cluster is already defined and the user wants to add new nodes, it is not necessary to re-create the cluster. The user only has to install Spark and Hadoop (for HDFS) in the new nodes and add them to HDFS as *data nodes* and to Spark as *workers*. The first step is to create a new inventory file, simply make a copy of the [current one](https://github.com/nlesc-sherlock/emma/blob/master/ansible.md#provision) and add the new nodes address under **[hadoop-datanode]** and **[spark-worker]**, keep the ones under **[hadoop-namenode]** and **[spark-master]** and remove all other ones.
 ```
 cd emma
 cp hosts hosts_new
@@ -113,7 +113,7 @@ cp hosts hosts_new
 vim hosts_new
 ```
 
-Then the user should make sure the cluster is shutdown and install the platform on the new nodes:
+The second step is to install *Spark* and *Hadoop*:
 ```
 #Shutdown cluster
 ansible-playbook shutdown_platform.yml
@@ -121,16 +121,16 @@ ansible-playbook shutdown_platform.yml
 #Create data partitions, only run this command if the nodes are not Vagrant boxes.
 ansible-playbook -i hosts_new -e datadisk=/dev/vdb -e host_name=$CLUSTER_NAME prepcloud-playbook.yml
 
-#Install the platform in all new nodes. It is necessary to avoid formatting the namenode so existent data in HDFS remains untouched.
+#Install Spark and Hadoop.
 ansible-playbook -i hosts_new install_platform_light.yml --skip-tags "hdfs_format"
 ```
 
-Once the platform is install on the new nodes, it is necessary to add them to the original inventory file under **[hadoop-datanode]** and **[spark-worker]**. Once it is done, the user should start the cluster and check if they are listed as *Data nodes* (<**hadoop-namenode_url**>:50070/dfshealth.html#tab-datanode) and *Spark workers* (<**spark-master_url**>:8080).
+Once *Spark* and *Hadoop* is installed in the new nodes add their address, in the original inventory file (hosts), under **[hadoop-datanode]** and **[spark-worker]**. Once it is done, the user should start the cluster and check if they are listed as *Data nodes* (visit <**hadoop-namenode_url**>:50070/dfshealth.html#tab-datanode) and *Spark workers* ( visit <**spark-master_url**>:8080).
 ```
 ansible-playbook start_platform.yml
 ```
 
-It is also recommended to balance the data in HDFS. It can be done at one of the cluster nodes or remotely from user's laptop. For the latter check the instructions to install [Hadoop binaries and configure it to access the remote cluster](https://github.com/phenology/infrastructure/blob/master/platform/README.md#hadoop-binaries). To re-balance the data, the user should call hdfs balancer:
+A final step is to re-balance data in HDFS using **hdfs balancer**. It can be done at one of the cluster's nodes or remotely from the user's laptop. For the latter the user should check the instructions to [install Hadoop binaries and configure it](https://github.com/phenology/infrastructure/blob/master/platform/README.md#hadoop-binaries). The command to re-balance data is:
 ```
 cd hadoop-2.8.1/bin
 sudo ./hdfs balancer -threshold 5
