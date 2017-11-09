@@ -104,7 +104,7 @@ ansible-playbook install_platform.yml --tags "hadoop,spark"
 ansible-playbook install_platform.yml --tags "hadoop,spark" --skip-tags "hdfs_format"
 ```
 
-### Extend an exsitent platform
+### Extend an existing platform
 In case a Spark cluster is already defined and the user wants to add new nodes, it is not necessary to re-create the cluster. The user only has to install Spark and Hadoop (for HDFS) in the new nodes and add them to HDFS as *data nodes* and to Spark as *workers*. The first step is to create a new inventory file, simply make a copy of the [current one](https://github.com/nlesc-sherlock/emma/blob/master/ansible.md#provision) and add the new nodes address under **[hadoop-datanode]** and **[spark-worker]**, keep the ones under **[hadoop-namenode]** and **[spark-master]** and remove all other ones.
 ```
 cd emma
