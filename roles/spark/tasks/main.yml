@@ -286,7 +286,7 @@
 - name: Gradle install dependencies
   shell: gradle downloadDependencies
 
-    #Geotrellis for Python
+#Geotrellis for Python
 - name: add repository for GDAL
   apt_repository: repo=ppa:ubuntugis/ubuntugis-unstable
 
