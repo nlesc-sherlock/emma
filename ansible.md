@@ -153,6 +153,21 @@ ansible-playbook install_platform_light.yml --tags "user_defined_modules"
 
 The *UDM* is then available at the path **{{ jupyterhub_modules_dir }}/< python | scala | r>**, the default path is */data/local/jupyterhub/modules/*.
 
+## Remote command execution
+In case the user needs to run a specific command at one of the remote hosts, such as restarting the network service, the user should use **ansible**. Such option is interesting when the user simply wants to restart a service. However, if it is to install a system package the user should follow the steps in [**Add new module**](https://github.com/nlesc-sherlock/emma/blob/master/ansible.md#add-new-modules) and in case of a new system the user should create a new [*Ansible role*](http://docs.ansible.com/ansible/latest/playbooks_reuse_roles.html).
+
+For fine-grain access the [**inventory file**](https://github.com/nlesc-sherlock/emma/blob/master/ansible.md#provision) (*often called hosts*) should have an entry per node. To extend the inventory file with these entries the user should run the following command, but only once:
+```
+. env_linux.sh
+for f in `seq 0 $(calc $NUM_HOSTS-1)`; do echo $f; echo [$CLUSTER_NAME$f] >> hosts; echo $CLUSTER_NAME.$HOST_DOMAIN >> hosts; done
+```
+
+To execute a remote command the user needs to call *ansible <host_group> -a "<command>" -u ubuntu*. For example, if the user wants to restart the network service at host number zero (s)he should do the following:
+```
+ansible ${CLUSTER_NAME}0 -a "sudo systemctl restart networking.service" -u ubuntu
+```
+
+
 ## Demo deployment
 
 A demo deployment which uses the platform set by the above playbooks is done using the demos for the Sherlock project.
