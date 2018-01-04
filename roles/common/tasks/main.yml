@@ -18,6 +18,7 @@
 - name: Swap file
   script: swap.sh creates=/data/local/swapfile
   when: create_swap_space == true
+
 - name: Remove puppet and chef
   apt: name={{ item }} state=absent
   with_items:
