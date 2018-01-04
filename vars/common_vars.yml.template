@@ -9,6 +9,7 @@ users:
     # with ssh-keygen -f roles/common/files/<username>.key
 
 #Range of IPs of trusted networks. If you network is not listed, please extend this list.
+#To update the firewall of an existent cluster run: ansible-playbook install_platform_light.yml --tags "firewall"
 trusted_networks:
   - 10.100.107.0/8
   - 192.168.1.1/16
