@@ -59,6 +59,13 @@
   become: false
   local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 delay=60 timeout=120 state=started
   when: restarted.changed
+- name: Check if network is up
+  command: ping -c 1 www.google.com
+  ignore_errors: True
+  register: ping_result
+- name: Restart network service
+  service: name=networking state=restarted
+  when: ping_result.rc != 0
 - name: NTP
   apt: name=ntp
 - name: Home dir on /data/local/home
