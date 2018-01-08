@@ -32,6 +32,12 @@
     register: kill_result
     failed_when: kill_result.rc > 1 # rc == 1 if the script is inactive
     changed_when: kill_result.rc == 0
+
+  - name: Stop update of Translation
+    lineinfile:
+      path: /etc/apt/apt.conf.d/00aptitude
+      line: 'Acquire::Languages "none";'
+
   - name: Update apt cache
     apt: update_cache=yes
   - name: Install dbus

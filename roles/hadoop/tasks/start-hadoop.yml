@@ -1,13 +1,15 @@
 ---
+- name: Configure hadoop env
+  template: src=../templates/hadoop-env.sh.j2
+            dest="{{ hadoop_conf_dir }}/hadoop-env.sh"
+
 - name: Configure hadoop core-site
   template: src=../templates/core-site.xml.j2
             dest="{{ hadoop_conf_dir }}/core-site.xml"
-  tags: ["core-site"]
 
 - name: Configure hadoop hdfs-site
   template: src=../templates/hdfs-site.xml.j2
             dest="{{ hadoop_conf_dir }}/hdfs-site.xml"
-  tags: ["config"]
 
 - name: Hadoop config slaves
   template:

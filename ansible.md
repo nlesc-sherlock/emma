@@ -67,15 +67,25 @@ To shutdown the platform just run the following command:
 ansible-playbook shutdown_platform.yml
 ```
 
-Through [ansible-tags](http://docs.ansible.com/ansible/playbooks_tags.html) it is possible to have fine grained control over the task execution. Currently we have the following tags:
-* **firewall**: it only updates firewall
-* **python_packages**: it only installs extra Python modules using pip
-* **system_packages**: it only install extra System packages using apt-get
-* **hadoop**: it only installs/starts/stops services related with hadoop role
-* **minio**: it only installs/starts/stops services related with minio role
-* **spark**: it only installs/starts/stops services related with spark role
-* **jupyterhub**: it only installs/starts/stops services related with jupyterhub role
-* **jupyter_modules**: it only installs extra modules for jupyterhub
+Through [ansible-tags](http://docs.ansible.com/ansible/playbooks_tags.html) it is possible to have fine grained control over the task execution. To know all existent tags run:
+```
+ansible-playbook install_platform_light.yml --list-tags
+```
+
+Currently we have the following tagsi (if some tag is missing please fill in an issue):
+* **common**: All tasks for role *common*.
+* **extra_python_packages**: All tasks to install python packages using pip.
+* **extra_system_packages**: All tasks to install system packages using apt-get.
+* **firewall**: All tasks to update firewall
+
+* **minio**: All tasks to install/start/stop services related with minio role.
+
+* **hadoop**: All tasks to install/start/stop services related with hadoop role.
+
+* **spark**: All tasks to install/start/stop services related with spark role.
+
+* **jupyterhub**: All tasks to install/start/stop services related with jupyterhub role.
+* **jupyter_modules**: All tasks to install extra modules for jupyterhub.
 
 If you wanted to just to update firewall instead of run the entire installation, you could do this:
 ```
@@ -152,6 +162,21 @@ ansible-playbook install_platform_light.yml --tags "user_defined_modules"
 ```
 
 The *UDM* is then available at the path **{{ jupyterhub_modules_dir }}/< python | scala | r>**, the default path is */data/local/jupyterhub/modules/*.
+
+## Remote command execution
+In case the user needs to run a specific command at one of the remote hosts, such as restarting the network service, the user should use **ansible**. Such option is interesting when the user simply wants to restart a service. However, if it is to install a system package the user should follow the steps in [**Add new module**](https://github.com/nlesc-sherlock/emma/blob/master/ansible.md#add-new-modules) and in case of a new system the user should create a new [*Ansible role*](http://docs.ansible.com/ansible/latest/playbooks_reuse_roles.html).
+
+For fine-grain access the [**inventory file**](https://github.com/nlesc-sherlock/emma/blob/master/ansible.md#provision) (*often called hosts*) should have an entry per node. To extend the inventory file with these entries the user should run the following command, but only once:
+```
+. env_linux.sh
+for f in `seq 0 $(calc $NUM_HOSTS-1)`; do echo $f; echo [$CLUSTER_NAME$f] >> hosts; echo $CLUSTER_NAME.$HOST_DOMAIN >> hosts; done
+```
+
+To execute a remote command the user needs to call *ansible <host_group> -a "<command>" -u ubuntu*. For example, if the user wants to restart the network service at host number zero (s)he should do the following:
+```
+ansible ${CLUSTER_NAME}0 -a "sudo systemctl restart networking.service" -u ubuntu
+```
+
 
 ## Demo deployment
 
