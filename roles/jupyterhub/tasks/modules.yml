@@ -88,3 +88,17 @@
     - "{{ role_path }}/../../files/scala/*"
   tags:
     - user_defined_modules
+
+- name: Extract LAStools
+  unarchive:
+    src="http://lastools.org/download/laszip.zip"
+    dest="{{ jupyterhub_modules_dir }}"
+    copy=no
+    creates="{{ jupyterhub_modules_dir }}/LAStools"
+  tags:
+    - lastools
+
+- name: Install LAStools
+  shell: "cd {{ jupyterhub_modules_dir }}/LAStools ; make"
+  tags:
+    - lastools
