@@ -1,0 +1,25 @@
+---
+#Install Lastools
+- name: Extract LAStools
+  unarchive:
+    src="http://lastools.org/download/laszip.zip"
+    dest="{{ jupyterhub_modules_dir }}"
+    copy=no
+    creates="{{ jupyterhub_modules_dir }}/LAStools"
+  tags:
+    - lastools
+
+- name: Install LAStools
+  shell: "cd {{ jupyterhub_modules_dir }}/LAStools ; make"
+  tags:
+    - lastools
+
+#Downland necessary jars using maven
+- name: Maven magellan
+  maven_artifact:
+    group_id: "{{ magellan_groupId }}"
+    artifact_id: "{{ magellan_artifactId }}"
+    version: "{{ magellan_version }}"
+    repository_url: "{{ magellan_maven_url }}"
+    dest: "{{ spark_usr_dir }}/jars/magellan-{{ magellan_version }}.jar"
+

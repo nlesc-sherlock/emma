@@ -1,0 +1,46 @@
+---
+- name: Include defaults
+  include_vars:
+    file: '../../../vars/spark_vars.yml'
+
+- name: Spark config slaves
+  template:
+    src: ../templates/slaves.j2
+    dest: '{{ spark_conf_dir }}/conf/slaves'
+  when: inventory_hostname in groups['spark-master']
+
+- name: Copy start-master.systemd
+  template: src=../templates/spark-master.systemd.j2 dest=/etc/systemd/system/spark-master.service
+  when: inventory_hostname in groups['spark-master']
+
+- name: Copy start-slave.systemd
+  template: src=../templates/spark-slave.systemd.j2 dest=/etc/systemd/system/spark-slave.service
+
+- name: Copy start-shuffle.systemd
+  template: src=../templates/spark-shuffle.systemd.j2 dest=/etc/systemd/system/spark-shuffle.service
+
+- name: Configure Spark environment
+  template: src=../templates/spark-env.sh.j2
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}-bin-without-hadoop/conf/spark-env.sh"
+  tags: ["config"]
+
+- name: Configure Spark defaults config file
+  template: src=../templates/spark-defaults.conf.j2
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}-bin-without-hadoop/conf/spark-defaults.conf"
+  tags: ["config"]
+
+- name: Configure Hive defaults site file
+  template: src=../templates/hive-site.xml.j2
+            dest="{{ spark_usr_parent_dir }}/spark-{{ spark_version }}-bin-without-hadoop/conf/hive-site.xml"
+  tags: ["config"]
+
+- name: Spark-master started
+  systemd: name=spark-master state=started daemon_reload=yes
+  when: inventory_hostname in groups['spark-master']
+
+- name: Spark-slave started
+  systemd: name=spark-slave state=started daemon_reload=yes
+  when: inventory_hostname in groups['spark-worker']
+
+- name: Spark-shuffle started
+  systemd: name=spark-shuffle state=started daemon_reload=yes
