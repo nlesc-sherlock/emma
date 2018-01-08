@@ -1,17 +1,18 @@
 # Vagrant
 
-Vagrant is a tool to emulate a cluster of machines.
+Vagrant is a tool to emulate a cluster of machines. Version **2.0.1** is recommended.
 
 ## Requirements
 
-The user needs to have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed.
+The user needs to have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed. Version **5.2.4** is recommended.
 
 ## Installation
 
 For Linux systems a simple package installation is enough.
 ```
 #Ubuntu
-sudo apt-get install vagrant
+wget https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.deb
+sudo dpkg -i vagrant_2.0.1_x86_64.deb
 ```
 
 For Windows, despite the [Ubuntu environment](#windows) was set to run Ansible, vagrant needs to be installed as if it was to be executed using the CMD console. To install it download *msi* file from: https://www.vagrantup.com/downloads.html. Sometimes there are directories ownership issues with vagrant installation. To solve it is required to click in properties and claim ownership of the directory so the installation can proceed. Despite it is installed to be used on the CMD console vagrant.exe can be called from using [Ubuntu environment](#windows). Before doing that some environment variables need to be set. Create *env_linux.sh* and run *env_windows.sh* on [Ubuntu environment](#windows) before using *vagrant.exe*. It is important to make sure home directory for vagrant has write permissions for Windows users, not only for Windows root/administrator.
