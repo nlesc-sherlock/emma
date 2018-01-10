@@ -8,7 +8,6 @@
     repo: https://github.com/apache/incubator-toree.git
     dest: "{{ jupyterhub_src_dir }}/incubator-toree"
     update: no
-  when: inventory_hostname in groups['jupyterhub']
 
 - stat: path={{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/toree-0.2.0.dev1.tar.gz
   register: p

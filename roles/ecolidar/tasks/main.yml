@@ -15,11 +15,15 @@
     - lastools
 
 #Downland necessary jars using maven
-- name: Maven magellan
-  maven_artifact:
-    group_id: "{{ magellan_groupId }}"
-    artifact_id: "{{ magellan_artifactId }}"
-    version: "{{ magellan_version }}"
-    repository_url: "{{ magellan_maven_url }}"
-    dest: "{{ spark_usr_dir }}/jars/magellan-{{ magellan_version }}.jar"
-
+#- name: Maven Magellan
+#  maven_artifact:
+#    group_id: "{{ magellan_groupId }}"
+#    artifact_id: "{{ magellan_artifactId }}"
+#    version: "{{ magellan_version }}"
+#    repository_url: "{{ magellan_maven_url }}"
+#    dest: "{{ spark_usr_dir }}/jars/magellan-{{ magellan_version }}.jar"
+#    validate_certs: no
+ 
+- name: Get Magellan
+  get_url: url="https://dl.bintray.com/spark-packages/maven/{{ magellan_groupId }}/{{ magellan_artifactId }}/{{ magellan_version }}/{{ magellan_artifactId }}-{{ magellan_version }}.jar"
+           dest="{{ spark_usr_dir }}/jars/magellan-{{ magellan_version }}.jar"
