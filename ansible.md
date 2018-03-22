@@ -26,7 +26,7 @@ Create the `hosts` file see `hosts.template` for template. To change ansible con
 
 Now use ansible to verify login.
 ```
-ansible all -u root -i hosts -m ping
+ansible all -u ubuntu -i hosts -m ping
 ```
 
 For cloud based setup, skip this when deploying to vagrant. The disk (in example /dev/vdb) for /data/local can be partitioned/formatted/mounted (also sets ups ssh keys for root) with:
