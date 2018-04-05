@@ -10,7 +10,7 @@
   file: path="{{ pixiedust_home_dir }}/bin" state=directory group=users mode=g+rw
 
 - name: Install dependencies for ansible
-  pip: name={{ item }} executable=pip
+  pip: name={{ item }} executable=pip3
   with_items:
     - pexpect
 
