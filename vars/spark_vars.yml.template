@@ -35,7 +35,7 @@ spark_run_dir: "/run/spark"
 spark_env_extras: {}
 joda_time_version: "2.9.4"
 aws_java_sdk_s3_version: "1.10.6"
-hadoop_aws_version: "2.8.0"
+hadoop_aws_version: "2.8.3"
 spark_classpath_extras: [ "joda-time-{{ joda_time_version }}.jar", "aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
 spark_defaults_extras: { spark.history.fs.cleaner.interval 1d, spark.history.fs.cleaner.maxAge 3d, spark.history.fs.cleaner.enabled true, spark.default.parallelism 1000, spark.network.timeout 360s, spark.local.dir /data/local/spark/tmp/, spark.kryoserializer.buffer 64m, spark.kryoserializer.buffer.max 1024m, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
 
