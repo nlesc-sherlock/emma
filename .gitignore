@@ -1,5 +1,6 @@
 /*.vdi
-/hosts*
+/hosts
+/hosts_*
 /*.retry
 /env
 /.vagrant
@@ -16,5 +17,7 @@ files/hadoop_id_rsa
 files/hadoop_id_rsa.pub
 files/*.key
 files/*.key.pub
-files/python
+files/python/*.py
+files/scala/*.scala
+files/r/*.r
 playbooks/*.retry

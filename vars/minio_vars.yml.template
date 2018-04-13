@@ -1,8 +1,8 @@
 ---
-#Define the access key for minio
-minio_access_key: "<Custom username or access key of 5 to 20 characters in length>"
+#Define the access key for minio, for example: "A24H1RIGV4RKFGXJTEMS"
+minio_access_key: "<Custom username or access key of 5 to 20 characters in length>"  
 
-#Define the secret key for minio
+#Define the secret key for minio, for example: "5jd7ARCOi/XVjLzXqT5wA1NSgjmUo9mYJBgyGyIh"
 minio_secret_key: "<Custom password or secret key of 8 to 40 characters in length>"
 
 # Minio directories

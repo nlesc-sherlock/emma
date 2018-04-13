@@ -3,22 +3,9 @@
 #
 # Important to mention the information about which toree to use came from:
 # https://medium.com/@faizanahemad/machine-learning-with-jupyter-using-scala-spark-and-python-the-setup-62d05b0c7f56
-- name: incubator-toree
-  git:
-    repo: https://github.com/apache/incubator-toree.git
-    dest: "{{ jupyterhub_src_dir }}/incubator-toree"
-    update: no
-
-- stat: path={{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/toree-0.2.0.dev1.tar.gz
-  register: p
-
-- name: Build & Package
-  shell: "cd {{ jupyterhub_src_dir }}/incubator-toree ; sudo make release"
-  when: p.stat.exists is defined and not p.stat.exists
-  ignore_errors: yes
 
 - name: Toree (Spark Jupyter) installation
-  pip: executable=pip3 name="{{ jupyterhub_src_dir }}/incubator-toree/dist/toree-pip/"
+  pip: executable=pip3 name=https://dist.apache.org/repos/dist/dev/incubator/toree/0.2.0-incubating-rc1/toree-pip/toree-0.2.0.tar.gz
 
 - name: Toree to Jupyter
   shell: jupyter toree install --python_exec='python3.5' --spark_home='{{ spark_usr_dir }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
