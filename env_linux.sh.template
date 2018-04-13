@@ -21,5 +21,8 @@ total_memory=$(grep MemTotal /proc/meminfo | awk '{print $2}')
 export MEM_SIZE=$(calc $total_memory*0.8/$NUM_HOSTS/1024 | awk '{printf("%d",$1 + 0.5)}')
 echo "Memory per node: $MEM_SIZE MB"
 
-export KEYS_LOCATION=/tmp/$CLUSTER_NAME
+mkdir -p ${KEYS_LOCATION}/$host_name/
+cp files/${CLUSTER_NAME}.key ${KEYS_LOCATION}/
+chmod 600 ${KEYS_LOCATION}/${CLUSTER_NAME}.key
 
+export KEYS_LOCATION=/tmp/$CLUSTER_NAME
