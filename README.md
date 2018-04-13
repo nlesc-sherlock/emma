@@ -100,7 +100,7 @@ With the environment set, the next step is to setup the infra-structure. The inf
 The infrastructure is a collection of machines which must be reachable by ssh. The machines must be prepared/constructed by either [preparing cloud virtual machine](cloud.md) or [constructing using Vagrant boxes](vagrant.md).
 Once the machines are prepared the servers are provisioned using [Ansible](https://www.ansible.com/), an automation tool for IT infra-structure. The roles defined for Ansible will create a platform with the following features:
 
-* [GlusterFS](gluster.md)
+* [GlusterFS](glusterfs.md)
 * [Minio](minio.md)
 * [Hadoop](hadoop.md)
 * [Spark](spark.md) Standalone cluster
