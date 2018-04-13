@@ -22,9 +22,8 @@ Ansible should then be install using Ubuntu package manager **apt-get**. To inst
 
 ## Provision
 
-Create the `hosts` file see `hosts.template` for template. To create a default four nodes cluster run the following commands:
+Create the `hosts` file see `hosts.template` for template. To create a default four nodes cluster run the following command:
 ```
-. env_linux.sh
 ./create_hosts.sh
 ```
 
