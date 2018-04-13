@@ -88,4 +88,3 @@
     - "{{ role_path }}/../../files/scala/*"
   tags:
     - user_defined_modules
-
