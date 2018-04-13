@@ -33,4 +33,4 @@ system_packages:
   - bc
 
 #Create swap space
-create_swap_space: true
+create_swap_space: false
