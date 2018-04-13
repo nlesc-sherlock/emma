@@ -50,7 +50,14 @@ The roles defined for Ansible will create a platform with the following features
 
 Each role will deploy the respective service or system on the node's group specified in **playbook.yml**. Each node's group is defined in the inventory file **hosts**. The **playbook.yml** defines on which order the roles are executed. 
 
-The global variables for each role are defined under *vars/* in a file with the same name as the role. Their values should be set before running any playbook. All templates contain the default values for each role's variable. Note: each variable defined as global will over-write the ones defined under each role in the **defaults/** dir. Hence, to change or extend the a variable definition use the global variable definition.
+The global variables for each role are defined under *vars/* in a file with the same name as the role. Their values should be set before running any
+playbook. All templates contain the default values for each role's variable. Note: each variable defined as global will over-write the ones defined
+under each role in the **defaults/** dir. Hence, to change or extend the a variable definition use the global variable definition. To create **vars'
+files** with the default values, with exception of **minio_vars.yml** which needs to be edited to set the secret and access key, just run:
+```
+cd vars/
+./create_vars_files.sh
+```
 
 Once all variables are defined the platform is installed with the following command:
 ```
@@ -72,7 +79,7 @@ Through [ansible-tags](http://docs.ansible.com/ansible/playbooks_tags.html) it i
 ansible-playbook install_platform_light.yml --list-tags
 ```
 
-Currently we have the following tagsi (if some tag is missing please fill in an issue):
+Currently we have the following tags (if some tag is missing please fill in an issue):
 * **common**: All tasks for role *common*.
 * **extra_python_packages**: All tasks to install python packages using pip.
 * **extra_system_packages**: All tasks to install system packages using apt-get.
