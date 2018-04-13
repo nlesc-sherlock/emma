@@ -22,7 +22,13 @@ Ansible should then be install using Ubuntu package manager **apt-get**. To inst
 
 ## Provision
 
-Create the `hosts` file see `hosts.template` for template. To change ansible configurations the user should edit ansible.cfg at the root directory of this repository. A diff between it and the file under /etc/ansible/ansible.cfg shows the additions to the default version. 
+Create the `hosts` file see `hosts.template` for template. To create a default four nodes cluster run the following commands:
+```
+. env_linux.sh
+./create_hosts.sh
+```
+
+To change ansible configurations the user should edit ansible.cfg at the root directory of this repository. A diff between it and the file under /etc/ansible/ansible.cfg shows the additions to the default version. 
 
 Now use ansible to verify login.
 ```
