@@ -7,7 +7,7 @@ lines=`awk -v env_var=$NUM_HOSTS 'BEGIN { a=2; mul = a * env_var; print (mul + 4
 #port=$( vagrant.exe ssh-config emma3 | grep Port | cut -d " " -f 4)
 mkdir -p ${KEYS_LOCATION}/$host_name/
 cp .vagrant/machines/$host_name/virtualbox/private_key ${KEYS_LOCATION}/$host_name/private_key
-cp ${CLUSTER_NAME}.key ${KEYS_LOCATION}/
+cp files/${CLUSTER_NAME}.key ${KEYS_LOCATION}/
 chmod 600 ${KEYS_LOCATION}/$host_name/private_key
 chmod 600 ${KEYS_LOCATION}/${CLUSTER_NAME}.key
 sudo ssh-keygen -f "/root/.ssh/known_hosts" -R [127.0.0.1]:$port 2> /tmp/err 1>/tmp/out

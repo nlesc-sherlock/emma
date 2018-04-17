@@ -5,8 +5,6 @@ users:
     uid: 1100
     # Password created with `mkpasswd --method=SHA-512 pass1234`
     password: $6$6/6NkDn01w$6ld/sdc/B42cVtSNFQTQLlNPYOqin8m4kluy.QbvtLraHLliTs5QaPIYJcKyYr7KKhsY2znFZLSC2YzdROKwZ.
-    # Also add roles/common/files/<username>.key and roles/common/files/<username>.key.pub
-    # with ssh-keygen -f roles/common/files/<username>.key
 
 #Range of IPs of trusted networks. If you network is not listed, please extend this list.
 #To update the firewall of an existent cluster run: ansible-playbook install_platform_light.yml --tags "firewall"
@@ -33,6 +31,7 @@ python_packages:
 system_packages:
   - iotop
   - bc
+  - cmake
 
 #Create swap space
-create_swap_space: true
+create_swap_space: false
