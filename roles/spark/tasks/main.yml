@@ -158,14 +158,6 @@
   apt: name=maven
 
 #Downland necessary jars using maven
-- name: Maven joda-time
-  maven_artifact:
-    group_id: joda-time
-    artifact_id: joda-time
-    version: "{{ joda_time_version }}"
-    repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/joda-time-{{ joda_time_version }}.jar"
-
 - name: Maven hadoop-aws
   maven_artifact:
     group_id: org.apache.hadoop
@@ -174,38 +166,13 @@
     repository_url: http://central.maven.org/maven2/
     dest: "{{ spark_usr_dir }}/jars/hadoop-aws-{{ hadoop_aws_version }}.jar"
 
-- name: Maven aws-java-sdk-s3
+- name: Maven aws-java-sdk-bundle
   maven_artifact:
     group_id: com.amazonaws
-    artifact_id: aws-java-sdk-s3
-    version: "{{ aws_java_sdk_s3_version }}"
+    artifact_id: aws-java-sdk-bundle
+    version: "{{ aws_java_sdk_bundle_version }}"
     repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar"
-
-- name: Maven aws-java-sdk-core
-  maven_artifact:
-    group_id: com.amazonaws
-    artifact_id: aws-java-sdk-core
-    version: "{{ aws_java_sdk_s3_version }}"
-    repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-core-{{ aws_java_sdk_s3_version }}.jar"
-
-- name: Maven aws-java-sdk-kms
-  maven_artifact:
-    group_id: com.amazonaws
-    artifact_id: aws-java-sdk-kms
-    version: "{{ aws_java_sdk_s3_version }}"
-    repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-kms-{{ aws_java_sdk_s3_version }}.jar"
-
-- name: Maven jmespath-java
-  maven_artifact:
-    group_id: com.amazonaws
-    artifact_id: jmespath-java
-    version: 1.0
-    repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/jmespath-java-1.0.jar"
-  when: ( aws_java_sdk_s3_version == "3.0.0-apha1") or (aws_java_sdk_s3_version == "3.0.0-apha2")
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-bundle-{{ aws_java_sdk_bundle_version }}.jar"
 
 - name: Maven wisp
   maven_artifact:
