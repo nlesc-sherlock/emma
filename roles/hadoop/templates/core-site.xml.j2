@@ -42,4 +42,59 @@
     <value>{{ hadoop_tmp_dir }}</value>
   </property>
 
+  <property>
+    <name>fs.s3a.endpoint</name>
+    <value>http://{{ groups['hadoop-namenode'][0] }}:9000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.ssl.enabled</name>
+    <value>false</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.impl</name>
+    <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.access.key</name>
+    <value>{{ minio_access_key }}</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.secret.key</name>
+    <value>{{ minio_secret_key }}</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.path.style.access</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.attempts.maximum</name>
+    <value>5</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.establish.timeout</name>
+    <value>5000</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.connection.timeout</name>
+    <value>10000</value>
+  </property>
+
+  <property>
+    <name>com.amazonaws.services.s3.disableGetObjectMD5Validation</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>com.amazonaws.services.s3.disablePutObjectMD5Validation</name>
+    <value>true</value>
+  </property>
+
 </configuration>
