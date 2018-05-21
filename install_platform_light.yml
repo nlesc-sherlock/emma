@@ -27,6 +27,7 @@
   remote_user: ubuntu
   become: true
   vars_files:
+   - vars/minio_vars.yml
    - vars/common_vars.yml
    - vars/hadoop_vars.yml
   environment:
