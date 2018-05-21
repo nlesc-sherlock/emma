@@ -44,7 +44,7 @@
 
   <property>
     <name>fs.s3a.endpoint</name>
-    <value>http://{{ groups['hadoop-namenode'][0] }}:9000</value>
+    <value>http:{{ lookup('pipe', 'getent ' 'hosts {{ inventory_hostname }} | awk \'{ print $1 }\'')}}{{ minio_server_addr }}</value>
   </property>
 
   <property>
