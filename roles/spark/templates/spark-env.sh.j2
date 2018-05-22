@@ -67,9 +67,6 @@ export SPARK_LOG_DIR=${SPARK_LOG_DIR:-{{ spark_log_dir }}}
 export SPARK_PID_DIR=${SPARK_PID_DIR:-{{ spark_run_dir }}}
 export SPARK_DIST_CLASSPATH=$(hadoop classpath)
 
-export AWS_ACCESS_KEY_ID="{{ minio_access_key }}"
-export AWS_SECRET_ACCESS_KEY="{{ minio_secret_key }}"
-
 {% for key, value in spark_env_extras.items() | sort %}
 export {{ key }}="{{ value }}"
 {% endfor %}

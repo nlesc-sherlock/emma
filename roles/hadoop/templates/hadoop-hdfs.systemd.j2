@@ -3,7 +3,7 @@ Description=hadoop-hdfs
 After=syslog.target network.target
 
 [Service]
-User=root
+User=ubuntu
 Type=forking
 Environment="JAVA_HOME={{ java_home }}"
 ExecStart={{ hadoop_usr_dir }}/sbin/start-dfs.sh

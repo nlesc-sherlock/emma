@@ -9,11 +9,11 @@ scala_release: 2.11
 scala_version: 2.11.8
 
 #Define Spark version
-spark_prev_version: "2.2.0"
-spark_version: "2.3.0"
+spark_prev_version: "2.1.1"
+spark_version: "2.1.1"
 
 #Define Spark mirror
-spark_mirror: "http://apache.mirror.triple-it.nl/spark/spark-2.3.0/"
+spark_mirror: "http://d3kbcqa49mib13.cloudfront.net"
 
 #Define the location for the configuration dir for Spark (default value: /etc/spark)
 spark_conf_dir: "/etc/spark"
@@ -33,9 +33,10 @@ spark_work_dir: "/data/local/spark/work"
 spark_dir: "/data/local/spark"
 spark_run_dir: "/run/spark"
 spark_env_extras: {}
-aws_java_sdk_bundle_version: "1.11.333"
-hadoop_aws_version: "3.1.0"
-spark_classpath_extras: [ "aws-java-sdk-bundle-{{ aws_java_sdk_bundle_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
+joda_time_version: "2.9.4"
+aws_java_sdk_s3_version: "1.10.6"
+hadoop_aws_version: "2.8.3"
+spark_classpath_extras: [ "joda-time-{{ joda_time_version }}.jar", "aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
 spark_defaults_extras: { spark.history.fs.cleaner.interval 1d, spark.history.fs.cleaner.maxAge 3d, spark.history.fs.cleaner.enabled true, spark.default.parallelism 1000, spark.network.timeout 360s, spark.local.dir /data/local/spark/tmp/, spark.kryoserializer.buffer 64m, spark.kryoserializer.buffer.max 1024m, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
 
 worker_debug_port: 5006

@@ -29,7 +29,6 @@ python_packages:
 
 #List of extra System packages to installed, use --tags "extra_system_packages"
 system_packages:
-  - mlocate
   - iotop
   - bc
   - cmake
