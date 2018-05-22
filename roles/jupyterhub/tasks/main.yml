@@ -58,6 +58,3 @@
   include: modules.yml
   tags:
     - jupyterhub_modules
-
-- name: Pixiedust
-  include: pixiedust.yml
