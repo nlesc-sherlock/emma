@@ -1,4 +1,7 @@
 ---
+- name: Ensure Jupyter modules directory exists
+  file: path="{{ jupyterhub_modules_dir }}" state=directory group=users mode=g+rw
+
 #Install Lastools
 - name: Extract LAStools
   unarchive:
