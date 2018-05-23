@@ -1,5 +1,5 @@
 ---
-- name: Ensure Jupyter modules directory exists
+#- name: Ensure Jupyter modules directory exists
   file: path="{{ jupyterhub_modules_dir }}" state=directory group=users mode=g+rw
 
 #Install Lastools
@@ -13,7 +13,7 @@
     - lastools
 
 - name: Install LAStools
-  shell: "cd {{ jupyterhub_modules_dir }}/LAStools ; make"
+  shell: "cd {{ jupyterhub_modules_dir }}/LAStools && make"
   tags:
     - lastools
 
@@ -62,7 +62,7 @@
   when: cpd_dir.stat.exists is defined and not cpd_dir.stat.exists
 
 - name: Install cpd
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/cpd ; sudo mkdir makefiles; cd makefiles ; sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DEIGEN3_INCLUDE_DIR={{ jupyterhub_modules_dir }}/pdal/eigen_3_3_4 ; sudo make ; sudo make install"
+  shell: "cd {{ jupyterhub_modules_dir }}/pdal/cpd && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DEIGEN3_INCLUDE_DIR={{ jupyterhub_modules_dir }}/pdal/eigen_3_3_4 && sudo make && sudo make install"
   when: cpd_dir.stat.exists is defined and not cpd_dir.stat.exists
 
 # Install Hexer
@@ -77,7 +77,7 @@
   when: hexer_dir.stat.exists is defined and not hexer_dir.stat.exists
 
 - name: Install hexer
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/hexer ; sudo mkdir makefiles; cd makefiles ; sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release ; sudo make ; sudo make install"
+  shell: "cd {{ jupyterhub_modules_dir }}/pdal/hexer && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
   when: hexer_dir.stat.exists is defined and not hexer_dir.stat.exists
 
 # Install Nitro
@@ -92,7 +92,7 @@
   when: nitro_dir.stat.exists is defined and not nitro_dir.stat.exists
 
 - name: Install nitro
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/nitro ; sudo mkdir makefiles; cd makefiles ; sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release ; sudo make ; sudo make install"
+  shell: "cd {{ jupyterhub_modules_dir }}/pdal/nitro && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
   when: nitro_dir.stat.exists is defined and not nitro_dir.stat.exists
 
 # Install LASzip
@@ -108,7 +108,7 @@
   when: laszip_dir.stat.exists is defined and not laszip_dir.stat.exists
 
 - name: Install laszip
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laszip-src-3.2.2 ; sudo mkdir makefiles; cd makefiles ; sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release ; sudo make ; sudo make install"
+  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laszip-src-3.2.2 && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
   when: laszip_dir.stat.exists is defined and not laszip_dir.stat.exists
 
 # Install Laz-perf
@@ -123,7 +123,7 @@
   when: lazperf_dir.stat.exists is defined and not lazperf_dir.stat.exists
 
 - name: Install laz-perf
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laz_perf ; sudo mkdir makefiles; cd makefiles ; sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release ; sudo make ; sudo make install"
+  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laz_perf && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
   when: lazperf_dir.stat.exists is defined and not lazperf_dir.stat.exists
 
 # Install PDAL
@@ -142,7 +142,7 @@
   when: pdal_dir.stat.exists is defined and not pdal_dir.stat.exists
 
 - name: Install PDAL
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/pdal_1_7_maintenance ; sudo mkdir makefiles; cd makefiles ; sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=make -DBUILD_PLUGIN_PYTHON=ON -DBUILD_PLUGIN_CPD=ON -DBUILD_PLUGIN_GREYHOUND=ON -DBUILD_PLUGIN_HEXBIN=ON -DBUILD_PLUGIN_NITF=ON -DBUILD_PLUGIN_ICEBRIDGE=ON -DBUILD_PLUGIN_PGPOINTCLOUD=ON -DBUILD_PLUGIN_SQLITE=ON -DWITH_LASZIP=ON -DWITH_LAZPERF=ON -DBUILD_PLUGIN_DELAUNAY=ON ; sudo make -j2 ; sudo make install ; sudo ldconfig"
+  shell: "cd {{ jupyterhub_modules_dir }}/pdal/pdal_1_7_maintenance && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=make -DBUILD_PLUGIN_PYTHON=ON -DBUILD_PLUGIN_CPD=ON -DBUILD_PLUGIN_GREYHOUND=ON -DBUILD_PLUGIN_HEXBIN=ON -DBUILD_PLUGIN_NITF=ON -DBUILD_PLUGIN_ICEBRIDGE=ON -DBUILD_PLUGIN_PGPOINTCLOUD=ON -DBUILD_PLUGIN_SQLITE=ON -DWITH_LASZIP=ON -DWITH_LAZPERF=ON -DBUILD_PLUGIN_DELAUNAY=ON && sudo make -j2 && sudo make install && sudo ldconfig"
   when: pdal_dir.stat.exists is defined and not pdal_dir.stat.exists
 
 # Install laserchicken
@@ -159,7 +159,7 @@
   when: laserchicken_dir.stat.exists is defined and not laserchicken_dir.stat.exists
 
 - name: Install laserchicken
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laserchicken ; pip install ."
+  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laserchicken &&  pip install ."
   when: laserchicken_dir.stat.exists is defined and not laserchicken_dir.stat.exists
 
 # Install shapely
