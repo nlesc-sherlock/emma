@@ -154,9 +154,6 @@
     - pyspark
   tags: ["shims"]
 
-- name: install maven
-  apt: name=maven
-
 #Downland necessary jars using maven
 - name: Maven joda-time
   maven_artifact:
@@ -301,21 +298,3 @@
 
 - name: Gradle install dependencies
   shell: gradle downloadDependencies
-
-#Geotrellis for Python
-- name: add repository for GDAL
-  apt_repository: repo=ppa:ubuntugis/ubuntugis-unstable
-
-- name: Update apt cache
-  apt: update_cache=yes
-
-- name: Upgrade APT to the lastest packages
-  apt: upgrade=full
-
-- name: Install GDAL
-  apt: name={{ item }}
-  with_items:
-    - gdal-bin
-    - python-gdal
-    - python3-gdal
-
