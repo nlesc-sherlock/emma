@@ -1,5 +1,4 @@
 ---
-#Geotrellis for Python
 - name: add repository for GDAL
   apt_repository: repo=ppa:ubuntugis/ubuntugis-unstable
 
@@ -8,19 +7,6 @@
 
 - name: Upgrade APT to the lastest packages
   apt: upgrade=full
-
-- name: Install GDAL
-  apt: name={{ item }}
-  with_items:
-    - gdal-bin
-    - libgdal-dev
-
-#Install GDAL
-- name: Add repository for GDAL
-  apt_repository: repo=ppa:ubuntugis/ppa
-
-- name: Update apt cache
-  apt: update_cache=yes
 
 - name: Install GDAL
   apt: name={{ item }}
