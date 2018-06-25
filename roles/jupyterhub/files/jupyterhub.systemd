@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 User=root
 Environment="JAVA_HOME={{ java_home }}"
-ExecStart=/usr/local/bin/jupyterhub -f /etc/jupyterhub/jupyterhub_config.py
+ExecStart=/usr/local/bin/jupyterhub -f /etc/jupyterhub/jupyterhub_config.py > /var/log/jupyter.log
 
 [Install]
 WantedBy=multi-user.target
