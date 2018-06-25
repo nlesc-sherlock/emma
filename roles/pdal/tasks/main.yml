@@ -131,9 +131,3 @@
 - name: Install PDAL
   shell: "cd {{ jupyterhub_modules_dir }}/pdal/pdal_1_7_maintenance && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=make -DBUILD_PLUGIN_PYTHON=ON -DBUILD_PLUGIN_CPD=ON -DBUILD_PLUGIN_GREYHOUND=ON -DBUILD_PLUGIN_HEXBIN=ON -DBUILD_PLUGIN_NITF=ON -DBUILD_PLUGIN_ICEBRIDGE=ON -DBUILD_PLUGIN_PGPOINTCLOUD=ON -DBUILD_PLUGIN_SQLITE=ON -DWITH_LASZIP=ON -DWITH_LAZPERF=ON -DBUILD_PLUGIN_DELAUNAY=ON && sudo make -j2 && sudo make install && sudo ldconfig"
   when: pdal_dir.stat.exists is defined and not pdal_dir.stat.exists
-
-- name: Copy build.gradle
-  copy: src=build.gradle dest=/home/ubuntu/build.gradle
-
-- name: Gradle install dependencies
-  shell: gradle downloadDependencies
