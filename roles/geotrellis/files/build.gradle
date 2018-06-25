@@ -22,6 +22,9 @@ repositories {
 dependencies {
     compile group: 'org.locationtech.geotrellis', name: 'geotrellis-spark_2.11', version: '1.1.0-RC4'
     compile group: 'org.locationtech.geotrellis', name: 'geotrellis-s3_2.11', version: '1.1.0-RC4'
+    compile group: 'io.pdal', name: 'pdal_2.11', version: '1.7.0-RC3'
+    compile group: 'io.pdal', name: 'pdal-scala_2.11', version: '1.7.0-RC3'
+    compile group: 'io.pdal', name: 'pdal-native', version: '1.7.0-RC3'
 }
 
 ext.compileLibDir = file('/usr/lib/spark/jars')
