@@ -1,18 +1,26 @@
 ---
 - name: add repository for GDAL
   apt_repository: repo=ppa:ubuntugis/ubuntugis-unstable
+  tags:
+    - gdal
 
 - name: Update apt cache
   apt: update_cache=yes
+  tags:
+    - gdal
 
 - name: Upgrade APT to the lastest packages
   apt: upgrade=full
+  tags:
+    - gdal
 
 - name: Install GDAL
   apt: name={{ item }}
   with_items:
     - gdal-bin
     - libgdal-dev
+  tags:
+    - gdal
 
 # Install dependencies for PDAL.
 - name: Ensure PDAL dir exists
@@ -129,4 +137,3 @@
 
 - name: Gradle install dependencies
   shell: gradle downloadDependencies
-
