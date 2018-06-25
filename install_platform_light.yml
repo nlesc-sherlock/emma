@@ -68,7 +68,7 @@
   tags:
     - jupyterhub
 
-- hosts: spark
+- hosts: all
   remote_user: ubuntu
   become: true
   vars_files:
