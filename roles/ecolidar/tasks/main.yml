@@ -1,7 +1,4 @@
 ---
-#- name: Ensure Jupyter modules directory exists
-  file: path="{{ jupyterhub_modules_dir }}" state=directory group=users mode=g+rw
-
 #Install Lastools
 - name: Extract LAStools
   unarchive:
@@ -147,19 +144,19 @@
 
 # Install laserchicken
 
-- stat: path="{{ jupyterhub_modules_dir }}/pdal/laserchicken"
+- stat: path="{{ jupyterhub_modules_dir }}/python/laserchicken"
   register: laserchicken_dir
 
 - name: Download laserchicken
   git:
     repo: https://github.com/eEcoLiDAR/laserchicken.git
-    dest: "{{ jupyterhub_modules_dir }}/pdal/laserchicken"
+    dest: "{{ jupyterhub_modules_dir }}/python/laserchicken"
     version: development
     update: no
   when: laserchicken_dir.stat.exists is defined and not laserchicken_dir.stat.exists
 
 - name: Install laserchicken
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laserchicken &&  pip install ."
+  shell: "cd {{ jupyterhub_modules_dir }}/python/laserchicken &&  pip install ."
   when: laserchicken_dir.stat.exists is defined and not laserchicken_dir.stat.exists
 
 # Install shapely
