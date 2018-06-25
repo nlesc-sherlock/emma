@@ -81,3 +81,13 @@
     - ecolidar
   tags:
     - ecolidar
+
+- hosts: all
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/pdal_vars.yml
+  roles:
+    - pdal
+  tags:
+    - pdal
