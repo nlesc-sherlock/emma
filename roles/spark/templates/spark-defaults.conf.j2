@@ -38,6 +38,7 @@ spark.driver.maxResultSize {{ spark_driver_maxResultSize }}
 spark.serializer org.apache.spark.serializer.KryoSerializer
 spark.scheduler.mode FAIR
 spark.driver.allowMultipleContexts true
+spark.task.cpus {{ spark_task_cpus }}
 
 #Configuration for S3
 spark.hadoop.fs.s3a.impl org.apache.hadoop.fs.s3a.S3AFileSystem
