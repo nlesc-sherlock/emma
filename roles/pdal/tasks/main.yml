@@ -22,6 +22,21 @@
   tags:
     - gdal
 
+#Install Lastools
+- name: Extract LAStools
+  unarchive:
+    src="http://lastools.org/download/laszip.zip"
+    dest="{{ jupyterhub_modules_dir }}"
+    copy=no
+    creates="{{ jupyterhub_modules_dir }}/LAStools"
+  tags:
+    - lastools
+
+- name: Install LAStools
+  shell: "cd {{ jupyterhub_modules_dir }}/LAStools && make"
+  tags:
+    - lastools
+
 # Install dependencies for PDAL.
 - name: Ensure PDAL dir exists
   file: path="{{ jupyterhub_modules_dir }}/pdal" state=directory group=users mode=g+rw
