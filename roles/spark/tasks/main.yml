@@ -154,9 +154,6 @@
     - pyspark
   tags: ["shims"]
 
-- name: install maven
-  apt: name=maven
-
 #Downland necessary jars using maven
 - name: Maven joda-time
   maven_artifact:
@@ -301,4 +298,3 @@
 
 - name: Gradle install dependencies
   shell: gradle downloadDependencies
-

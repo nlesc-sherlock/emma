@@ -56,6 +56,30 @@
   tags:
     - spark
 
+- hosts: spark
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/pdal_vars.yml
+  roles:
+    - pdal
+  tags:
+    - pdal
+
+- hosts: spark
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/spark_vars.yml
+   - vars/geotrellis_vars.yml
+  environment:
+    JAVA_HOME: "{{ java_home }}"
+  roles:
+    - geotrellis
+  any_errors_fatal: true
+  tags:
+    - geotrellis
+
 - hosts: jupyterhub
   remote_user: ubuntu
   become: true
@@ -68,26 +92,3 @@
   tags:
     - jupyterhub
 
-- hosts: all
-  remote_user: ubuntu
-  become: true
-  vars_files:
-   - vars/common_vars.yml
-   - vars/minio_vars.yml
-   - vars/spark_vars.yml
-   - vars/jupyterhub_vars.yml
-   - vars/ecolidar_vars.yml
-  roles:
-    - ecolidar
-  tags:
-    - ecolidar
-
-- hosts: all
-  remote_user: ubuntu
-  become: true
-  vars_files:
-   - vars/pdal_vars.yml
-  roles:
-    - pdal
-  tags:
-    - pdal
