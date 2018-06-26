@@ -178,25 +178,41 @@
   maven_artifact:
     group_id: com.amazonaws
     artifact_id: aws-java-sdk-s3
-    version: "{{ aws_java_sdk_s3_version }}"
+    version: "{{ aws_version }}"
     repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar"
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-s3-{{ aws_version }}.jar"
 
 - name: Maven aws-java-sdk-core
   maven_artifact:
     group_id: com.amazonaws
     artifact_id: aws-java-sdk-core
-    version: "{{ aws_java_sdk_s3_version }}"
+    version: "{{ aws_version }}"
     repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-core-{{ aws_java_sdk_s3_version }}.jar"
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-core-{{ aws_version }}.jar"
 
 - name: Maven aws-java-sdk-kms
   maven_artifact:
     group_id: com.amazonaws
     artifact_id: aws-java-sdk-kms
-    version: "{{ aws_java_sdk_s3_version }}"
+    version: "{{ aws_version }}"
     repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-kms-{{ aws_java_sdk_s3_version }}.jar"
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-kms-{{ aws_version }}.jar"
+
+- name: Maven aws-java-sdk
+  maven_artifact:
+    group_id: com.amazonaws
+    artifact_id: aws-java-sdk
+    version: "{{ aws_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/aws-java-sdk-{{ aws_version }}.jar"
+
+- name: Maven httpclient
+  maven_artifact:
+    group_id: org.apache.httpcomponents
+    artifact_id: httpclient
+    version: "{{ httpclient_version }}"
+    repository_url: http://central.maven.org/maven2/
+    dest: "{{ spark_usr_dir }}/jars/httpclient-{{ httpclient_version }}.jar"
 
 - name: Maven jmespath-java
   maven_artifact:
@@ -205,7 +221,7 @@
     version: 1.0
     repository_url: http://central.maven.org/maven2/
     dest: "{{ spark_usr_dir }}/jars/jmespath-java-1.0.jar"
-  when: ( aws_java_sdk_s3_version == "3.0.0-apha1") or (aws_java_sdk_s3_version == "3.0.0-apha2")
+  when: ( aws_version == "3.0.0-apha1") or (aws_version == "3.0.0-apha2")
 
 - name: Maven wisp
   maven_artifact:

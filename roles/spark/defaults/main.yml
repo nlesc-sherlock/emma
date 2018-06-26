@@ -34,7 +34,8 @@ spark_broadcast_blockSize: 20m
 spark_task_cpus: 2
 
 joda_time_version: "2.9.4"
-aws_java_sdk_s3_version: "1.10.6"
+aws_version: "1.10.6"
+httpclient_version: "4.5.3"
 hadoop_aws_version: "2.8.0"
 spark_classpath_extras: [ "joda-time-{{ joda_time_version }}.jar", "aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "hadoop-aws-{{ hadoop_aws_version }}.jar" ]
 spark_env_extras: {}
