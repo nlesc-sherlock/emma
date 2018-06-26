@@ -124,6 +124,14 @@
     - python3-pip
     - python-pip
 
+#Install Git
+- name: Install Git
+  apt: name=git
+
+#Install Maven
+- name: install maven
+  apt: name=maven
+
 #Install sbt
 - name: Add repo for sbt
   shell: echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list

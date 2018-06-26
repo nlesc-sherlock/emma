@@ -67,3 +67,18 @@
     - jupyterhub
   tags:
     - jupyterhub
+
+- hosts: spark
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/spark_vars.yml
+   - vars/geotrellis_vars.yml
+  environment:
+    JAVA_HOME: "{{ java_home }}"
+  roles:
+    - geotrellis
+  any_errors_fatal: true
+  tags:
+    - geotrellis
+

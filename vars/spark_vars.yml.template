@@ -62,3 +62,4 @@ spark_driver_maxResultSize: 2g
 spark_dynamicAllocation_initialExecutors: 1
 spark_dynamicAllocation_maxExecutors: 2
 spark_broadcast_blockSize: 20m
+spark_task_cpus: 2

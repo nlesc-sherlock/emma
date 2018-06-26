@@ -29,9 +29,11 @@ python_packages:
 
 #List of extra System packages to installed, use --tags "extra_system_packages"
 system_packages:
-  - iotop
+  - mlocate
+  - htop
   - bc
   - cmake
+  - linux-tools-virtual
 
 #Create swap space
 create_swap_space: false
