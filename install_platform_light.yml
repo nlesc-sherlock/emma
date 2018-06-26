@@ -56,17 +56,15 @@
   tags:
     - spark
 
-- hosts: jupyterhub
+- hosts: spark
   remote_user: ubuntu
   become: true
   vars_files:
-   - vars/spark_vars.yml
-   - vars/common_vars.yml
-   - vars/jupyterhub_vars.yml
+   - vars/pdal_vars.yml
   roles:
-    - jupyterhub
+    - pdal
   tags:
-    - jupyterhub
+    - pdal
 
 - hosts: spark
   remote_user: ubuntu
@@ -81,4 +79,16 @@
   any_errors_fatal: true
   tags:
     - geotrellis
+
+- hosts: jupyterhub
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/spark_vars.yml
+   - vars/common_vars.yml
+   - vars/jupyterhub_vars.yml
+  roles:
+    - jupyterhub
+  tags:
+    - jupyterhub
 
