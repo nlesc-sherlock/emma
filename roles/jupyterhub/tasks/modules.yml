@@ -6,17 +6,11 @@
 # We followed the instructions posted at:
 # https://github.com/mapbox/rasterio/blob/master/CONTRIBUTING.rst#installing-rasterio
 
-- name: Add repository for GDAL
-  apt_repository: repo=ppa:ubuntugis/ppa
-
-- name: Update apt cache
-  apt: update_cache=yes
-
 - name: rasterio dependencies
   apt: name={{ item }}
   with_items:
-    - gdal-bin
-    - libgdal-dev
+    - python-gdal
+    - python3-gdal
     - libatlas-dev
     - libatlas-base-dev
     - gfortran
