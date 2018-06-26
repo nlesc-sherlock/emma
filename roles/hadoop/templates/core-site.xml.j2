@@ -42,4 +42,41 @@
     <value>{{ hadoop_tmp_dir }}</value>
   </property>
 
+  <configuration>
+  <property>
+    <name>fs.s3a.endpoint</name>
+    <description>AWS S3 endpoint to connect to. An up-to-date list is
+      provided in the AWS Documentation: regions and endpoints. Without this
+      property, the standard region (s3.amazonaws.com) is assumed.
+    </description>
+    <value>http://{{ lookup('pipe', 'getent ' 'hosts {{ inventory_hostname }} | awk \'{ print $1 }\'')}}{{ minio_server_addr }}</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.access.key</name>
+    <description>AWS access key ID.</description>
+    <value>{{ minio_access_key }}</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.secret.key</name>
+    <description>AWS secret key.</description>
+    <value>{{ minio_secret_key }}</value>
+  </property>
+
+  <property>
+    <name>fs.s3a.path.style.access</name>
+    <value>true</value>
+    <description>Enable S3 path style access ie disabling the default virtual hosting behaviour.
+      Useful for S3A-compliant storage providers as it removes the need to set up DNS for virtual hosting.
+    </description>
+  </property>
+
+  <property>
+    <name>fs.s3a.impl</name>
+    <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+    <description>The implementation class of the S3A Filesystem</description>
+  </property>
+</configuration>
+
 </configuration>
