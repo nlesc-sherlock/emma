@@ -87,20 +87,6 @@
     - /usr/bin/pyspark
   when: spark_dirs.stat.exists is defined and not spark_dirs.stat.exists
 
-- stat: path="{{ spark_src_dir }}/spark-{{ spark_version }}-bin-without-hadoop.tgz"
-  register: spark_dirs_sci
-  tags: ["scispark"]
-
-- name: Remove SciSpark jar so it is re-compiled for the new Spark version
-  file:
-    state: absent
-    path: "{{ item }}"
-  with_items:
-    - "{{ scispark_dir }}/SciSpark/target/scala-{{ scala_release }}/SciSpark.jar"
-    - "{{ spark_usr_dir }}/jars/SciSpark.jar"
-  when: spark_dirs_sci.stat.exists is defined and not spark_dirs_sci.stat.exists
-  tags: ["scispark"]
-
 - name: Ensure Spark directory exists
   file: path="{{ spark_dir }}" state=directory owner=ubuntu group={{ spark_user_groups[0] }} mode=g+rw
 

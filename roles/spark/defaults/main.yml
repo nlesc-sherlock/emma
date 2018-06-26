@@ -49,4 +49,3 @@ gc_debug: "" #"-XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+Print
 gc_type: "+UseG1GC" #Or +UseParallelGC
 spark_debug_mode: false
 
-scispark_dir: "/data/local/scispark"
