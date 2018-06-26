@@ -31,6 +31,7 @@ spark_driver_maxResultSize: 1g
 spark_dynamicAllocation_initialExecutors: 1
 spark_dynamicAllocation_maxExecutors: 2
 spark_broadcast_blockSize: 20m
+spark_task_cpus: 2
 
 joda_time_version: "2.9.4"
 aws_version: "1.10.6"
