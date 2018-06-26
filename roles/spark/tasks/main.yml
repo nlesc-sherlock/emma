@@ -298,3 +298,8 @@
 
 - name: Gradle install dependencies
   shell: gradle downloadDependencies
+
+- name: Install Spark's modules
+  include: modules.yml
+  tags:
+    - spark_modules
