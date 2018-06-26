@@ -63,3 +63,8 @@ spark_dynamicAllocation_initialExecutors: 1
 spark_dynamicAllocation_maxExecutors: 2
 spark_broadcast_blockSize: 20m
 spark_task_cpus: 2
+
+magellan_groupId: "harsha2010"
+magellan_artifactId: "magellan"
+magellan_version: "1.0.5-s_2.11"
+magellan_maven_url: "https://dl.bintray.com/spark-packages/maven/"

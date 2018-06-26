@@ -49,3 +49,7 @@ gc_debug: "" #"-XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+Print
 gc_type: "+UseG1GC" #Or +UseParallelGC
 spark_debug_mode: false
 
+magellan_groupId: "harsha2010"
+magellan_artifactId: "magellan"
+magellan_version: "1.0.5-s_2.11"
+magellan_maven_url: "https://dl.bintray.com/spark-packages/maven/"
