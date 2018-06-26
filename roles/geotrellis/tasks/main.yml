@@ -7,7 +7,7 @@
   shell: gradle downloadDependencies
 
 #Geotrellis for Python
-- name: add repository for GDAL
+- name: add repository for GDAL Python bindings
   apt_repository: repo=ppa:ubuntugis/ubuntugis-unstable
 
 - name: Update apt cache
@@ -16,10 +16,9 @@
 - name: Upgrade APT to the lastest packages
   apt: upgrade=full
 
-- name: Install GDAL
+- name: Install GDAL Python bindings
   apt: name={{ item }}
   with_items:
-    - gdal-bin
     - python-gdal
     - python3-gdal
 
