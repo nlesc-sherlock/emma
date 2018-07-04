@@ -1,0 +1,7 @@
+---
+#Get Magellan
+- name: Get Magellan
+  get_url: url="https://dl.bintray.com/spark-packages/maven/{{ magellan_groupId }}/{{ magellan_artifactId }}/{{ magellan_version }}/{{ magellan_artifactId }}-{{ magellan_version }}.jar"
+           dest="{{ spark_usr_dir }}/jars/magellan-{{ magellan_version }}.jar"
+  tags:
+    - magellan
