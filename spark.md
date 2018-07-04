@@ -24,9 +24,6 @@ The installation followed the information available at [GeoTrellis GitHub](https
 
 Before starting using GeoTrellis, we recommend the read of [Core concepts for Geo-trellis](https://geotrellis.readthedocs.io/en/1.0/guide/core-concepts/).
 
-## SciSpark
-SciSpark was installed using the [instructions available at SciSpark GitHub page](https://github.com/SciSpark/SciSpark/wiki/2.-Installation).
-
 ## Examples
 
 A python notebook to do [Unsupervised classification of imagery using scikit-learn](http://nbviewer.jupyter.org/gist/om-henners/c6c8d40389dab75cf535). This example shows how to classify imagery (for example from LANDSAT) using scikit-learn. There are many classification methods available, but for this example they use K-Means as it's simple and fast. It uses [**numpy**](http://www.numpy.org/) and [**rasterio**](https://github.com/mapbox/rasterio).

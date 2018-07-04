@@ -15,13 +15,17 @@ repositories {
     jcenter()
     maven {
         url "https://repo1.maven.org/maven2/"
-        url "http://dl.bintray.com/azavea/geotrellis/"
     }
 }
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    compile group: 'com.github.fommil.netlib', name: 'all', version: '1.1.2'
+    compile group: 'org.locationtech.geotrellis', name: 'geotrellis-spark_2.11', version: '1.1.0-RC4'
+    compile group: 'org.locationtech.geotrellis', name: 'geotrellis-s3_2.11', version: '1.1.0-RC4'
+    compile group: 'com.azavea.geotrellis', name: 'geotrellis-pointcloud_2.11', version: '0.1'
+    compile group: 'io.pdal', name: 'pdal_2.11', version: '1.7.0-RC3'
+    compile group: 'io.pdal', name: 'pdal-scala_2.11', version: '1.7.0-RC3'
+    compile group: 'io.pdal', name: 'pdal-native', version: '1.7.0-RC3'
 }
 
 ext.compileLibDir = file('/usr/lib/spark/jars')
