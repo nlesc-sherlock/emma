@@ -1,4 +1,3 @@
 ---
 jupyterhub_src_dir: /data/local/jupyterhub
 jupyterhub_modules_dir: /data/local/jupyterhub/modules
-pixiedust_home_dir: /data/local/pixiedust
