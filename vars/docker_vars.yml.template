@@ -1,6 +1,7 @@
 ---
 
 cran_url: https://cran.uni-muenster.de
+cran_ppa_key: E084DAB9
 docker_manager: "{{ groups['docker-swarm-manager'][0] }}"
 space: "' '"
 docker_manager_ip: " {{ lookup('pipe', 'getent hosts {{ docker_manager }} | cut -d {{ space }} -f1') }} "

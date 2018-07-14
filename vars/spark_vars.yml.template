@@ -70,3 +70,4 @@ magellan_version: "1.0.5-s_2.11"
 magellan_maven_url: "https://dl.bintray.com/spark-packages/maven/"
 
 cran_url: https://cran.uni-muenster.de
+cran_ppa_key: E084DAB9
