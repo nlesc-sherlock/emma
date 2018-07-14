@@ -1,3 +1,4 @@
 ---
+cran_url: https://cran.uni-muenster.de
 jupyterhub_src_dir: /data/local/jupyterhub
 jupyterhub_modules_dir: /data/local/jupyterhub/modules

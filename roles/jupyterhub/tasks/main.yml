@@ -21,7 +21,8 @@
   pip: name=ipykernel executable=pip3
 
 - name: Copy irkernel_install
-  copy: src=irkernel_install.r dest="{{ jupyterhub_src_dir }}/irkernel_install.r"
+  template: src=irkernel_install.r.j2
+            dest="{{ jupyterhub_src_dir }}/irkernel_install.r"
 
 - name: Install irkernel
   shell: "Rscript {{ jupyterhub_src_dir }}/irkernel_install.r"

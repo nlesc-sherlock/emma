@@ -121,16 +121,14 @@ Vagrant.configure(2) do |config|
     s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
   end
 
-  if Vagrant::VERSION =~ /1.9.[0-9]/ && vbox_version =~ /5.1.[0-9]/
-    puts "Copy ssh keys by hand."
-    config.vm.provision "file", source: "./#{ENV['CLUSTER_NAME']}.key", destination: "/tmp/#{ENV['CLUSTER_NAME']}.key"
-    config.vm.provision "file", source: "./#{ENV['CLUSTER_NAME']}.key.pub", destination: "/tmp/#{ENV['CLUSTER_NAME']}.key.pub"
-    config.vm.provision "shell", inline: <<-SHELL
-      mkdir -p /vagrant
-      cp /tmp/#{ENV['CLUSTER_NAME']}.key /vagrant/
-      cp /tmp/#{ENV['CLUSTER_NAME']}.key.pub /vagrant/
-    SHELL
-  end
+  puts "Copy ssh keys by hand."
+  config.vm.provision "file", source: "./files/#{ENV['CLUSTER_NAME']}.key", destination: "/tmp/#{ENV['CLUSTER_NAME']}.key"
+  config.vm.provision "file", source: "./files/#{ENV['CLUSTER_NAME']}.key.pub", destination: "/tmp/#{ENV['CLUSTER_NAME']}.key.pub"
+  config.vm.provision "shell", inline: <<-SHELL
+  mkdir -p /vagrant
+  cp /tmp/#{ENV['CLUSTER_NAME']}.key /vagrant/
+  cp /tmp/#{ENV['CLUSTER_NAME']}.key.pub /vagrant/
+  SHELL
 
   config.vm.provision "shell", inline: <<-SHELL
     mkdir -p /root/.ssh
