@@ -50,14 +50,14 @@
   apt: upgrade=full
 - name: Rebooting machine so new kernel is active
   become: yes
-  shell: sleep 5 && shutdown -r now #removes=/var/run/reboot-required
+  shell: sleep 5 && shutdown -r now removes=/var/run/reboot-required
   async: 1
   poll: 0
   ignore_errors: true
   register: restarted
 - name: Waiting for reboot...
   become: false
-  local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 delay=60 timeout=120 state=started
+  local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 delay=90 timeout=120 state=started
   when: restarted.changed
 - name: Check if network is up
   command: ping -c 1 www.google.com
