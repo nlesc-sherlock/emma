@@ -44,9 +44,9 @@
   become: true
   vars_files:
    - vars/common_vars.yml
+   - vars/minio_vars.yml
    - vars/hadoop_vars.yml
    - vars/spark_vars.yml
-   - vars/minio_vars.yml
   environment:
     JAVA_HOME: "{{ java_home }}"
     HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
@@ -61,6 +61,8 @@
   remote_user: ubuntu
   become: true
   vars_files:
+   - vars/common_vars.yml
+   - vars/minio_vars.yml
    - vars/pdal_vars.yml
   roles:
     - pdal
@@ -71,6 +73,8 @@
   remote_user: ubuntu
   become: true
   vars_files:
+   - vars/common_vars.yml
+   - vars/minio_vars.yml
    - vars/spark_vars.yml
    - vars/geotrellis_vars.yml
   environment:
@@ -85,8 +89,9 @@
   remote_user: ubuntu
   become: true
   vars_files:
-   - vars/spark_vars.yml
    - vars/common_vars.yml
+   - vars/minio_vars.yml
+   - vars/spark_vars.yml
    - vars/jupyterhub_vars.yml
   roles:
     - jupyterhub
