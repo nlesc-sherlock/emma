@@ -1,0 +1,4 @@
+---
+
+- name: Cassandra stopped
+  systemd: name=cassandra state=stopped daemon_reload=yes

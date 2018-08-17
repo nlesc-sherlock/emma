@@ -1,0 +1,7 @@
+---
+- name: Include global vars
+  include_vars:
+    file: '../../../vars/cassandra_vars.yml'
+
+- name: Cassandra started
+  systemd: name=cassandra state=started daemon_reload=yes

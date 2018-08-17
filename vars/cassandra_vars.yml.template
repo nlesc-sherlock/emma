@@ -1,0 +1,7 @@
+---
+
+cassandra_dir: "/data/local/cassandra"
+cassandra_repo_key: A278B781FE4B2BDA
+cassandra_repo_key_server: "pool.sks-keyservers.net"
+cassandra_repo_url: "http://www.apache.org/dist/cassandra/debian"
+cassandra_version: "311x"
