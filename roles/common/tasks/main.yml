@@ -158,3 +158,7 @@
   with_items: "{{ system_packages }}"
   tags:
     - extra_system_packages
+
+- name: Ensure Emma modules directory exists
+  file: path="{{ emma_modules_dir }}" state=directory group=users mode=g+rw
+
