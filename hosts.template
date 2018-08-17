@@ -55,5 +55,17 @@ emma3.<domain to use>
 spark-master
 spark-worker
 
+[cassandra-seeds]
+emma0.<domain to use>
+emma3.<domain to use>
+[cassandra-nodes]
+emma0.<domain to use>
+emma1.<domain to use>
+emma2.<domain to use>
+emma3.<domain to use>
+[cassandra:children]
+cassandra-seeds
+cassandra-nodes
+
 [jupyterhub]
 emma0.<domain to use>
