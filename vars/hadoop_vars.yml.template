@@ -1,7 +1,7 @@
 ---
-hadoop_prev_version: "2.8.3"
-hadoop_version: "2.8.3"
-hadoop_mirror: "http://mirror.novg.net/apache/hadoop/common"
+hadoop_prev_version: "2.8.4"
+hadoop_version: "2.8.4"
+hadoop_mirror: "http://www.apache.org/dyn/closer.cgi/hadoop/common"
 hadoop_conf_dir: "/etc/hadoop/conf"
 hadoop_usr_dir: "/usr/lib/hadoop"   #this is the symlink to the extracted/installed hadoop
 hadoop_lib_dir: "/var/lib/hadoop"
