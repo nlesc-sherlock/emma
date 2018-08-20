@@ -32,3 +32,10 @@ minio_browser: "on"
 # Switches to disable minio server and/or minio client installation
 skip_server: False
 skip_client: False
+
+# Minio and MC download urls
+minio_server_download_url: https://dl.minio.io/server/minio/release/linux-amd64/minio
+minio_client_download_url: https://dl.minio.io/client/mc/release/linux-amd64/mc
+
+# default init scripts location
+initd_conf_dir: /etc/init.d

@@ -16,3 +16,10 @@ minio_server_logdir: "/data/local/minio/log"
 
 #Define the port where minio server will listen
 minio_server_addr: ":9091"
+
+# Minio and MC download urls
+minio_server_download_url: https://dl.minio.io/server/minio/release/linux-amd64/minio
+minio_client_download_url: https://dl.minio.io/client/mc/release/linux-amd64/mc
+
+# default init scripts location
+initd_conf_dir: /etc/init.d

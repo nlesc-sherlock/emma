@@ -18,3 +18,8 @@ system_packages:
   - aptitude
 
 create_swap_space: false
+
+#Define the JAVA_HOME (default: "/usr/lib/jvm/java-8-oracle")
+java_home: "/usr/lib/jvm/java-8-oracle"
+
+emma_modules_dir: "/data/local/{{ lookup('env', 'CLUSTER_NAME') }}/modules"
