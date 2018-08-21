@@ -13,6 +13,7 @@ trusted_networks:
   - 192.168.1.1/16
   - 172.17.0.1/24
   - 145.136.73.0/24
+  - 145.100.57.0/24
   - 145.100.58.0/24
   - 145.100.59.0/24
   - 145.100.116.0/24
@@ -34,6 +35,9 @@ system_packages:
   - bc
   - cmake
   - linux-tools-virtual
+  - software-properties-common
 
 #Create swap space
 create_swap_space: false
+
+emma_modules_dir: "/data/local/{{ lookup('env', 'CLUSTER_NAME') }}/modules"

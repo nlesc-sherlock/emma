@@ -1,16 +1,24 @@
 ---
+- name: Check if GDAL was installed
+  shell: dpkg-query -W 'gdal-bin'
+  ignore_errors: True
+  register: is_gdal_installed
+
 - name: add repository for GDAL
   apt_repository: repo=ppa:ubuntugis/ubuntugis-unstable
+  when: is_gdal_installed|failed
   tags:
     - gdal
 
 - name: Update apt cache
   apt: update_cache=yes
+  when: is_gdal_installed|failed
   tags:
     - gdal
 
 - name: Upgrade APT to the lastest packages
   apt: upgrade=full
+  when: is_gdal_installed|failed
   tags:
     - gdal
 
@@ -19,6 +27,7 @@
   with_items:
     - gdal-bin
     - libgdal-dev
+  when: is_gdal_installed|failed
   tags:
     - gdal
 
@@ -26,123 +35,123 @@
 - name: Extract LAStools
   unarchive:
     src="http://lastools.org/download/laszip.zip"
-    dest="{{ jupyterhub_modules_dir }}"
+    dest="{{ emma_modules_dir }}"
     copy=no
-    creates="{{ jupyterhub_modules_dir }}/LAStools"
+    creates="{{ emma_modules_dir }}/LAStools"
   tags:
     - lastools
 
 - name: Install LAStools
-  shell: "cd {{ jupyterhub_modules_dir }}/LAStools && make"
+  shell: "cd {{ emma_modules_dir }}/LAStools && make && cp {{ emma_modules_dir }}/LAStools/bin/laszip /usr/local/bin/"
   tags:
     - lastools
 
 # Install dependencies for PDAL.
 - name: Ensure PDAL dir exists
-  file: path="{{ jupyterhub_modules_dir }}/pdal" state=directory group=users mode=g+rw
+  file: path="{{ emma_modules_dir }}/pdal" state=directory group=users mode=g+rw
 
 - name: Install libjsoncpp-dev
   apt: name=libjsoncpp-dev
 
 # Install Eigen
 - name: Ensure eigen_3_3_4 dir exists
-  file: path="{{ jupyterhub_modules_dir }}/pdal/eigen_3_3_4" state=directory group=users mode=g+rw
+  file: path="{{ emma_modules_dir }}/pdal/eigen_3_3_4" state=directory group=users mode=g+rw
 
 - name: Download Eigen
   unarchive:
     src: "http://bitbucket.org/eigen/eigen/get/3.3.4.tar.gz"
-    dest: "{{ jupyterhub_modules_dir }}/pdal/eigen_3_3_4/"
+    dest: "{{ emma_modules_dir }}/pdal/eigen_3_3_4/"
     copy: no
     extra_opts: [--strip-components=1]
 
 # Instal CPD
-- stat: path="{{ jupyterhub_modules_dir }}/pdal/cpd/makefiles"
+- stat: path="{{ emma_modules_dir }}/pdal/cpd/makefiles"
   register: cpd_dir
 
 - name: Download cpd
   git:
     repo: https://github.com/gadomski/cpd
-    dest: "{{ jupyterhub_modules_dir }}/pdal/cpd"
+    dest: "{{ emma_modules_dir }}/pdal/cpd"
     update: no
   when: cpd_dir.stat.exists is defined and not cpd_dir.stat.exists
 
 - name: Install cpd
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/cpd && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DEIGEN3_INCLUDE_DIR={{ jupyterhub_modules_dir }}/pdal/eigen_3_3_4 && sudo make && sudo make install"
+  shell: "cd {{ emma_modules_dir }}/pdal/cpd && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DEIGEN3_INCLUDE_DIR={{ emma_modules_dir }}/pdal/eigen_3_3_4 && sudo make && sudo make install"
   when: cpd_dir.stat.exists is defined and not cpd_dir.stat.exists
 
 # Install Hexer
-- stat: path="{{ jupyterhub_modules_dir }}/pdal/hexer/makefiles"
+- stat: path="{{ emma_modules_dir }}/pdal/hexer/makefiles"
   register: hexer_dir
 
 - name: Download hexer
   git:
     repo: https://github.com/hobu/hexer
-    dest: "{{ jupyterhub_modules_dir }}/pdal/hexer"
+    dest: "{{ emma_modules_dir }}/pdal/hexer"
     update: no
   when: hexer_dir.stat.exists is defined and not hexer_dir.stat.exists
 
 - name: Install hexer
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/hexer && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
+  shell: "cd {{ emma_modules_dir }}/pdal/hexer && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
   when: hexer_dir.stat.exists is defined and not hexer_dir.stat.exists
 
 # Install Nitro
-- stat: path="{{ jupyterhub_modules_dir }}/pdal/nitro/makefiles"
+- stat: path="{{ emma_modules_dir }}/pdal/nitro/makefiles"
   register: nitro_dir
 
 - name: Download nitro
   git:
     repo: https://github.com/hobu/nitro.git
-    dest: "{{ jupyterhub_modules_dir }}/pdal/nitro"
+    dest: "{{ emma_modules_dir }}/pdal/nitro"
     update: no
   when: nitro_dir.stat.exists is defined and not nitro_dir.stat.exists
 
 - name: Install nitro
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/nitro && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
+  shell: "cd {{ emma_modules_dir }}/pdal/nitro && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
   when: nitro_dir.stat.exists is defined and not nitro_dir.stat.exists
 
 # Install LASzip
-- stat: path="{{ jupyterhub_modules_dir }}/pdal/laszip-src-3.2.2/makefiles"
+- stat: path="{{ emma_modules_dir }}/pdal/laszip-src-3.2.2/makefiles"
   register: laszip_dir
 
 - name: Download LASzip
   unarchive:
     src="https://github.com/LASzip/LASzip/releases/download/3.2.2/laszip-src-3.2.2.tar.gz"
-    dest="{{ jupyterhub_modules_dir }}/pdal/"
+    dest="{{ emma_modules_dir }}/pdal/"
     copy=no
-    creates="{{ jupyterhub_modules_dir }}/laszip-src-3.2.2"
+    creates="{{ emma_modules_dir }}/laszip-src-3.2.2"
   when: laszip_dir.stat.exists is defined and not laszip_dir.stat.exists
 
 - name: Install laszip
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laszip-src-3.2.2 && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
+  shell: "cd {{ emma_modules_dir }}/pdal/laszip-src-3.2.2 && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
   when: laszip_dir.stat.exists is defined and not laszip_dir.stat.exists
 
 # Install Laz-perf
-- stat: path="{{ jupyterhub_modules_dir }}/pdal/laz_perf/makefiles"
+- stat: path="{{ emma_modules_dir }}/pdal/laz_perf/makefiles"
   register: lazperf_dir
 
 - name: Download laz-perf
   git:
     repo: https://github.com/hobu/laz-perf.git
-    dest: "{{ jupyterhub_modules_dir }}/pdal/laz_perf"
+    dest: "{{ emma_modules_dir }}/pdal/laz_perf"
     update: no
   when: lazperf_dir.stat.exists is defined and not lazperf_dir.stat.exists
 
 - name: Install laz-perf
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/laz_perf && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
+  shell: "cd {{ emma_modules_dir }}/pdal/laz_perf && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release && sudo make && sudo make install"
   when: lazperf_dir.stat.exists is defined and not lazperf_dir.stat.exists
 
 # Install PDAL
-- stat: path="{{ jupyterhub_modules_dir }}/pdal/pdal_1_7_maintenance/makefiles"
+- stat: path="{{ emma_modules_dir }}/pdal/pdal_1_7_maintenance/makefiles"
   register: pdal_dir
 
 - name: Download PDAL
   git:
     repo: https://github.com/PDAL/PDAL.git
-    dest: "{{ jupyterhub_modules_dir }}/pdal/pdal_1_7_maintenance"
+    dest: "{{ emma_modules_dir }}/pdal/pdal_1_7_maintenance"
     version: 1.7-maintenance
     update: no
   when: pdal_dir.stat.exists is defined and not pdal_dir.stat.exists
 
 - name: Install PDAL
-  shell: "cd {{ jupyterhub_modules_dir }}/pdal/pdal_1_7_maintenance && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=make -DBUILD_PLUGIN_PYTHON=ON -DBUILD_PLUGIN_CPD=ON -DBUILD_PLUGIN_GREYHOUND=ON -DBUILD_PLUGIN_HEXBIN=ON -DBUILD_PLUGIN_NITF=ON -DBUILD_PLUGIN_ICEBRIDGE=ON -DBUILD_PLUGIN_PGPOINTCLOUD=ON -DBUILD_PLUGIN_SQLITE=ON -DWITH_LASZIP=ON -DWITH_LAZPERF=ON -DBUILD_PLUGIN_DELAUNAY=ON && sudo make -j2 && sudo make install && sudo ldconfig"
+  shell: "cd {{ emma_modules_dir }}/pdal/pdal_1_7_maintenance && sudo mkdir makefiles && cd makefiles && sudo cmake ../ -G \"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=make -DBUILD_PLUGIN_PYTHON=ON -DBUILD_PLUGIN_CPD=ON -DBUILD_PLUGIN_GREYHOUND=ON -DBUILD_PLUGIN_HEXBIN=ON -DBUILD_PLUGIN_NITF=ON -DBUILD_PLUGIN_ICEBRIDGE=ON -DBUILD_PLUGIN_PGPOINTCLOUD=ON -DBUILD_PLUGIN_SQLITE=ON -DWITH_LASZIP=ON -DWITH_LAZPERF=ON -DBUILD_PLUGIN_DELAUNAY=ON && sudo make -j2 && sudo make install && sudo ldconfig"
   when: pdal_dir.stat.exists is defined and not pdal_dir.stat.exists
