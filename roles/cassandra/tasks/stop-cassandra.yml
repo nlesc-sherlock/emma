@@ -1,4 +1,9 @@
 ---
-
-- name: Cassandra stopped
+- name: Cassandra all other nodes stopped
   systemd: name=cassandra state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['cassandra-nodes']
+
+- name: Cassandra seeds stopped
+  systemd: name=cassandra state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['cassandra-seeds']
+

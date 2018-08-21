@@ -1,8 +1,9 @@
-cluster_name: 'JC Cluster'
+cluster_name: 'MarinCassandraCluster'
 num_tokens: {{ cassandra_num_tokens }}
 seed_provider:
     - class_name: org.apache.cassandra.locator.SimpleSeedProvider
-        - seeds: "{{ groups['cassandra-seeds']|join(',') }}"
+      parameters:
+          - seeds: "{{ groups['cassandra-seeds']|join(',') }}"
 listen_address: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
 rpc_address: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
 endpoint_snitch: GossipingPropertyFileSnitch

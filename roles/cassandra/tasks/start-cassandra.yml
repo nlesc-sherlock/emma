@@ -3,5 +3,10 @@
   include_vars:
     file: '../../../vars/cassandra_vars.yml'
 
-- name: Cassandra started
+- name: Cassandra seeds started
   systemd: name=cassandra state=started daemon_reload=yes
+  when: inventory_hostname in groups['cassandra-seeds']
+
+- name: Cassandra all other nodes started
+  systemd: name=cassandra state=started daemon_reload=yes
+  when: inventory_hostname in groups['cassandra-nodes']
