@@ -1,6 +1,7 @@
 ---
 
 cassandra_dir: "/data/local/cassandra"
+cassandra_conf_dir: "/etc/cassandra"
 cassandra_num_tokens: 256
 cassandra_repo_key: A278B781FE4B2BDA
 cassandra_repo_key_server: "pool.sks-keyservers.net"
