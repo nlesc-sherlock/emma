@@ -1,0 +1,6 @@
+{% set seeds = []  %}
+{%- for node in groups['cassandra-seeds']  -%}
+{% set node_ip = hostvars[node][public_network_interface].ipv4.address %}
+{% set ignored = seeds.append( node_ip ) %}
+{% endfor %}
+{{ seeds | join(',') }}
