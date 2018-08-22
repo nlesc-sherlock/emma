@@ -4,6 +4,18 @@
     file: '../../../vars/cassandra_vars.yml'
 
 #Configure Cassandra
+- name: Template seed list
+  template: src=../templates/seeds.j2 dest=/tmp/seed_list mode=0664
+
+- name: Load seed list
+  shell: cat /tmp/seed_list
+  register: seed_list
+
+- name: Set seeds fact
+  set_fact: seeds={{ seed_list.stdout }}
+
+- debug: var=seeds
+
 - name: Configure Cassandra
   template: src=../templates/cassandra.yaml.j2
             dest="{{ cassandra_conf_dir }}/cassandra.yaml"
@@ -16,6 +28,10 @@
   systemd: name=cassandra state=started daemon_reload=yes
   when: inventory_hostname in groups['cassandra-seeds']
 
+- name: sleep for 10 seconds and continue with play
+  wait_for: timeout=10
+
 - name: Cassandra all other nodes started
   systemd: name=cassandra state=started daemon_reload=yes
   when: inventory_hostname in groups['cassandra-nodes']
+
