@@ -4,6 +4,7 @@
   file:
     path: "{{ cassandra_dir }}"
     state: directory
+    owner: cassandra
     group: users
     mode: g+rw
 
@@ -11,6 +12,7 @@
   file:
     path: "{{ cassandra_dir }}/data/"
     state: directory
+    owner: cassandra
     group: users
     mode: g+rw
 
@@ -18,6 +20,7 @@
   file:
     path: "{{ cassandra_dir }}/saved_caches/"
     state: directory
+    owner: cassandra
     group: users
     mode: g+rw
 
@@ -25,8 +28,18 @@
   file:
     path: "{{ cassandra_dir }}/commitlog/"
     state: directory
+    owner: cassandra
     group: users
     mode: g+rw
+
+- name: Create Cassandra cdc_raw directory
+  file:
+    path: "{{ cassandra_dir }}/cdc_raw/"
+    state: directory
+    owner: cassandra
+    group: users
+    mode: g+rw
+
 
 # Instructions were obtained from here
 #http://cassandra.apache.org/download/
@@ -52,4 +65,7 @@
   template: src=cassandra.yaml.j2
             dest="{{ cassandra_conf_dir }}/cassandra.yaml"
   tags: ["config"]
+
+- name: Cassandra env
+  copy: src=cassandra-env.sh dest=/etc/cassandra/cassandra-env.sh
 
