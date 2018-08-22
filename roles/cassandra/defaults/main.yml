@@ -1,5 +1,6 @@
 ---
 
+cassandra_cluster_name: "{{ lookup('env', 'CLUSTER_NAME') }}CassandraCluster"
 cassandra_dir: "/data/local/cassandra"
 cassandra_conf_dir: "/etc/cassandra"
 cassandra_num_tokens: 256
