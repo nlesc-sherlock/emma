@@ -52,7 +52,7 @@ spark.hadoop.fs.s3a.path.style.access true
 
 #Jars
 spark.jars
-spark.jars.packages
+spark.jars.packages {{ spark_jars_packages }}
 spark.jars.ivy
 
 
@@ -65,7 +65,6 @@ spark.jars.ivy
 {% for jar in spark_classpath_extras | sort %}
 {%- if loop.first %}spark.driver.extraClassPath {% endif -%}{{ spark_usr_dir  }}/jars/{{ jar }}{%- if not loop.last %}:{% endif -%}
 {%- endfor %}
-
 
 #Extra configurations from the defaults in the spark role
 {% for key, value in spark_defaults_extras.items() | sort %}
