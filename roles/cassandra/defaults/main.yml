@@ -9,4 +9,4 @@ cassandra_repo_key_server: "pool.sks-keyservers.net"
 cassandra_repo_url: "http://www.apache.org/dist/cassandra/debian"
 cassandra_version: "311x"
 cassandra_listen_interface: eth0
-network_interface: "ansible_enp0s8"
+public_network_interface: "ansible_enp0s8"

@@ -20,9 +20,6 @@
   template: src=../templates/cassandra.yaml.j2
             dest="{{ cassandra_conf_dir }}/cassandra.yaml"
 
-- name: Cassandra env
-  copy: src=../files/cassandra-env.sh dest=/etc/cassandra/cassandra-env.sh
-
 #Start Cassandra
 - name: Cassandra seeds started
   systemd: name=cassandra state=started daemon_reload=yes
