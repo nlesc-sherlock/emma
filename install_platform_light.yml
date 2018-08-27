@@ -81,6 +81,37 @@
   tags:
     - geotrellis
 
+- hosts: cassandra
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/spark_vars.yml
+   - vars/cassandra_vars.yml
+  environment:
+    JAVA_HOME: "{{ java_home }}"
+  roles:
+    - cassandra
+  tags:
+    - cassandra
+
+- hosts: cassandra
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/common_vars.yml
+   - vars/hadoop_vars.yml
+   - vars/spark_vars.yml
+   - vars/cassandra_vars.yml
+   - vars/geomesa_vars.yml
+  environment:
+    HADOOP_HOME: "{{ hadoop_usr_dir }}"
+    CASSANDRA_HOME: "{{ cassandra_home_dir }}"
+    JAVA_HOME: "{{ java_home }}"
+  roles:
+    - geomesa
+  tags:
+    - geomesa
+
 - hosts: jupyterhub
   remote_user: ubuntu
   become: true
