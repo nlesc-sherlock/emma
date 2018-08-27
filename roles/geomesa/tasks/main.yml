@@ -1,0 +1,44 @@
+---
+
+- name: Ensure GeoMesa dir exists
+  file: path="{{ emma_modules_dir }}/geomesa" state=directory group=users mode=g+rw
+
+# Install GeoMesa Cassandra
+- stat: path="{{ emma_modules_dir }}/geomesa/geomesa-cassandra_2.11-{{ geomesa_version}}/"
+  register: geomesa_cassandra_dir
+
+- name: Download GeoMesa Cassandra
+  unarchive:
+    src="https://github.com/locationtech/geomesa/releases/download/geomesa_2.11-{{ geomesa_version }}/geomesa-cassandra_2.11-{{ geomesa_version }}-bin.tar.gz"
+    dest="{{ emma_modules_dir }}/geomesa/"
+    copy=no
+    creates="{{ emma_modules_dir }}/geomesa/geomesa-cassandra-dist_2.11-{{ geomesa_version}}"
+  when: geomesa_cassandra_dir.stat.exists is defined and not geomesa_cassandra_dir.stat.exists
+
+- name: Install third party libraries
+  shell: "cd {{ emma_modules_dir }}/geomesa/geomesa-cassandra_2.11-{{ geomesa_version}} && bin/install-jai.sh && bin/install-jline.sh"
+  when: geomesa_cassandra_dir.stat.exists is defined and not geomesa_cassandra_dir.stat.exists
+
+#log4j
+- stat: path="{{ emma_modules_dir }}/geomesa/geomesa-cassandra_2.11-{{ geomesa_version}}/lib/slf4j-log4j12-{{log4j_version }}.jar"
+  register: log4j_jar
+
+
+- name: Download log4j jar
+  unarchive:
+    src="https://www.slf4j.org/dist/slf4j-{{ log4j_version }}.tar.gz"
+    dest="{{ emma_modules_dir }}/geomesa/"
+    copy=no
+    creates="{{ emma_modules_dir }}/geomesa/slf4j-{{ log4j_version }}"
+  when: log4j_jar.stat.exists is defined and not log4j_jar.stat.exists
+  
+- name: Copy log4j jar
+  shell: "cd {{ emma_modules_dir }}/geomesa/slf4j-{{ log4j_version }}/ && cp slf4j-log4j12-{{log4j_version }}.jar ../geomesa-cassandra_2.11-{{ geomesa_version}}/lib"
+  when: log4j_jar.stat.exists is defined and not log4j_jar.stat.exists
+
+- name: Copy build.gradle
+  template: src=build.gradle.j2 dest={{ emma_modules_dir }}/geomesa/geomesa_spark/build.gradle
+
+- name: Gradle install dependencies
+  shell: gradle -b {{ emma_modules_dir }}/geomesa/geomesa_spark/build.gradle downloadDependencies
+
