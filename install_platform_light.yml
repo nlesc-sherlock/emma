@@ -100,6 +100,7 @@
   vars_files:
    - vars/common_vars.yml
    - vars/hadoop_vars.yml
+   - vars/spark_vars.yml
    - vars/cassandra_vars.yml
    - vars/geomesa_vars.yml
   environment:
