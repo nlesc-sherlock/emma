@@ -22,13 +22,13 @@
 
 #Start Cassandra
 - name: Cassandra seeds started
-  systemd: name=cassandra state=started daemon_reload=yes
+  service: name=cassandra state=restarted
   when: inventory_hostname in groups['cassandra-seeds']
 
 - name: sleep for 10 seconds and continue with play
   wait_for: timeout=10
 
 - name: Cassandra all other nodes started
-  systemd: name=cassandra state=started daemon_reload=yes
+  service: name=cassandra state=restarted
   when: inventory_hostname in groups['cassandra-nodes']
 
