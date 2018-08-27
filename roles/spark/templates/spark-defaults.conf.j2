@@ -57,13 +57,13 @@ spark.jars.ivy
 
 
 #ExtraClass
-{% for jar in spark_classpath_extras | sort %}
-{%- if loop.first %}spark.executor.extraClassPath {% endif -%}{{ spark_usr_dir  }}/jars/{{ jar }}{%- if not loop.last %}:{% endif -%}
+{% for jar in spark_classpath_extras %}
+{%- if loop.first %}spark.executor.extraClassPath {{ spark_usr_dir }}/jars/*:{% endif -%}{{ jar }}{%- if not loop.last %}:{% endif -%}
 {%- endfor %}
 
 
-{% for jar in spark_classpath_extras | sort %}
-{%- if loop.first %}spark.driver.extraClassPath {% endif -%}{{ spark_usr_dir  }}/jars/{{ jar }}{%- if not loop.last %}:{% endif -%}
+{% for jar in spark_classpath_extras %}
+{%- if loop.first %}spark.driver.extraClassPath {{ spark_usr_dir }}/jars/*:{% endif -%}{{ jar }}{%- if not loop.last %}:{% endif -%}
 {%- endfor %}
 
 #Extra configurations from the defaults in the spark role
