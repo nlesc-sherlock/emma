@@ -36,6 +36,10 @@
   shell: "cd {{ emma_modules_dir }}/geomesa/slf4j-{{ log4j_version }}/ && cp slf4j-log4j12-{{log4j_version }}.jar ../geomesa-cassandra_2.11-{{ geomesa_version}}/lib"
   when: log4j_jar.stat.exists is defined and not log4j_jar.stat.exists
 
+- name: Ensure GeoMesa-Spark dir exists
+  file: path="{{ emma_modules_dir }}/geomesa/geomesa_spark" state=directory group=users mode=g+rw
+
+
 - name: Copy build.gradle
   template: src=build.gradle.j2 dest={{ emma_modules_dir }}/geomesa/geomesa_spark/build.gradle
 
