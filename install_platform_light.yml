@@ -71,6 +71,7 @@
   remote_user: ubuntu
   become: true
   vars_files:
+   - vars/minio_vars.yml
    - vars/spark_vars.yml
    - vars/geotrellis_vars.yml
   environment:
@@ -85,6 +86,7 @@
   remote_user: ubuntu
   become: true
   vars_files:
+   - vars/common_vars.yml
    - vars/spark_vars.yml
    - vars/cassandra_vars.yml
   environment:
