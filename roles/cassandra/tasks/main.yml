@@ -88,5 +88,5 @@
     url: "http://central.maven.org/maven2/{{ item.group }}/{{ item.name }}/{{ item.version }}/{{ item.name }}-{{ item.version }}.jar"
     dest: "{{ cassandra_home_dir }}/lib/{{ item.name }}-{{ item.version }}.jar"
   with_items:
-    - { group: 'com/stratio/cassandra', name: 'cassandra-lucene-index-plugin', version: '3.11.1.0' }
+    - { group: 'com/stratio/cassandra', name: 'cassandra-lucene-index-plugin', version: '{{ cassandra_lucene_index_version }}' }
 
