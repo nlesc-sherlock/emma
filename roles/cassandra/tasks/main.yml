@@ -1,4 +1,17 @@
 ---
+- name: Create service account for Cassandra
+  user: name={{ cassandra_user }}
+        system=yes
+        state=present
+        groups="{{ cassandra_user_groups | join(',') }}"
+  tags: ["cassandra-user"]
+
+- name: Directory for cassandra modules
+  file:
+    path: "{{ emma_modules_dir }}/cassandra"
+    state: directory
+    group: users
+    mode: g+rw
 
 - name: Ensure Cassandra directory exists
   file:
@@ -76,4 +89,26 @@
 - name: Configure Cassandra
   template: src=cassandra.yaml.j2
             dest="{{ cassandra_conf_dir }}/cassandra.yaml"
+
+#Install Cassandra Lucene index plugin
+- name: Directory for cassandra modules
+  file:
+    path: "{{ emma_modules_dir }}/cassandra/cassandra_lucene"
+    state: directory
+    group: users
+    mode: g+rw
+
+- name: Get Cassandra Lucene index jars and dependencies
+  get_url:
+    url: "http://central.maven.org/maven2/{{ item.group }}/{{ item.name }}/{{ item.version }}/{{ item.name }}-{{ item.version }}.jar"
+    dest: "{{ emma_modules_dir }}/cassandra/cassandra_lucene/{{ item.name }}-{{ item.version }}.jar"
+  with_items:
+    - { group: 'com/stratio/cassandra', name: 'cassandra-lucene-index-plugin', version: '3.11.1.0' }
+    - { group: 'com/github/rholder', name: 'snowball-stemmer', version: '1.3.0.581.1' }
+    - { group: 'com/google/code/findbugs', name: 'jsr305', version: '3.0.1' }
+    - { group: 'org/apache/lucene', name: 'lucene-core', version: '5.5.4' }
+    - { group: 'org/apache/lucene', name: 'lucene-analyzers-common', version: '5.5.4' }
+    - { group: 'org/apache/lucene', name: 'lucene-spatial', version: '5.5.4' }
+    - { group: 'org/apache/lucene', name: 'lucene-queryparser', version: '5.5.4' }
+    - { group: 'com/vividsolutions', name: 'jts-core', version: '1.14.0' }
 
