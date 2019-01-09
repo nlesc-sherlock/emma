@@ -54,6 +54,16 @@ Before deploying a cluster user needs to clone **emma** repository:
 git clone https://github.com/nlesc-sherlock/emma
 ```
 
+The Windows Subsystem Linux will mount the C: drive as `/mnt/c`. 
+By default the file permissions will be read/write/executable for all, this is bad because to use ssh-keys stricter permissions are required.
+To solve this create the `/etc/wsl.conf` file with the following content and restart the shell.
+```ini
+[automount]
+enable=true
+root=/mnt
+options="metadata"
+```
+
 ### Setup environment
 
 Independently of which OS the user is using the following steps need to be done after the repository is cloned.
