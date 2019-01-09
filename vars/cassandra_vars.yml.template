@@ -1,0 +1,20 @@
+---
+
+cassandra_user: "cassandra"           # the name of the (OS)user created for cassandra
+cassandra_user_groups: [ users ]         # Optional list of (OS)groups the new cassandra user should belong to
+cassandra_cluster_name: "{{ lookup('env', 'CLUSTER_NAME') }}CassandraCluster"
+cassandra_dir: "/data/local/cassandra"
+cassandra_home_dir: "/usr/share/cassandra/"
+cassandra_conf_dir: "/etc/cassandra"
+cassandra_num_tokens: 256
+cassandra_repo_key: A278B781FE4B2BDA
+cassandra_repo_key_server: "pool.sks-keyservers.net"
+cassandra_repo_url: "http://www.apache.org/dist/cassandra/debian"
+cassandra_version: "311x"
+cassandra_listen_interface: eth0
+public_network_interface: "ansible_enp0s8"
+cassandra_lucene_index_version: 3.11.1.0
+cassandra_read_request_timeout_in_ms: 20000
+cassandra_range_request_timeout_in_ms: 20000
+cassandra_write_request_timeout_in_ms: 20000
+cassandra_counter_write_request_timeout_in_ms: 20000

@@ -1,0 +1,92 @@
+---
+- name: Create service account for Cassandra
+  user: name={{ cassandra_user }}
+        system=yes
+        state=present
+        groups="{{ cassandra_user_groups | join(',') }}"
+  tags: ["cassandra-user"]
+
+- name: Ensure Cassandra directory exists
+  file:
+    path: "{{ cassandra_dir }}"
+    state: directory
+    owner: cassandra
+    group: users
+    mode: g+rw
+
+- name: Create Cassandra data file directories
+  file:
+    path: "{{ cassandra_dir }}/data/"
+    state: directory
+    owner: cassandra
+    group: users
+    mode: g+rw
+
+- name: Create Cassandra saved caches directories
+  file:
+    path: "{{ cassandra_dir }}/saved_caches/"
+    state: directory
+    owner: cassandra
+    group: users
+    mode: g+rw
+
+- name: Create Cassandra commitlog directory
+  file:
+    path: "{{ cassandra_dir }}/commitlog/"
+    state: directory
+    owner: cassandra
+    group: users
+    mode: g+rw
+
+- name: Create Cassandra cdc_raw directory
+  file:
+    path: "{{ cassandra_dir }}/cdc_raw/"
+    state: directory
+    owner: cassandra
+    group: users
+    mode: g+rw
+
+
+# Instructions were obtained from here
+#http://cassandra.apache.org/download/
+
+- name: Add Apache repository of Cassandra
+  apt_repository:
+    repo: 'deb {{ cassandra_repo_url }} {{ cassandra_version }} main'
+
+- name: Add Apache Cassandra repository keys
+  apt_key: 
+    id: "{{ cassandra_repo_key }}"
+    state: present
+    keyserver: "{{ cassandra_repo_key_server }}"
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install Cassandra
+  apt: name=cassandra
+
+#Configure Cassandra
+- name: Template seed list
+  template: src=seeds.j2 dest=/tmp/seed_list mode=0664
+
+- name: Load seed list
+  shell: cat /tmp/seed_list
+  register: seed_list
+
+- name: Set seeds fact
+  set_fact: seeds={{ seed_list.stdout }}
+
+- debug: var=seeds
+
+- name: Configure Cassandra
+  template: src=cassandra.yaml.j2
+            dest="{{ cassandra_conf_dir }}/cassandra.yaml"
+
+- name: Get Cassandra Lucene index jars and dependencies
+  get_url:
+    url: "http://central.maven.org/maven2/{{ item.group }}/{{ item.name }}/{{ item.version }}/{{ item.name }}-{{ item.version }}.jar"
+    dest: "{{ cassandra_home_dir }}/lib/{{ item.name }}-{{ item.version }}.jar"
+  with_items:
+    - { group: 'com/stratio/cassandra', name: 'cassandra-lucene-index-plugin', version: '{{ cassandra_lucene_index_version }}' }
+

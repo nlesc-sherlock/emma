@@ -1,0 +1,9 @@
+---
+- name: Cassandra all other nodes stopped
+  service: name=cassandra state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['cassandra-nodes']
+
+- name: Cassandra seeds stopped
+  service: name=cassandra state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['cassandra-seeds']
+
