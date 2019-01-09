@@ -135,7 +135,7 @@ cp hosts hosts_new
 vim hosts_new
 ```
 
-The second step is to install *Spark* and *Hadoop*:
+The second step is to install all systems listed in the playbook `install_platform_light.yml`. Using `--tags` the user decides which systems should be installed.
 ```
 #Shutdown cluster
 ansible-playbook shutdown_platform.yml
