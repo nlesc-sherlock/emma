@@ -34,7 +34,7 @@
 #Install Lastools
 - name: Extract LAStools
   unarchive:
-    src="http://lastools.org/download/laszip.zip"
+    src="{{ lastools_download_url }}"
     dest="{{ emma_modules_dir }}"
     copy=no
     creates="{{ emma_modules_dir }}/LAStools"
