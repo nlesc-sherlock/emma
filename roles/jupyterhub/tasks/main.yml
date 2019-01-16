@@ -2,6 +2,11 @@
 - name: Ensure Jupyter source directory exists
   file: path="{{ jupyterhub_src_dir }}" state=directory group=users mode=g+rw
 
+- name: Add an Apt signing key for the latest nodejs
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+
 - name: Deps 4 JupyterHub notebook
   apt: name={{ item }}
   with_items:
