@@ -71,6 +71,8 @@
   remote_user: ubuntu
   become: true
   vars_files:
+   - vars/common_vars.yml
+   - vars/pdal_vars.yml
    - vars/minio_vars.yml
    - vars/spark_vars.yml
    - vars/geotrellis_vars.yml
