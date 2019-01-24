@@ -1,5 +1,5 @@
 ---
 cran_url: https://cran.uni-muenster.de
-toree_download_url: https://dist.apache.org/repos/dist/dev/incubator/toree/0.2.0-incubating-rc1/toree-pip/toree-0.2.0.tar.gz
+toree_pip_name_url: toree
 jupyterhub_src_dir: /data/local/jupyterhub
 jupyterhub_modules_dir: /data/local/jupyterhub/modules
