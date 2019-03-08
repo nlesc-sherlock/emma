@@ -5,7 +5,7 @@
 # https://medium.com/@faizanahemad/machine-learning-with-jupyter-using-scala-spark-and-python-the-setup-62d05b0c7f56
 
 - name: Toree (Spark Jupyter) installation
-  pip: executable=pip3 name={{ toree_download_url }}
+  pip: executable=pip3 name={{ toree_pip_name_url }}
 
 - name: Toree to Jupyter
   shell: jupyter toree install --python_exec='python3.5' --spark_home='{{ spark_usr_dir }}' --spark_opts='--master=spark://{{ groups['spark-master'][0] }}:7077' --interpreters=Scala,PySpark,SparkR,SQL creates=/usr/local/share/jupyter/kernels/apache_toree_scala
