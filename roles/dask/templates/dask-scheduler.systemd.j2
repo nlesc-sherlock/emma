@@ -6,7 +6,7 @@ After=syslog.target network.target
 [Service]
 User=ubuntu
 WorkingDirectory={{ dask_scheduler_dir }}
-ExecStart=/usr/local/bin/dask-scheduler --port 9091
+ExecStart=/usr/local/bin/dask-scheduler --port {{ dask_scheduler_port }}
 
 # Specifies the maximum file descriptor number that can be opened by this process
 LimitNOFILE=65536
