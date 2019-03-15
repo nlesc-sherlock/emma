@@ -12,7 +12,6 @@ cassandra_repo_key_server: "pool.sks-keyservers.net"
 cassandra_repo_url: "http://www.apache.org/dist/cassandra/debian"
 cassandra_version: "311x"
 cassandra_listen_interface: eth0
-public_network_interface: "ansible_enp0s8"
 cassandra_lucene_index_version: 3.11.1.0
 cassandra_read_request_timeout_in_ms: 20000
 cassandra_range_request_timeout_in_ms: 20000
