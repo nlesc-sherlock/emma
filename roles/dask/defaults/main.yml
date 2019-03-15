@@ -1,1 +1,4 @@
 ---
+
+dask_scheduler_dir: "/home/ubuntu/"
+dask_worker_dir: "/home/ubuntu/"
