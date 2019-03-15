@@ -1,0 +1,13 @@
+---
+
+- name: Include defaults
+  include_vars:
+    file: '../../../vars/dask_vars.yml'
+
+- name: Dask-scheduler started
+  systemd: name=dask-scheduler state=started daemon_reload=yes
+  when: inventory_hostname in groups['dask-scheduler']
+
+- name: Dask-worker started
+  systemd: name=dask-worker state=started daemon_reload=yes
+  when: inventory_hostname in groups['dask-worker']
