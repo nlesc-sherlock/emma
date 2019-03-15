@@ -116,6 +116,17 @@
   tags:
     - geomesa
 
+- hosts: dask
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/common_vars.yml
+   - vars/dask_vars.yml
+  roles:
+    - dask
+  tags:
+    - dask
+
 - hosts: jupyterhub
   remote_user: ubuntu
   become: true

@@ -10,6 +10,17 @@
   tags:
     - jupyterhub
 
+- hosts: dask
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/common_vars.yml
+   - vars/dask_vars.yml
+  tasks:
+    - include: roles/dask/tasks/stop-dask.yml
+  tags:
+    - dask
+
 - hosts: cassandra
   remote_user: ubuntu
   become: true

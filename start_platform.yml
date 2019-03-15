@@ -46,6 +46,7 @@
   remote_user: ubuntu
   become: true
   vars_files:
+   - vars/common_vars.yml
    - vars/spark_vars.yml
    - vars/cassandra_vars.yml
   environment:
@@ -54,6 +55,17 @@
     - include: roles/cassandra/tasks/start-cassandra.yml
   tags:
     - cassandra
+
+- hosts: dask
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/common_vars.yml
+   - vars/dask_vars.yml
+  tasks:
+    - include: roles/dask/tasks/start-dask.yml
+  tags:
+    - dask
 
 - hosts: jupyterhub
   remote_user: ubuntu
