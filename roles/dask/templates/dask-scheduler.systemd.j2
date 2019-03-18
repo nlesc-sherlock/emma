@@ -1,0 +1,18 @@
+[Unit]
+Description=dask-scheduler
+Documentation=https://docs.dask.org/en/latest/setup/cli.html
+After=syslog.target network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory={{ dask_scheduler_dir }}
+ExecStart=/usr/local/bin/dask-scheduler --port {{ dask_scheduler_port }}
+
+# Specifies the maximum file descriptor number that can be opened by this process
+LimitNOFILE=65536
+
+# Disable timeout logic and wait until process is stopped
+TimeoutStopSec=0
+
+[Install]
+WantedBy=multi-user.target
