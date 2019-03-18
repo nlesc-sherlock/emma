@@ -1,0 +1,7 @@
+---
+# Port on which dask scheduler is running
+dask_scheduler_port: 9091
+# Work directory of Dask scheduler
+dask_scheduler_dir: "/home/ubuntu/"
+# Work directory of Dask worker
+dask_worker_dir: "/home/ubuntu/"

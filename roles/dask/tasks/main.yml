@@ -1,0 +1,17 @@
+---
+
+- name: Install Dask
+  pip: name={{ item }} executable=pip3
+  with_items:
+    - dask[complete]
+
+- name: Install Bokeh, for Dask web interface (http://distributed.dask.org/en/latest/web.html)
+  pip:
+    name: bokeh
+    exeutable: pip3
+- name: Copy dask-scheduler.systemd
+  template: src=dask-scheduler.systemd.j2 dest=/etc/systemd/system/dask-scheduler.service
+  when: inventory_hostname in groups['dask-scheduler']
+
+- name: Copy dask-worker.systemd
+  template: src=dask-worker.systemd.j2 dest=/etc/systemd/system/dask-worker.service

@@ -1,0 +1,9 @@
+---
+- name: Dask-worker stopped
+  systemd: name=dask-worker state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['dask-worker']
+
+- name: Dask-scheduler stopped
+  systemd: name=dask-scheduler state=stopped daemon_reload=yes
+  when: inventory_hostname in groups['dask-scheduler']
+
