@@ -42,5 +42,3 @@ system_packages:
 create_swap_space: false
 
 emma_modules_dir: "/data/local/{{ lookup('env', 'CLUSTER_NAME') }}/modules"
-
-public_network_interface: "ansible_enp0s8"
