@@ -7,9 +7,6 @@
 # https://github.com/mapbox/rasterio/blob/master/CONTRIBUTING.rst
 
 #installing-rasterio
-- name: Update apt cache
-  apt: update_cache=yes
-
 - name: rasterio dependencies
   apt: name={{ item }}
   with_items:
