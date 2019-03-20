@@ -1,5 +1,6 @@
 ---
 - hosts: jupyterhub
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -11,6 +12,7 @@
     - jupyterhub
 
 - hosts: dask
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -22,6 +24,7 @@
     - dask
 
 - hosts: cassandra
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -35,6 +38,7 @@
     - cassandra
 
 - hosts: spark
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -46,6 +50,7 @@
     - spark
 
 - hosts: minio
+  gather_facts: no
   remote_user: ubuntu
   become: true
   tasks:
@@ -54,6 +59,7 @@
     - minio
 
 - hosts: hadoop
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files: 

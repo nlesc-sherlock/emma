@@ -1,6 +1,7 @@
 ---
 
 - hosts: all
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -12,6 +13,7 @@
     - common
 
 - hosts: minio
+  gather_facts: yes
   remote_user: ubuntu
   become: true
   vars_files:
@@ -24,6 +26,7 @@
     - minio
 
 - hosts: hadoop
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -40,6 +43,7 @@
     - hadoop
 
 - hosts: spark
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -58,6 +62,7 @@
     - spark
 
 - hosts: spark
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -68,6 +73,7 @@
     - pdal
 
 - hosts: spark
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -85,6 +91,7 @@
     - geotrellis
 
 - hosts: cassandra
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -99,6 +106,7 @@
     - cassandra
 
 - hosts: cassandra
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -117,6 +125,7 @@
     - geomesa
 
 - hosts: dask
+  gather_facts: yes
   remote_user: ubuntu
   become: true
   vars_files:
@@ -128,6 +137,7 @@
     - dask
 
 - hosts: jupyterhub
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:

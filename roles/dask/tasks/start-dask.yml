@@ -4,6 +4,13 @@
   include_vars:
     file: '../../../vars/dask_vars.yml'
 
+- name: Copy dask-scheduler.systemd
+  template: src=../templates/dask-scheduler.systemd.j2 dest=/etc/systemd/system/dask-scheduler.service
+  when: inventory_hostname in groups['dask-scheduler']
+
+- name: Copy dask-worker.systemd
+  template: src=../templates/dask-worker.systemd.j2 dest=/etc/systemd/system/dask-worker.service
+
 - name: Dask-scheduler started
   systemd: name=dask-scheduler state=started daemon_reload=yes
   when: inventory_hostname in groups['dask-scheduler']
