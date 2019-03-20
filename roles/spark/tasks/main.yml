@@ -4,7 +4,7 @@
   apt_key: id="{{ cran_ppa_key }}" state=present keyserver=keyserver.ubuntu.com
 
 - name: R ppa
-  apt_repository: repo='deb {{ cran_url }}/bin/linux/ubuntu xenial/' state=present
+  apt_repository: repo='deb {{ cran_url }}/bin/linux/ubuntu xenial/' state=absent
 
 - name: Update apt cache
   apt: update_cache=yes
