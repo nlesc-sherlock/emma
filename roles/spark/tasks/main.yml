@@ -2,20 +2,28 @@
 #Create environment for Spark
 - name: R ppa key
   apt_key: id="{{ cran_ppa_key }}" state=present keyserver=keyserver.ubuntu.com
+
 - name: R ppa
   apt_repository: repo='deb {{ cran_url }}/bin/linux/ubuntu xenial/' state=present
+
 - name: Update apt cache
   apt: update_cache=yes
+
 - name: numpy
   apt: name=python-numpy
+
 - name: libnet
   apt: name=libnetlib-java
+
 - name: R
   apt: name=r-recommended
+
 - name: R javareconf
   command: R CMD javareconf
+
 - name: RJava
   apt: name=r-cran-rjava
+
 - name: Gradle
   apt: name=gradle
 
@@ -254,13 +262,6 @@
     - libopenblas-base
     - libblas-dev
     - liblapack-dev
-- name: Configure Atlas and OpenBLAS
-  shell: "{{ item }}"
-  with_items:
-    - sudo update-alternatives --config libblas.so
-    - sudo update-alternatives --config libblas.so.3
-    - sudo update-alternatives --config liblapack.so
-    - sudo update-alternatives --config liblapack.so.3
 
 #Spark Master
 - name: Spark config slaves
