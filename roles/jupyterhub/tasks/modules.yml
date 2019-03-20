@@ -4,13 +4,15 @@
 
 # Rasterio
 # We followed the instructions posted at:
-# https://github.com/mapbox/rasterio/blob/master/CONTRIBUTING.rst#installing-rasterio
+# https://github.com/mapbox/rasterio/blob/master/CONTRIBUTING.rst
 
+#installing-rasterio
 - name: rasterio dependencies
   apt: name={{ item }}
   with_items:
-    - libatlas-dev
     - libatlas-base-dev
+    - liblapack-dev
+    - libblas-dev
     - gfortran
 
 - name: Check if GDAL was installed
@@ -70,13 +72,21 @@
   with_items:
     - raster
     - rgdal
-    - rgeos
     - ncdf4
     - igraph
     - tcltk
     - parallel
     - rasterVis
     - sp
+
+- name: r - packages
+  command: >
+    Rscript --slave --no-save --no-restore-history -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) { install.packages(pkgs='{{ item }}', version={{ rgeos_version }}, repos=c('http://ftp.heanet.ie/mirrors/cran.r-project.org/')); print('Added'); } else { print('Already installed'); }"
+  register: r_result
+  failed_when: "r_result.rc != 0 or 'had non-zero exit status' in r_result.stderr"
+  changed_when: "'Added' in r_result.stdout"
+  with_items:
+    - rgeos
 
 - name: Ensure Jupyter's python modules directory exists
   file: path="{{ jupyterhub_modules_dir }}/python/" state=directory group=users mode=g+rw
