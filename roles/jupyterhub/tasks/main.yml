@@ -33,8 +33,8 @@
 - name: Install Rscript
   apt: name=r-base-core
 
-#- name: Install irkernel
-#  shell: "Rscript {{ jupyterhub_src_dir }}/irkernel_install.r"
+- name: Install irkernel
+  shell: "Rscript {{ jupyterhub_src_dir }}/irkernel_install.r"
 
 - name: Python 3 to Jupyter
   shell: /usr/bin/python3 -m ipykernel install
