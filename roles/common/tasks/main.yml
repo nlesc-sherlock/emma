@@ -46,19 +46,19 @@
   apt: name=psmisc
 - name: Install aptitude
   apt: name=aptitude
-- name: Upgrade APT to the lastest packages
-  apt: upgrade=full
-- name: Rebooting machine so new kernel is active
-  become: yes
-  shell: sleep 5 && shutdown -r now removes=/var/run/reboot-required
-  async: 1
-  poll: 0
-  ignore_errors: true
-  register: restarted
-- name: Waiting for reboot...
-  become: false
-  local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 delay=90 timeout=120 state=started
-  when: restarted.changed
+  #- name: Upgrade APT to the latest packages
+  #  apt: upgrade=full
+  #- name: Rebooting machine so new kernel is active
+  #  become: yes
+  #  shell: sleep 5 && shutdown -r now removes=/var/run/reboot-required
+  #  async: 1
+  #  poll: 0
+  #  ignore_errors: true
+  #  register: restarted
+  #- name: Waiting for reboot...
+  #  become: false
+  #  local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 delay=90 timeout=120 state=started
+  #  when: restarted.changed
 - name: Check if network is up
   command: ping -c 1 www.google.com
   ignore_errors: True
@@ -104,18 +104,10 @@
   apt: name=python-lxml
 - name: accept Oracle license
   debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' vtype='select' value='true'
-
-#Install Java 8 from Oracle.
-- name: Add ppa:webupd8team/java
-  apt_repository: repo=ppa:webupd8team/java
-- name: Update apt cache
-  apt: update_cache=yes
-- name: Oracle JDK8
-  apt: name={{ item }}
-  with_items:
-    - oracle-java8-installer
-    - oracle-java8-set-default
-    - oracle-java8-unlimited-jce-policy
+- name: Install Default Java
+  apt:
+    name: default-jdk
+    state: present
 
 #Install pip
 - name: Install pip
