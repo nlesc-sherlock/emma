@@ -106,7 +106,7 @@
   debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' vtype='select' value='true'
 - name: Install Default Java
   apt:
-    name: default-jdk
+    name: ['openjdk-8-jdk-headless', 'openjdk-8-jre-headless']
     state: present
 
 #Install pip
