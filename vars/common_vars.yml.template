@@ -20,8 +20,8 @@ trusted_networks:
   - 130.89.20.0/24
   - 31.201.254.0/24
 
-#Define the JAVA_HOME (default: "/usr/lib/jvm/default-java")
-java_home: "/usr/lib/jvm/default-java"
+#Define the JAVA_HOME (default: "/usr/lib/jvm/java-8-openjdk-amd64")
+java_home: "/usr/lib/jvm/java-8-openjdk-amd64"
 
 #List of extra Python packages to installed, use --tags "extra_python_packages"
 python_packages:

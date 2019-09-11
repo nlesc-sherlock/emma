@@ -19,7 +19,7 @@ system_packages:
 
 create_swap_space: false
 
-#Define the JAVA_HOME (default: "/usr/lib/jvm/default-java")
-java_home: "/usr/lib/jvm/default-java"
+#Define the JAVA_HOME (default: "/usr/lib/jvm/java-8-openjdk-amd64")
+java_home: "/usr/lib/jvm/java-8-openjdk-amd64"
 
 emma_modules_dir: "/data/local/{{ lookup('env', 'CLUSTER_NAME') }}/modules"
