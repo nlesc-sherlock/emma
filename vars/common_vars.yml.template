@@ -19,6 +19,7 @@ trusted_networks:
   - 145.100.116.0/24
   - 130.89.20.0/24
   - 31.201.254.0/24
+  - 145.90.225.0/24
 
 #Define the JAVA_HOME (default: "/usr/lib/jvm/java-8-openjdk-amd64")
 java_home: "/usr/lib/jvm/java-8-openjdk-amd64"
