@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  roles:
+    - common
+    - docker
+  any_errors_fatal: true
