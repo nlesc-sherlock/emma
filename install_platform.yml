@@ -1,0 +1,94 @@
+---
+- hosts: all
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  roles:
+    - common
+    - glusterfs
+    - docker
+  any_errors_fatal: true
+
+- hosts: glusterfs-primary
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  tasks:
+  - include: roles/glusterfs/tasks/create-volume.yml
+
+- hosts: glusterfs
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  tasks:
+  - include: roles/glusterfs/tasks/mount-volume.yml
+  - include: roles/glusterfs/tasks/docker-glusterfs.yml
+
+- hosts: minio
+  gather_facts: yes
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/common_vars.yml
+   - vars/minio_vars.yml
+  roles:
+    - minio
+  any_errors_fatal: true
+
+- hosts: hadoop
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/common_vars.yml
+   - vars/hadoop_vars.yml
+  environment:
+    JAVA_HOME: "{{ java_home }}"
+    HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
+    HADOOP_CONF_DIR: "{{ hadoop_conf_dir }}"
+  roles:
+    - hadoop
+
+- hosts: spark
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/common_vars.yml
+   - vars/spark_vars.yml
+   - vars/minio_vars.yml
+  environment:
+    JAVA_HOME: "{{ java_home }}"
+    HADOOP_LOG_DIR: "{{ hadoop_log_dir }}"
+    HADOOP_CONF_DIR: "{{ hadoop_conf_dir }}"
+  roles:
+    - spark
+
+- hosts: jupyterhub
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/spark_vars.yml
+   - vars/common_vars.yml
+   - vars/jupyterhub_vars.yml
+  roles:
+    - jupyterhub
+
+- hosts: docker-swarm-manager
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/docker_vars.yml
+  tasks:
+  - include: roles/docker/tasks/manager.yml
+
+- hosts: docker-swarm-worker
+  gather_facts: no
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/docker_vars.yml
+  tasks:
+  - include: roles/docker/tasks/worker.yml
