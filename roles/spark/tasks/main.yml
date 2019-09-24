@@ -24,6 +24,12 @@
 - name: RJava
   apt: name=r-cran-rjava
 
+- name: Add ppa:cwchien/gradle
+  apt_repository: repo=ppa:cwchien/gradle
+
+- name: Update apt cache
+  apt: update_cache=yes
+
 - name: Gradle
   apt: name=gradle
 
