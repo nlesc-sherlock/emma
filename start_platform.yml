@@ -1,5 +1,6 @@
 ---
 - hosts: hadoop
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files: 
@@ -16,6 +17,7 @@
     - hadoop
 
 - hosts: minio
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -26,6 +28,7 @@
     - minio
 
 - hosts: spark
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -43,9 +46,11 @@
     - spark
 
 - hosts: cassandra
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
+   - vars/common_vars.yml
    - vars/spark_vars.yml
    - vars/cassandra_vars.yml
   environment:
@@ -55,7 +60,20 @@
   tags:
     - cassandra
 
+- hosts: dask
+  gather_facts: yes
+  remote_user: ubuntu
+  become: true
+  vars_files:
+   - vars/common_vars.yml
+   - vars/dask_vars.yml
+  tasks:
+    - include: roles/dask/tasks/start-dask.yml
+  tags:
+    - dask
+
 - hosts: jupyterhub
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:

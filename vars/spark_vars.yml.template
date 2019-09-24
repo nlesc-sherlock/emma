@@ -13,7 +13,7 @@ spark_prev_version: "2.1.1"
 spark_version: "2.1.1"
 
 #Define Spark mirror
-spark_mirror: "http://d3kbcqa49mib13.cloudfront.net"
+spark_mirror: "https://archive.apache.org/dist/spark/spark-{{ spark_version }}"
 
 #Define the location for the configuration dir for Spark (default value: /etc/spark)
 spark_conf_dir: "/etc/spark"

@@ -2,14 +2,20 @@
 - name: Ensure Jupyter source directory exists
   file: path="{{ jupyterhub_src_dir }}" state=directory group=users mode=g+rw
 
+- name: Add an Apt signing key for the latest nodejs
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+
 - name: Deps 4 JupyterHub notebook
   apt: name={{ item }}
   with_items:
     - npm
     - nodejs
-    - nodejs-legacy
     - libffi-dev
-    - libcurl4-openssl-dev
+    - libcurl4-gnutls-dev
+    - zlib1g-dev
+
 
 - name: configurable-http-proxy
   npm: name=configurable-http-proxy global=yes
@@ -23,6 +29,9 @@
 - name: Copy irkernel_install
   template: src=irkernel_install.r.j2
             dest="{{ jupyterhub_src_dir }}/irkernel_install.r"
+
+- name: Install Rscript
+  apt: name=r-base-core
 
 - name: Install irkernel
   shell: "Rscript {{ jupyterhub_src_dir }}/irkernel_install.r"

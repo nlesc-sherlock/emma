@@ -36,6 +36,7 @@ system_packages:
   - cmake
   - linux-tools-virtual
   - software-properties-common
+  - libffi-dev
 
 #Create swap space
 create_swap_space: false

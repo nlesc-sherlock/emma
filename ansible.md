@@ -52,6 +52,7 @@ The roles defined for Ansible will create a platform with the following features
 * [Spark](spark.md) Standalone cluster
 * [Docker Swarm](dockerswarm.md)
 * [JupyterHub](jupyterhub.md)
+* [Dask](roles/dask/README.md)
 
 Each role will deploy the respective service or system on the node's group specified in **playbook.yml**. Each node's group is defined in the inventory file **hosts**. The **playbook.yml** defines on which order the roles are executed. 
 
@@ -98,6 +99,7 @@ Currently we have the following tags (if some tag is missing please fill in an i
 
 * **jupyterhub**: All tasks to install/start/stop services related with jupyterhub role.
 * **jupyter_modules**: All tasks to install extra modules for jupyterhub.
+* **dask**: All tasks to install/start/stop services related with dask role.
 
 If you wanted to just to update firewall instead of run the entire installation, you could do this:
 ```

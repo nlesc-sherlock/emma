@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  gather_facts: no
   remote_user: ubuntu
   become: true
   roles:
@@ -9,12 +10,14 @@
   any_errors_fatal: true
 
 - hosts: glusterfs-primary
+  gather_facts: no
   remote_user: ubuntu
   become: true
   tasks:
   - include: roles/glusterfs/tasks/create-volume.yml
 
 - hosts: glusterfs
+  gather_facts: no
   remote_user: ubuntu
   become: true
   tasks:
@@ -22,6 +25,7 @@
   - include: roles/glusterfs/tasks/docker-glusterfs.yml
 
 - hosts: minio
+  gather_facts: yes
   remote_user: ubuntu
   become: true
   vars_files:
@@ -32,6 +36,7 @@
   any_errors_fatal: true
 
 - hosts: hadoop
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -45,6 +50,7 @@
     - hadoop
 
 - hosts: spark
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -59,6 +65,7 @@
     - spark
 
 - hosts: jupyterhub
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -69,6 +76,7 @@
     - jupyterhub
 
 - hosts: docker-swarm-manager
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:
@@ -77,6 +85,7 @@
   - include: roles/docker/tasks/manager.yml
 
 - hosts: docker-swarm-worker
+  gather_facts: no
   remote_user: ubuntu
   become: true
   vars_files:

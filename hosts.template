@@ -69,3 +69,15 @@ cassandra-nodes
 
 [jupyterhub]
 emma0.<domain to use>
+
+[dask-scheduler]
+emma0.<domain to use>
+
+[dask-worker]
+emma0.<domain to use>
+emma1.<domain to use>
+emma2.<domain to use>
+emma3.<domain to use>
+[dask:children]
+dask-scheduler
+dask-worker
