@@ -223,10 +223,10 @@
 - name: Maven wisp
   maven_artifact:
     group_id: com.quantifind
-    artifact_id: wisp_2.11
+    artifact_id: "wisp_{{ scala_release }}"
     version: 0.0.4
     repository_url: http://central.maven.org/maven2/
-    dest: "{{ spark_usr_dir }}/jars/wisp_2.11-0.0.4.jar"
+    dest: "{{ spark_usr_dir }}/jars/wisp_{{ scala_release }}-0.0.4.jar"
   when: ( spark_version == "2.2.0")
 
 - name: Configure Spark environment
