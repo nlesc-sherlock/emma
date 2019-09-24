@@ -9,8 +9,8 @@ scala_release: 2.11
 scala_version: 2.11.8
 
 #Define Spark version
-spark_prev_version: "2.1.1"
-spark_version: "2.1.1"
+spark_prev_version: "2.3.4"
+spark_version: "2.3.4"
 
 #Define Spark mirror
 spark_mirror: "https://archive.apache.org/dist/spark/spark-{{ spark_version }}"
