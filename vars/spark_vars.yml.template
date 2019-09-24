@@ -1,12 +1,9 @@
 ---
-#Define sbt version
-sbt_version: 0.13.15
-
 #Define Scala release
-scala_release: 2.11
+scala_release: 2.12
 
 #Define Scala version
-scala_version: 2.11.8
+scala_version: 2.12.8
 
 #Define Spark version
 spark_prev_version: "2.3.4"
@@ -35,12 +32,12 @@ spark_run_dir: "/run/spark"
 spark_env_extras: {}
 joda_time_version: "2.9.4"
 aws_java_sdk_s3_version: "1.10.6"
-hadoop_aws_version: "2.8.3"
+hadoop_aws_version: "2.9.2"
 spark_classpath_extras: [ "{{ spark_usr_dir }}/jars/joda-time-{{ joda_time_version }}.jar", "{{ spark_usr_dir }}/jars/aws-java-sdk-s3-{{ aws_java_sdk_s3_version }}.jar", "{{ spark_usr_dir }}/jars/hadoop-aws-{{ hadoop_aws_version }}.jar" , "{{ emma_modules_dir }}/geomesa/geomesa_spark/*" ]
 spark_defaults_extras: { spark.sql.crossJoin.enabled true, spark.history.fs.cleaner.interval 1d, spark.history.fs.cleaner.maxAge 3d, spark.history.fs.cleaner.enabled true, spark.default.parallelism 1000, spark.network.timeout 360s, spark.local.dir /data/local/spark/tmp/, spark.kryoserializer.buffer 64m, spark.kryoserializer.buffer.max 1024m, spark.shuffle.service.enabled true, spark.shuffle.service.port 7338 }
 
 # Packages found at https://spark-packages.org/ can be added to spark_jars_packages.
-spark_jars_packages: "datastax:spark-cassandra-connector:2.3.1-s_2.11"
+spark_jars_packages: "datastax:spark-cassandra-connector:2.3.1-s_{{ scala_release }}"
 
 worker_debug_port: 5006
 driver_debug_port: 5005
@@ -69,7 +66,7 @@ spark_task_cpus: 2
 
 magellan_groupId: "harsha2010"
 magellan_artifactId: "magellan"
-magellan_version: "1.0.5-s_2.11"
+magellan_version: "1.0.5-s_{{ scala_release }}"
 magellan_maven_url: "https://dl.bintray.com/spark-packages/maven/"
 
 cran_url: https://cran.uni-muenster.de
