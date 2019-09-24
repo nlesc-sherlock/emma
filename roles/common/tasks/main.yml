@@ -103,19 +103,18 @@
 - name: Install python-lxml
   apt: name=python-lxml
 - name: accept Oracle license
-  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' vtype='select' value='true'
+  debconf: name='oracle-java12-installer' question='shared/accepted-oracle-license-v1-2' vtype='select' value='true'
 
 #Install Java 8 from Oracle.
-- name: Add ppa:webupd8team/java
-  apt_repository: repo=ppa:webupd8team/java
+- name: Add ppa:linuxuprising/java
+  apt_repository: repo=ppa:linuxuprising/java
 - name: Update apt cache
   apt: update_cache=yes
-- name: Oracle JDK8
+- name: Oracle JDK12
   apt: name={{ item }}
   with_items:
-    - oracle-java8-installer
-    - oracle-java8-set-default
-    - oracle-java8-unlimited-jce-policy
+    - oracle-java12-installer
+    - oracle-java12-set-default
 
 #Install pip
 - name: Install pip
@@ -123,6 +122,18 @@
   with_items:
     - python3-pip
     - python-pip
+
+- name: Upgrade pip3
+  pip:
+    name: pip
+    executable: pip3
+    state: forcereinstall
+
+- name: Upgrade pip2
+  pip:
+    name: pip
+    executable: pip2
+    state: forcereinstall
 
 #Install Git
 - name: Install Git
