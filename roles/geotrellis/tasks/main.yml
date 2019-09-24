@@ -1,10 +1,13 @@
 ---
 # Download jars for GeoTrellis
+- name: Ensure GeoTrellis dir exists
+  file: path="{{ emma_modules_dir }}/geotrellis" state=directory group=users mode=g+rw
+
 - name: Copy build.gradle
-  copy: src=build.gradle dest=/home/ubuntu/build.gradle
+  template: src=build.gradle.j2 dest={{ emma_modules_dir }}/geotrellis/build.gradle
 
 - name: Gradle install dependencies
-  shell: gradle downloadDependencies
+  shell: gradle -b {{ emma_modules_dir }}/geotrellis/build.gradle downloadDependencies
 
 #Geotrellis for Python
 - name: add repository for GDAL Python bindings
