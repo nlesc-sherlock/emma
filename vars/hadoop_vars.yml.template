@@ -1,6 +1,6 @@
 ---
-hadoop_prev_version: "2.8.4"
-hadoop_version: "2.8.4"
+hadoop_prev_version: "2.8.5"
+hadoop_version: "2.8.5"
 hadoop_mirror: "http://apache.hippo.nl/hadoop/common"
 hadoop_conf_dir: "/etc/hadoop/conf"
 hadoop_usr_dir: "/usr/lib/hadoop"   #this is the symlink to the extracted/installed hadoop
